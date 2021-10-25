@@ -8,6 +8,7 @@ import { useUserStoreWithOut } from '/@/store/modules/user';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 
 import { RootRoute } from '/@/router/routes';
+import { useAppStoreWithOut } from '/@/store/modules/app';
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN;
 
@@ -15,10 +16,17 @@ const ROOT_PATH = RootRoute.path;
 
 const whitePathList: PageEnum[] = [LOGIN_PATH];
 
+const AppState = useAppStoreWithOut();
+
 export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
   router.beforeEach(async (to, from, next) => {
+    if (to.path === '/dashboard/analysis') {
+      AppState.setIsHomePage(true);
+    } else {
+      AppState.setIsHomePage(false);
+    }
     if (
       from.path === ROOT_PATH &&
       to.path === PageEnum.BASE_HOME &&
@@ -26,6 +34,7 @@ export function createPermissionGuard(router: Router) {
       userStore.getUserInfo.homePath !== PageEnum.BASE_HOME
     ) {
       next(userStore.getUserInfo.homePath);
+
       return;
     }
 

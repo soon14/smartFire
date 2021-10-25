@@ -53,7 +53,7 @@
       const layoutClass = computed(() => {
         let cls: string[] = ['ant-layout'];
         if (unref(getIsMixSidebar) || unref(getShowMenu)) {
-          cls.push('ant-layout-has-sider');
+          cls.push('ant-layout-has-sider', 'default-bg-color');
         }
         return cls;
       });
@@ -82,11 +82,13 @@
 
     > .ant-layout {
       min-height: 100%;
+      background-image: linear-gradient(#12348c, #1f59ef) !important;
     }
 
     &-main {
       width: 100%;
       margin-left: 1px;
+      background: transparent;
     }
   }
 </style>

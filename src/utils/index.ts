@@ -89,3 +89,31 @@ export const withInstall = <T>(component: T, alias?: string) => {
   };
   return component as T & Plugin;
 };
+// 金融数字展示 num:number n:number 保留位数
+export const thousands = (num, n) => {
+  if (!num) {
+    return '0';
+  }
+  num = num.toFixed(n || 0);
+  let splits: any = [];
+  const res: any = [];
+  splits = num.toString().split('.');
+  splits[0]
+    .split('')
+    .reverse()
+    .map(function (item, i) {
+      if (i % 3 == 0 && i != 0) {
+        res.push(',');
+      }
+      res.push(item);
+    });
+  return res.reverse().join('') + (splits.length > 1 ? '.' + splits[1] : '');
+};
+
+export const base64Encode = (input) => {
+  let rv;
+  rv = encodeURIComponent(input);
+  rv = unescape(rv);
+  rv = window.btoa(rv);
+  return rv;
+};

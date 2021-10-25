@@ -1,58 +1,75 @@
 <template>
-  <LoginFormTitle v-show="getShow" class="enter-x" />
-  <Form
-    class="p-4 enter-x"
-    :model="formData"
-    :rules="getFormRules"
-    ref="formRef"
-    v-show="getShow"
-    @keypress.enter="handleLogin"
-  >
-    <FormItem name="account" class="enter-x">
-      <Input
-        size="large"
-        v-model:value="formData.account"
-        :placeholder="t('sys.login.userName')"
-        class="fix-auto-fill"
-      />
-    </FormItem>
-    <FormItem name="password" class="enter-x">
-      <InputPassword
-        size="large"
-        visibilityToggle
-        v-model:value="formData.password"
-        :placeholder="t('sys.login.password')"
-      />
-    </FormItem>
+  <!-- <LoginFormTitle v-show="getShow" class="enter-x" /> -->
+  <div :class="`${prefixCls}-wrap`">
+    <div :class="`${prefixCls}-wrap-subtitle`">
+      <span style="font-size: 14px; text-align: center; letter-spacing: 0.32em; color: #40a9ff"
+        >信息化管理平台</span
+      >
+    </div>
+    <div :class="`${prefixCls}-wrap-title`">
+      <span style="font-weight: bold; font-size: 24px; color: #fff">登录</span>
+    </div>
+    <Form
+      :class="`p-4 enter-x ${prefixCls}-wrap-position`"
+      :model="formData"
+      :rules="getFormRules"
+      ref="formRef"
+      v-show="getShow"
+      @keypress.enter="handleLogin"
+    >
+      <FormItem name="account" class="enter-x">
+        <Input
+          size="large"
+          v-model:value="formData.account"
+          :placeholder="t('sys.login.userName')"
+          class="fix-auto-fill"
+          style="width: 365px"
+        />
+      </FormItem>
+      <FormItem name="password" class="enter-x">
+        <InputPassword
+          size="large"
+          visibilityToggle
+          v-model:value="formData.password"
+          :placeholder="t('sys.login.password')"
+          style="width: 365px"
+        />
+      </FormItem>
 
-    <ARow class="enter-x">
-      <ACol :span="12">
-        <FormItem>
-          <!-- No logic, you need to deal with it yourself -->
-          <Checkbox v-model:checked="rememberMe" size="small">
-            {{ t('sys.login.rememberMe') }}
-          </Checkbox>
-        </FormItem>
-      </ACol>
-      <ACol :span="12">
-        <FormItem :style="{ 'text-align': 'right' }">
-          <!-- No logic, you need to deal with it yourself -->
-          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
-            {{ t('sys.login.forgetPassword') }}
-          </Button>
-        </FormItem>
-      </ACol>
-    </ARow>
+      <ARow class="enter-x">
+        <ACol :span="12">
+          <FormItem>
+            <!-- No logic, you need to deal with it yourself -->
+            <Checkbox v-model:checked="rememberMe" size="small">
+              {{ t('sys.login.rememberMe') }}
+            </Checkbox>
+          </FormItem>
+        </ACol>
+        <!-- <ACol :span="12">
+          <FormItem :style="{ 'text-align': 'right' }">
+            <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
+              {{ t('sys.login.forgetPassword') }}
+            </Button>
+          </FormItem>
+        </ACol> -->
+      </ARow>
 
-    <FormItem class="enter-x">
-      <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
-        {{ t('sys.login.loginButton') }}
-      </Button>
-      <!-- <Button size="large" class="mt-4 enter-x" block @click="handleRegister">
+      <FormItem class="enter-x">
+        <Button
+          type="primary"
+          style="width: 365px"
+          size="large"
+          block
+          @click="handleLogin"
+          :loading="loading"
+        >
+          {{ t('sys.login.loginButton') }}
+        </Button>
+        <!-- <Button size="large" class="mt-4 enter-x" block @click="handleRegister">
         {{ t('sys.login.registerButton') }}
       </Button> -->
-    </FormItem>
-    <ARow class="enter-x">
+      </FormItem>
+      <!-- <ARow class="enter-x">
       <ACol :md="8" :xs="24">
         <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
           {{ t('sys.login.mobileSignInFormTitle') }}
@@ -68,9 +85,9 @@
           {{ t('sys.login.registerButton') }}
         </Button>
       </ACol>
-    </ARow>
+    </ARow> -->
 
-    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
+      <!-- <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
 
     <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">
       <GithubFilled />
@@ -78,21 +95,22 @@
       <AlipayCircleFilled />
       <GoogleCircleFilled />
       <TwitterCircleFilled />
-    </div>
-  </Form>
+    </div> -->
+    </Form>
+  </div>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, toRaw, unref, computed } from 'vue';
 
-  import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
-  import {
-    GithubFilled,
-    WechatFilled,
-    AlipayCircleFilled,
-    GoogleCircleFilled,
-    TwitterCircleFilled,
-  } from '@ant-design/icons-vue';
-  import LoginFormTitle from './LoginFormTitle.vue';
+  import { Checkbox, Form, Input, Row, Col } from 'ant-design-vue';
+  // import {
+  //   GithubFilled,
+  //   WechatFilled,
+  //   AlipayCircleFilled,
+  //   GoogleCircleFilled,
+  //   TwitterCircleFilled,
+  // } from '@ant-design/icons-vue';
+  // import LoginFormTitle from './LoginFormTitle.vue';
 
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -111,7 +129,7 @@
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
 
-  const { setLoginState, getLoginState } = useLoginState();
+  const { getLoginState } = useLoginState();
   const { getFormRules } = useFormRules();
 
   const formRef = ref();
@@ -159,3 +177,40 @@
     }
   }
 </script>
+<style lang="less">
+  @prefix-cls: ~'@{namespace}-login';
+  .@{prefix-cls} {
+    &-wrap {
+      width: 534px;
+      height: 522px;
+      background: url(/@/assets/images/login-form-bg.png) 100% center no-repeat;
+      background-size: cover;
+      padding: 32px;
+      position: relative;
+
+      &-subtitle {
+        width: 100%;
+        position: absolute;
+        top: 20px;
+        left: 0;
+        text-align: center;
+      }
+
+      &-title {
+        width: 100%;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        text-align: center;
+      }
+
+      &-position {
+        width: 100%;
+        position: absolute;
+        top: 131px;
+        left: 0;
+        text-align: center;
+      }
+    }
+  }
+</style>

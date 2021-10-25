@@ -25,6 +25,8 @@ interface AppState {
   projectConfig: ProjectConfig | null;
   // When the window shrinks, remember some states, and restore these states when the window is restored
   beforeMiniInfo: BeforeMiniState;
+  // 是否是首页
+  isHomePage: boolean;
 }
 let timeId: TimeoutHandle;
 export const useAppStore = defineStore({
@@ -34,6 +36,7 @@ export const useAppStore = defineStore({
     pageLoading: false,
     projectConfig: Persistent.getLocal(PROJ_CFG_KEY),
     beforeMiniInfo: {},
+    isHomePage: false,
   }),
   getters: {
     getPageLoading(): boolean {
@@ -42,7 +45,9 @@ export const useAppStore = defineStore({
     getDarkMode(): 'light' | 'dark' | string {
       return this.darkMode || localStorage.getItem(APP_DARK_MODE_KEY_) || darkMode;
     },
-
+    getIsHomePage() {
+      return this.isHomePage;
+    },
     getBeforeMiniInfo(): BeforeMiniState {
       return this.beforeMiniInfo;
     },
@@ -72,6 +77,10 @@ export const useAppStore = defineStore({
     setDarkMode(mode: ThemeEnum): void {
       this.darkMode = mode;
       localStorage.setItem(APP_DARK_MODE_KEY_, mode);
+    },
+
+    setIsHomePage(flag: boolean): void {
+      this.isHomePage = flag;
     },
 
     setBeforeMiniInfo(state: BeforeMiniState): void {

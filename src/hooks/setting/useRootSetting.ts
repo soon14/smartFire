@@ -15,6 +15,8 @@ export function useRootSetting() {
 
   const getPageLoading = computed(() => appStore.getPageLoading);
 
+  const getIsHomePage = computed(() => appStore.getIsHomePage);
+
   const getOpenKeepAlive = computed(() => appStore.getProjectConfig.openKeepAlive);
 
   const getSettingButtonPosition = computed(() => appStore.getProjectConfig.settingButtonPosition);
@@ -75,6 +77,7 @@ export function useRootSetting() {
     getGrayMode,
     getLayoutContentMode,
     getPageLoading,
+    getIsHomePage,
     getOpenKeepAlive,
     getCanEmbedIFramePage,
     getPermissionMode,

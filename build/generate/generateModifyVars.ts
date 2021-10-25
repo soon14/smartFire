@@ -23,6 +23,14 @@ export function generateModifyVars(dark = false) {
     hack: `${modifyVars.hack} @import (reference) "${resolve('src/design/config.less')}";`,
     'primary-color': primary,
     ...primaryColorObj,
+
+    'component-background': '#111A69',
+    'text-color': 'rgba(255,255,255,0.85)',
+    'text-color-secondary': 'rgba(255,255,255,0.45)',
+    'heading-color': 'rgba(255,255,255,0.85)',
+    'item-hover-bg': '#4990fb',
+    'card-radius': '16px',
+
     'info-color': primary,
     'processing-color': primary,
     'success-color': '#55D187', //  Success color

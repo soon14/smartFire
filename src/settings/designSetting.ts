@@ -15,6 +15,7 @@ export const APP_PRESET_COLOR_LIST: string[] = [
   '#0096c7',
   '#9c27b0',
   '#ff9800',
+  '#01062d',
 ];
 
 // header preset color
@@ -30,6 +31,7 @@ export const HEADER_PRESET_BG_COLOR_LIST: string[] = [
   '#394664',
   '#001529',
   '#383f45',
+  '#113184',
 ];
 
 // sider preset color
@@ -45,4 +47,5 @@ export const SIDE_BAR_BG_COLOR_LIST: string[] = [
   '#28333E',
   '#344058',
   '#383f45',
+  '#0e235a',
 ];

@@ -53,6 +53,9 @@
       <SettingDrawer v-if="getShowSetting" :class="`${prefixCls}-action__item`" />
     </div>
   </Header>
+  <!-- <div v-if="!isShowSecondHeader" class="second_header_class">
+    <SecondaryMenu />
+  </div> -->
 </template>
 <script lang="ts">
   import { defineComponent, unref, computed } from 'vue';
@@ -80,6 +83,9 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
   import { useLocale } from '/@/locales/useLocale';
+  import { useAppStore } from '/@/store/modules/app';
+
+  // import SecondaryMenu from './components/secondary-menu/index.vue';
 
   export default defineComponent({
     name: 'LayoutHeader',
@@ -103,6 +109,8 @@
       fixed: propTypes.bool,
     },
     setup(props) {
+      const appStatus = useAppStore();
+      const isShowSecondHeader = computed(() => appStatus.getIsHomePage);
       const { prefixCls } = useDesign('layout-header');
       const {
         getShowTopMenu,
@@ -158,7 +166,7 @@
         if (!unref(getIsMixMode) || unref(getIsMobile)) {
           return {};
         }
-        const width = unref(getMenuWidth) < 180 ? 180 : unref(getMenuWidth);
+        const width = unref(getMenuWidth) < 180 ? 280 : unref(getMenuWidth);
         return { width: `${width}px` };
       });
 
@@ -192,6 +200,7 @@
         getShowSettingButton,
         getShowSetting,
         getShowSearch,
+        isShowSecondHeader,
       };
     },
   });

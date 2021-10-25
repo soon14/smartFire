@@ -9,6 +9,7 @@
     ref="sideRef"
     breakpoint="lg"
     collapsible
+    style="border-radius: 8px"
     :class="getSiderClass"
     :width="getMenuWidth"
     :collapsed="getCollapsed"
@@ -92,7 +93,7 @@
       });
 
       const getHiddenDomStyle = computed((): CSSProperties => {
-        const width = `${unref(getRealWidth)}px`;
+        const width = `${unref(getRealWidth) + 10}px`;
         return {
           width: width,
           overflow: 'hidden',
@@ -139,13 +140,16 @@
 
     &--fixed {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 8px;
+      left: 10px;
       height: 100%;
     }
 
     &--mix {
-      top: @header-height;
+      // top: calc(@header-height + 64px + 8px);
+      // height: calc(100% - @header-height - 64px);
+
+      top: calc(@header-height + 8px);
       height: calc(100% - @header-height);
     }
 

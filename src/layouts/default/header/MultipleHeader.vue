@@ -20,6 +20,8 @@
   import { useLayoutHeight } from '../content/useContentViewHeight';
 
   const HEADER_HEIGHT = 48;
+  // const SECOND_HEADER_HEIGHT = 48;
+  // const SECOND_HEADER_HEIGHT = 64;
 
   const TABS_HEIGHT = 32;
   export default defineComponent({

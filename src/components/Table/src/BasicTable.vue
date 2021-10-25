@@ -66,6 +66,7 @@
   import { basicProps } from './props';
   import { isFunction } from '/@/utils/is';
   import { warn } from '/@/utils/log';
+  // import { Table } from '@surely-vue/table';
 
   export default defineComponent({
     components: {
@@ -354,13 +355,18 @@
       }
     }
 
+    &-default-table-row {
+      // background: #111a69 !important;
+    }
+
     &-form-container {
       padding: 16px;
 
       .ant-form {
         padding: 12px 10px 6px 10px;
         margin-bottom: 16px;
-        background-color: @component-background;
+        // background-color: @component-background;
+        background-color: transparent;
         border-radius: 2px;
       }
     }
@@ -377,8 +383,48 @@
 
     .ant-table-wrapper {
       padding: 6px;
-      background-color: @component-background;
+      // background-color: @component-background;
+      background-color: transparent;
       border-radius: 2px;
+
+      .ant-table {
+        color: rgba(255, 255, 255, 0.85);
+
+        .ant-table-header {
+          background: #111a69;
+        }
+      }
+
+      // .ant-table-row-hover {
+      //   background: #2dd3f8 !important;
+      // }
+
+      .ant-table-thead
+        > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+        > td,
+      .ant-table-tbody
+        > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+        > td,
+      .ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+      .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+        background: #4990fb !important;
+      }
+
+      .ant-table-thead > tr > th,
+      .ant-table-tbody > tr > td {
+        color: rgba(255, 255, 255, 0.85);
+        background: #111a69;
+        border-bottom: 1px solid #40a9ff;
+      }
+
+      // .ant-table-tbody > tr > td {
+      //   background: #111a69;
+      //   // border: 1px solid #40a9ff;
+      //   border-bottom: 1px solid #40a9ff;
+      // }
+      .ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
+        background: #111a69;
+      }
 
       .ant-table-title {
         min-height: 40px;
