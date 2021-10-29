@@ -8,6 +8,7 @@ import { updateRoster } from '/@/api/sys/roster';
 import { dateUtil } from '/@/utils/dateUtil';
 import { isEmpty, isUnDef } from '/@/utils/is';
 import { divisionOptions } from '/@/utils/chinaDivision';
+import { uploadApi } from '/@/api/sys/upload';
 const genderMap = [
   { value: '1', label: '男' },
   { value: '2', label: '女' },
@@ -228,15 +229,24 @@ export function getBaseAddForm() {
       },
       rules: [{ required: true, whitespace: true }],
     },
-    // {
-    //   field: 'signaturePath',
-    //   component: 'Upload',
-    //   label: '添加电子签章',
-    //   colProps: {
-    //     span: 12,
-    //   },
-    //   rules: [{ required: true }],
-    // },
+    {
+      field: 'signaturePath',
+      component: 'Upload',
+      componentProps: {
+        api: uploadApi,
+        maxNumber: 1,
+        uploadParams: {
+          data: {
+            type: 1,
+          },
+        },
+      },
+      label: '添加电子签章',
+      colProps: {
+        span: 12,
+      },
+      rules: [{ required: true }],
+    },
     {
       field: 'birth',
       component: 'DatePicker',
@@ -472,14 +482,23 @@ export function getBaseAddForm() {
         },
       ],
     },
-    // {
-    //   field: 'headPath',
-    //   component: 'Upload',
-    //   label: '添加照片',
-    //   colProps: {
-    //     span: 12,
-    //   },
-    // },
+    {
+      field: 'headPath',
+      component: 'Upload',
+      componentProps: {
+        api: uploadApi,
+        maxNumber: 1,
+        uploadParams: {
+          data: {
+            type: 1,
+          },
+        },
+      },
+      label: '添加照片',
+      colProps: {
+        span: 12,
+      },
+    },
     {
       field: 'stat',
       component: 'RadioGroup',

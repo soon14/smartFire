@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { FileBasicColumn } from './typing';
+import { FileBasicColumn } from './types';
 
 export const basicProps = {
   helpText: {
@@ -9,7 +9,7 @@ export const basicProps = {
   // 文件最大多少MB
   maxSize: {
     type: Number as PropType<number>,
-    default: 2,
+    default: 500,
   },
   // 最大数量的文件，Infinity不限制
   maxNumber: {
@@ -47,6 +47,14 @@ export const uploadContainerProps = {
     default: true,
   },
   emptyHidePreview: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+  isShowPreview: {
+    type: Boolean as PropType<boolean>,
+    default: true,
+  },
+  isTransName: {
     type: Boolean as PropType<boolean>,
     default: false,
   },

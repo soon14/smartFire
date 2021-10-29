@@ -12,37 +12,45 @@
 </template>
 <script lang="ts">
   import { defineComponent, watch, ref } from 'vue';
+
   //   import { BasicTable, useTable } from '/@/components/Table';
-  import FileList from './FileList.vue';
+  import FileList from './FileList';
+
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { previewProps } from './props';
-  import { PreviewFileItem } from './typing';
+  import { PreviewFileItem } from './types';
   import { downloadByUrl } from '/@/utils/file/download';
-  import { createPreviewColumns, createPreviewActionColumn } from './data';
-  import { useI18n } from '/@/hooks/web/useI18n';
-  import { isArray } from '/@/utils/is';
 
+  import { createPreviewColumns, createPreviewActionColumn } from './data';
+
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     components: { BasicModal, FileList },
     props: previewProps,
-    emits: ['list-change', 'register', 'delete'],
+    emits: ['list-change', 'register'],
     setup(props, { emit }) {
       const [register, { closeModal }] = useModalInner();
       const { t } = useI18n();
-
       const fileListRef = ref<PreviewFileItem[]>([]);
       watch(
         () => props.value,
         (value) => {
-          if (!isArray(value)) value = [];
           fileListRef.value = value
             .filter((item) => !!item)
-            .map((item) => {
-              return {
-                url: item,
-                type: item.split('.').pop() || '',
-                name: item.split('/').pop() || '',
-              };
+            .map((item: any) => {
+              if (typeof item === 'object') {
+                return {
+                  url: item.url,
+                  type: item.url.split('.').pop() || '',
+                  name: item.name || '',
+                };
+              } else {
+                return {
+                  url: item,
+                  type: item.split('.').pop() || '',
+                  name: item.split('/').pop() || '',
+                };
+              }
             });
         },
         { immediate: true },
@@ -52,8 +60,7 @@
       function handleRemove(record: PreviewFileItem) {
         const index = fileListRef.value.findIndex((item) => item.url === record.url);
         if (index !== -1) {
-          const removed = fileListRef.value.splice(index, 1);
-          emit('delete', removed[0].url);
+          fileListRef.value.splice(index, 1);
           emit(
             'list-change',
             fileListRef.value.map((item) => item.url),
@@ -80,8 +87,8 @@
         register,
         closeModal,
         fileListRef,
-        columns: createPreviewColumns() as any[],
-        actionColumn: createPreviewActionColumn({ handleRemove, handleDownload }) as any,
+        columns: createPreviewColumns(),
+        actionColumn: createPreviewActionColumn({ handleRemove, handleDownload }),
       };
     },
   });

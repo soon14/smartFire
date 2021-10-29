@@ -47,6 +47,12 @@
             transData.joinDate = dateUtil(transData.joinDate).toDate().toString();
           if (transData.registeredAddress) transData.reProvince = transData?.reDivision?.join(',');
           if (transData.nowAddress) transData.nowCity = transData?.nowDivision?.join(',');
+          if (transData.signaturePath.length > 0) {
+            transData.signaturePath = transData.signaturePath.toString();
+          }
+          if (transData.headPath.length > 0) {
+            transData.headPath = transData.headPath.toString();
+          }
           await addRoster(transData);
           success('创建成功');
           closeModal();

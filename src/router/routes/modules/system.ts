@@ -39,17 +39,6 @@ const system: AppRouteModule = {
         title: '角色管理',
         icon: 'icon-park-outline:people-safe-one',
       },
-      // children: [
-      //   {
-      //     path: 'dac',
-      //     name: 'Dac',
-      //     component: () => import('/@/views/sys/demo/index.vue'),
-      //     meta: {
-      //       title: t('routes.dashboard.workbench'),
-      //       icon: 'simple-icons:about-dot-me',
-      //     },
-      //   },
-      // ],
     },
     {
       path: 'roster',
