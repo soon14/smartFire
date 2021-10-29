@@ -23,11 +23,11 @@ const system: AppRouteModule = {
       },
     },
     {
-      path: 'position',
-      name: 'Position',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
+      path: 'department',
+      name: 'Department',
+      component: () => import('/@/views/sys/department/department.vue'),
       meta: {
-        title: '岗位管理',
+        title: '部门管理',
         icon: 'icon-park-outline:handbag',
       },
     },
@@ -57,6 +57,24 @@ const system: AppRouteModule = {
       component: () => import('/@/views/sys/rosterManagement/rosterManagement.vue'),
       meta: {
         title: '花名册',
+        icon: 'icon-park-outline:handbag',
+      },
+    },
+    {
+      path: 'propaganda',
+      name: 'Propaganda',
+      component: () => import('/@/views/sys/propaganda/propaganda.vue'),
+      meta: {
+        title: '宣传',
+        icon: 'icon-park-outline:handbag',
+      },
+    },
+    {
+      path: 'logAdmin',
+      name: 'LogAdmin',
+      component: () => import('/@/views/sys/log/logAdmin.vue'),
+      meta: {
+        title: '日志',
         icon: 'icon-park-outline:handbag',
       },
     },
