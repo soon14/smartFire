@@ -14,7 +14,7 @@ import { router } from '/@/router';
 import { usePermissionStore } from '/@/store/modules/permission';
 import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
-import { isArray } from '/@/utils/is';
+import { isNullOrUnDef } from '/@/utils/is';
 import { h } from 'vue';
 
 interface UserState {
@@ -125,16 +125,21 @@ export const useUserStore = defineStore({
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
       const userInfo = await getUserInfo();
-      const { roles = [] } = userInfo;
-      if (isArray(roles)) {
-        const roleList = roles.map((item) => item.value) as RoleEnum[];
+      const { role = [], user } = userInfo;
+      console.log(
+        '🚀 ~ file: user.ts ~ line 130 ~ getUserInfoAction ~ isNullOrUnDef(role.authority)',
+        isNullOrUnDef(role.authority),
+      );
+      if (!isNullOrUnDef(role.authority)) {
+        const roleList = role.authority ? role.authority.split(',') : [];
+        // const roleList = role.map((item) => item.value) as RoleEnum[];
         this.setRoleList(roleList);
       } else {
         userInfo.roles = [];
         this.setRoleList([]);
       }
       this.setUserInfo(userInfo);
-      return userInfo;
+      return user;
     },
     /**
      * @description: logout

@@ -149,7 +149,7 @@
       // top: calc(@header-height + 64px + 8px);
       // height: calc(100% - @header-height - 64px);
 
-      top: calc(@header-height + 8px);
+      top: calc(@header-height);
       height: calc(100% - @header-height);
     }
 

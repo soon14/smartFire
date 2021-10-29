@@ -2,7 +2,7 @@ import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
 
-const dashboard: AppRouteModule = {
+const flowChary: AppRouteModule = {
   path: '/flow',
   name: 'Flow',
   component: LAYOUT,
@@ -45,4 +45,4 @@ const dashboard: AppRouteModule = {
   ],
 };
 
-export default dashboard;
+export default flowChary;

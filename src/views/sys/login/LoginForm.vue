@@ -102,7 +102,7 @@
 <script lang="ts" setup>
   import { reactive, ref, toRaw, unref, computed } from 'vue';
 
-  import { Checkbox, Form, Input, Row, Col } from 'ant-design-vue';
+  import { Checkbox, Form, Input, Row, Col, Button } from 'ant-design-vue';
   // import {
   //   GithubFilled,
   //   WechatFilled,
@@ -137,7 +137,7 @@
   const rememberMe = ref(false);
 
   const formData = reactive({
-    account: 'vben',
+    account: 'admin',
     password: '123456',
   });
 
@@ -155,14 +155,14 @@
       const userInfo = await userStore.login(
         toRaw({
           password: data.password,
-          username: data.account,
+          account: data.account,
           mode: 'none', //不要默认的错误提示
         }),
       );
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
-          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.personName}`,
           duration: 3,
         });
       }

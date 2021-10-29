@@ -1,7 +1,9 @@
 <template>
   <div :class="`cursor-pointer ${prefixCls}`">
     <Avatar :src="getUserInfo.avatar" :size="props.size" />
-    <div v-if="props.showInfo" :class="`text-center ${prefixCls}-personInfo`"> 个人信息 </div>
+    <div v-if="props.showInfo" :class="`text-center ${prefixCls}-personInfo`">
+      {{ getUserInfo.personName }}
+    </div>
     <div v-if="props.showInfo" :class="`text-center ${prefixCls}-org`">岗位</div>
   </div>
 </template>
@@ -29,9 +31,14 @@
     setup(props) {
       const getUserInfo = computed(() => {
         const userStore = useUserStore();
-        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
-        return { realName, avatar: avatar || headerImg, desc };
+        const { personName = '', headPath, desc } = userStore.getUserInfo.user || {};
+        return { personName, avatar: headPath || headerImg, desc };
       });
+      // const getUserInfo = computed(() => {
+      //   const userStore = useUserStore();
+      //   const { realName = '', avatar, desc } = userStore.getUserInfo || {};
+      //   return { realName, avatar: avatar || headerImg, desc };
+      // });
       const { prefixCls } = useDesign('secondary-menu-left-user-list');
       return {
         prefixCls,

@@ -338,6 +338,7 @@
               rules={handleRules()}
               labelCol={labelCol}
               wrapperCol={wrapperCol}
+              hasFeedback={true}
             >
               <div style="display:flex">
                 <div style="flex:1">{getContent()}</div>

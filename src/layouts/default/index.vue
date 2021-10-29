@@ -82,7 +82,7 @@
 
     > .ant-layout {
       min-height: 100%;
-      background-image: linear-gradient(#12348c, #1f59ef) !important;
+      background-image: linear-gradient(#113177, #1f59ef) !important;
     }
 
     &-main {

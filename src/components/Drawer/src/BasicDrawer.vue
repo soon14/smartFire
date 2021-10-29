@@ -89,6 +89,7 @@
         };
         opt.title = undefined;
         const { isDetail, width, wrapClassName, getContainer } = opt;
+        console.log('🚀 ~ file: BasicDrawer.vue ~ line 92 ~ getProps ~ getContainer', getContainer);
         if (isDetail) {
           if (!width) {
             opt.width = '100%';

@@ -3,7 +3,7 @@ import type { AppRouteModule } from '/@/router/types';
 import { getParentLayout, LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
-const dashboard: AppRouteModule = {
+const about: AppRouteModule = {
   path: '/about',
   name: 'About',
   component: LAYOUT,
@@ -12,6 +12,7 @@ const dashboard: AppRouteModule = {
     icon: 'simple-icons:about-dot-me',
     title: t('routes.dashboard.about'),
     orderNo: 100000,
+    roles: ['1-27-4'],
   },
   children: [
     {
@@ -21,6 +22,7 @@ const dashboard: AppRouteModule = {
       meta: {
         title: t('routes.dashboard.about'),
         icon: 'simple-icons:about-dot-me',
+        roles: ['1-27-4'],
       },
       children: [
         {
@@ -30,6 +32,7 @@ const dashboard: AppRouteModule = {
           meta: {
             title: t('routes.dashboard.workbench'),
             icon: 'simple-icons:about-dot-me',
+            roles: ['1-27-4'],
           },
         },
       ],
@@ -41,9 +44,10 @@ const dashboard: AppRouteModule = {
       meta: {
         title: t('routes.dashboard.workbench'),
         icon: 'simple-icons:about-dot-me',
+        roles: ['1-27-4'],
       },
     },
   ],
 };
 
-export default dashboard;
+export default about;
