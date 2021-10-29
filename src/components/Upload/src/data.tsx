@@ -1,14 +1,15 @@
 import type { BasicColumn, ActionItem } from '/@/components/Table';
-import { FileItem, PreviewFileItem, UploadResultStatus } from './typing';
+
+import { FileItem, PreviewFileItem, UploadResultStatus } from './types';
 import {
   // checkImgType,
   isImgTypeByName,
 } from './helper';
 import { Progress, Tag } from 'ant-design-vue';
+
 import TableAction from '/@/components/Table/src/components/TableAction.vue';
 import ThumbUrl from './ThumbUrl.vue';
 import { useI18n } from '/@/hooks/web/useI18n';
-
 const { t } = useI18n();
 
 // 文件上传列表
@@ -110,6 +111,7 @@ export function createPreviewColumns(): BasicColumn[] {
       title: t('component.upload.legend'),
       width: 100,
       customRender: ({ record }) => {
+        console.log('urlRecord', record);
         const { url } = (record as PreviewFileItem) || {};
         return isImgTypeByName(url) && <ThumbUrl fileUrl={url} />;
       },

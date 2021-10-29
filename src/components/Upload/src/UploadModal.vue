@@ -13,7 +13,7 @@
     :okButtonProps="getOkButtonProps"
     :cancelButtonProps="{ disabled: isUploadingRef }"
   >
-    <template #centerFooter>
+    <!-- <template #centerFooter>
       <a-button
         @click="handleStartUpload"
         color="success"
@@ -22,7 +22,7 @@
       >
         {{ getUploadBtnText }}
       </a-button>
-    </template>
+    </template> -->
 
     <div class="upload-modal-toolbar">
       <Alert :message="getHelpText" type="info" banner class="upload-modal-toolbar__text" />
@@ -50,7 +50,7 @@
   import { useUploadType } from './useUpload';
   import { useMessage } from '/@/hooks/web/useMessage';
   //   types
-  import { FileItem, UploadResultStatus } from './typing';
+  import { FileItem, UploadResultStatus } from './types';
   import { basicProps } from './props';
   import { createTableColumns, createActionColumn } from './data';
   // utils
@@ -58,9 +58,9 @@
   import { buildUUID } from '/@/utils/uuid';
   import { isFunction } from '/@/utils/is';
   import { warn } from '/@/utils/log';
-  import FileList from './FileList.vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+  import FileList from './FileList';
 
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     components: { BasicModal, Upload, Alert, FileList },
     props: {
@@ -70,20 +70,20 @@
         default: () => [],
       },
     },
-    emits: ['change', 'register', 'delete'],
+    emits: ['change', 'register'],
     setup(props, { emit }) {
-      const state = reactive<{ fileList: FileItem[] }>({
-        fileList: [],
-      });
+      const { t } = useI18n();
 
       //   是否正在上传
       const isUploadingRef = ref(false);
       const fileListRef = ref<FileItem[]>([]);
-      const { accept, helpText, maxNumber, maxSize } = toRefs(props);
+      const state = reactive<{ fileList: FileItem[] }>({
+        fileList: [],
+      });
 
-      const { t } = useI18n();
       const [register, { closeModal }] = useModalInner();
 
+      const { accept, helpText, maxNumber, maxSize } = toRefs(props);
       const { getAccept, getStringAccept, getHelpText } = useUploadType({
         acceptRef: accept,
         helpTextRef: helpText,
@@ -156,18 +156,18 @@
                 ...commonItem,
               },
             ];
+            handleStartUpload();
           });
         } else {
           fileListRef.value = [...unref(fileListRef), commonItem];
         }
+        handleStartUpload();
         return false;
       }
-
       // 删除
       function handleRemove(record: FileItem) {
         const index = fileListRef.value.findIndex((item) => item.uuid === record.uuid);
         index !== -1 && fileListRef.value.splice(index, 1);
-        emit('delete', record);
       }
 
       // 预览
@@ -247,12 +247,19 @@
         if (isUploadingRef.value) {
           return createMessage.warning(t('component.upload.saveWarn'));
         }
-        const fileList: string[] = [];
+        const fileList: any[] = [];
 
         for (const item of fileListRef.value) {
           const { status, responseData } = item;
           if (status === UploadResultStatus.SUCCESS && responseData) {
-            fileList.push(responseData.url);
+            console.log(
+              '🚀 ~ file: UploadModal.vue ~ line 254 ~ handleOk ~ responseData',
+              responseData,
+            );
+            fileList.push({
+              name: responseData.data.content.fileName,
+              url: responseData.data.content.picPath[0],
+            });
           }
         }
         // 存在一个上传成功的即可保存
@@ -265,7 +272,7 @@
       }
 
       // 点击关闭：则所有操作不保存，包括上传的
-      async function handleCloseFunc() {
+      function handleCloseFunc() {
         if (!isUploadingRef.value) {
           fileListRef.value = [];
           return true;
@@ -276,8 +283,8 @@
       }
 
       return {
-        columns: createTableColumns() as any[],
-        actionColumn: createActionColumn(handleRemove) as any,
+        columns: createTableColumns(),
+        actionColumn: createActionColumn(handleRemove),
         register,
         closeModal,
         getHelpText,
@@ -300,6 +307,10 @@
 </script>
 <style lang="less">
   .upload-modal {
+    .ant-alert-info {
+      background: transparent;
+    }
+
     .ant-upload-list {
       display: none;
     }

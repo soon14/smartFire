@@ -23,15 +23,6 @@ const system: AppRouteModule = {
       },
     },
     {
-      path: 'position',
-      name: 'Position',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
-      meta: {
-        title: '岗位管理',
-        icon: 'icon-park-outline:handbag',
-      },
-    },
-    {
       path: 'roleManagement',
       name: 'RoleManagement',
       component: getParentLayout('RoleManagement'),
@@ -39,17 +30,6 @@ const system: AppRouteModule = {
         title: '角色管理',
         icon: 'icon-park-outline:people-safe-one',
       },
-      // children: [
-      //   {
-      //     path: 'dac',
-      //     name: 'Dac',
-      //     component: () => import('/@/views/sys/demo/index.vue'),
-      //     meta: {
-      //       title: t('routes.dashboard.workbench'),
-      //       icon: 'simple-icons:about-dot-me',
-      //     },
-      //   },
-      // ],
     },
     {
       path: 'roster',
