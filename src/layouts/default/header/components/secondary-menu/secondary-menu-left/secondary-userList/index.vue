@@ -4,7 +4,9 @@
     <div v-if="props.showInfo" :class="`text-center ${prefixCls}-personInfo`">
       {{ getUserInfo.personName }}
     </div>
-    <div v-if="props.showInfo" :class="`text-center ${prefixCls}-org`">岗位</div>
+    <div v-if="props.showInfo" :class="`text-center ${prefixCls}-org`">{{
+      getUserInfo.deptName || '没数据'
+    }}</div>
   </div>
 </template>
 <script lang="ts">
@@ -31,8 +33,8 @@
     setup(props) {
       const getUserInfo = computed(() => {
         const userStore = useUserStore();
-        const { personName = '', headPath, desc } = userStore.getUserInfo.user || {};
-        return { personName, avatar: headPath || headerImg, desc };
+        const { personName = '', headPath, desc, deptName } = userStore.getUserInfo.user || {};
+        return { personName, avatar: headPath || headerImg, desc, deptName };
       });
       // const getUserInfo = computed(() => {
       //   const userStore = useUserStore();

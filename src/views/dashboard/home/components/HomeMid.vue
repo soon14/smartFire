@@ -14,33 +14,8 @@
             @slideChange="onSlideChange"
             style="height: 240px"
           >
-            <swiper-slide>
-              <Image
-                width="100%"
-                height="100%"
-                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-              />
-            </swiper-slide>
-            <swiper-slide>
-              <Image
-                width="100%"
-                height="100%"
-                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-              />
-            </swiper-slide>
-            <swiper-slide>
-              <Image
-                width="100%"
-                height="100%"
-                src="http://192.168.1.89:9090/uploads/website/customerPic/2021/10/13/w8c1kuoyrmvz.webp"
-              />
-            </swiper-slide>
-            <swiper-slide>
-              <Image
-                width="100%"
-                height="100%"
-                src="http://192.168.1.89:9090/uploads/website/customerPic/2021/10/13/w8c1kuoyrmvz.webp"
-              />
+            <swiper-slide v-for="item in imageList" :key="item.id">
+              <div style="width: 100%; height: 100%" :style="getBgPic(item.path)"> </div>
             </swiper-slide>
           </swiper>
         </div>
@@ -49,8 +24,9 @@
   </div>
 </template>
 <script>
-  import { defineComponent } from 'vue';
-  import { Card, Image } from 'ant-design-vue';
+  import { defineComponent, onMounted, ref } from 'vue';
+  import { Card } from 'ant-design-vue';
+  import { getPictureList } from '/@/api/sys/propaganda';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   // import Swiper core and required modules
   import { Pagination } from 'swiper';
@@ -68,7 +44,6 @@
       NwowHeader,
       Swiper,
       SwiperSlide,
-      Image,
     },
     setup() {
       const onSwiper = (swiper) => {
@@ -77,10 +52,26 @@
       const onSlideChange = () => {
         console.log('slide change');
       };
+      const imageList = ref([]);
+      const getBgPic = (path) => {
+        const data = {
+          background: `url(${path})`,
+          // background: 'url(https://cdn.uviewui.com/uview/swiper/2.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        };
+        return data;
+      };
+      onMounted(async () => {
+        const apiResult = await getPictureList();
+        imageList.value = apiResult;
+      });
       return {
         onSwiper,
         onSlideChange,
+        imageList,
         modules: [Pagination],
+        getBgPic,
       };
     },
   });
