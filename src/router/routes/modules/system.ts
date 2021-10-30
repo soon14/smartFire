@@ -1,6 +1,6 @@
 import type { AppRouteModule } from '/@/router/types';
 
-import { getParentLayout, LAYOUT } from '/@/router/constant';
+import { LAYOUT } from '/@/router/constant';
 
 const system: AppRouteModule = {
   path: '/system',
@@ -31,15 +31,15 @@ const system: AppRouteModule = {
         icon: 'icon-park-outline:handbag',
       },
     },
-    {
-      path: 'roleManagement',
-      name: 'RoleManagement',
-      component: getParentLayout('RoleManagement'),
-      meta: {
-        title: '角色管理',
-        icon: 'icon-park-outline:people-safe-one',
-      },
-    },
+    // {
+    //   path: 'roleManagement',
+    //   name: 'RoleManagement',
+    //   component: getParentLayout('RoleManagement'),
+    //   meta: {
+    //     title: '角色管理',
+    //     icon: 'icon-park-outline:people-safe-one',
+    //   },
+    // },
     {
       path: 'roster',
       name: 'Roster',
@@ -55,7 +55,7 @@ const system: AppRouteModule = {
       component: () => import('/@/views/sys/propaganda/propaganda.vue'),
       meta: {
         title: '宣传',
-        icon: 'icon-park-outline:handbag',
+        icon: 'icon-park-outline:camp',
       },
     },
     {
