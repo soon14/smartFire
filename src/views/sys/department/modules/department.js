@@ -1,4 +1,7 @@
-import { deptList } from '/@/api/sys/department';
+import { deptList, updateDept } from '/@/api/sys/department';
+import { h } from 'vue';
+import { Switch } from 'ant-design-vue';
+import { useMessage } from '/@/hooks/web/useMessage';
 export function getBaseTableColumns() {
   return [
     {
@@ -20,6 +23,41 @@ export function getBaseTableColumns() {
     {
       title: '状态',
       dataIndex: 'stat',
+      customRender: ({ record }) => {
+        if (!Reflect.has(record, 'pendingStatus')) {
+          record.pendingStatus = false;
+        }
+        return h(Switch, {
+          checked: record.stat === 1,
+          checkedChildren: '已启用',
+          unCheckedChildren: '已禁用',
+          loading: record.pendingStatus,
+          onChange(checked) {
+            record.pendingStatus = true;
+            const newStatus = checked ? 1 : 0;
+            const { createMessage } = useMessage();
+            const transData = {
+              id: record.id,
+              stat: newStatus,
+            };
+            updateDept(transData)
+              .then(() => {
+                record.stat = newStatus;
+                console.log(
+                  '🚀 ~ file: jobManagement.tsx ~ line 52 ~ .then ~ record.stat',
+                  record.stat,
+                );
+                createMessage.success(`已成功修改角色状态`);
+              })
+              .catch(() => {
+                createMessage.error('修改角色状态失败');
+              })
+              .finally(() => {
+                record.pendingStatus = false;
+              });
+          },
+        });
+      },
     },
   ];
 }

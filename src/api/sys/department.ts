@@ -41,5 +41,5 @@ export const deptList3 = (data) => {
   return defHttp.post({ url: Api.DEPT_LIST3, params: data });
 };
 export const updateDept = (data) => {
-  return defHttp.post({ url: Api.DEPT_LIST3, params: data });
+  return defHttp.post({ url: Api.UPDATE_DEPT, params: data });
 };

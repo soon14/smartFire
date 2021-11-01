@@ -7,12 +7,11 @@
       <NwowSearch
         add-text="新增部门"
         :hasAddBtn="true"
-        :hasMoreSearch="true"
+        :hasMoreSearch="false"
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"
       />
     </div>
-
     <BasicTable @register="registerTable">
       <template #action="{ record }">
         <TableAction
@@ -27,6 +26,11 @@
               icon: 'clarity:note-edit-line',
               onClick: handleUpdata.bind(null, record),
             },
+            {
+              label: '',
+              icon: 'clarity:note-edit-line',
+              onClick: subsidiaryDepartment.bind(null, record),
+            },
           ]"
         />
       </template>
@@ -40,10 +44,12 @@
   import { getBaseTableColumns } from './modules/department.js';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { deptList2 } from '/@/api/sys/department';
+  import { deptList2, deleteDept } from '/@/api/sys/department';
   import { useModal } from '/@/components/Modal';
   import Modal from './departmentModel.vue';
-  const [registerTable, { reload }] = useTable({
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createConfirm, createMessage } = useMessage();
+  const [registerTable, { reload, setProps }] = useTable({
     api: deptList2,
     showIndexColumn: false,
     columns: getBaseTableColumns(),
@@ -55,10 +61,25 @@
     },
   });
   const handleDelete = (record) => {
-    console.log('🚀 ~ file: jobManagement.vue ~ line 43 ~ handleDelete ~ record', record);
+    createConfirm({
+      iconType: 'error',
+      title: '提示',
+      content: '是否确认删除当前岗位！',
+      onOk: async () => {
+        await deleteDept({
+          deptId: record.id,
+        });
+        createMessage.success('删除成功');
+        handleRefresh();
+      },
+    });
   };
   const handleUpdata = (record) => {
-    console.log('🚀 ~ file: jobManagement.vue ~ line 46 ~ handleUpdata ~ record', record);
+    const tempData = Object.assign({}, record);
+    openModal(true, tempData);
+  };
+  const subsidiaryDepartment = (record) => {
+    console.log(record);
   };
   const handleAddEvent = () => {
     console.log('添加添加');
@@ -66,6 +87,12 @@
   };
   const handleSearch = (val) => {
     console.log('val====', val);
+    setProps({
+      searchInfo: {
+        deptName: val,
+      },
+    });
+    reload();
   };
   const handleRefresh = () => {
     reload();
