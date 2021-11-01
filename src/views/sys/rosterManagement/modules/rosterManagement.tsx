@@ -136,7 +136,7 @@ export function getBaseTableColumns() {
           loading: record.pendingStatus,
           onChange(checked) {
             record.pendingStatus = true;
-            const newStatus = checked ? '1' : '0';
+            const newStatus = checked ? 1 : 0;
             const { createMessage } = useMessage();
             const transData = {
               id: record.id,
@@ -500,7 +500,7 @@ export function getBaseAddForm() {
       },
     },
     {
-      field: 'stat',
+      field: 'gender',
       component: 'RadioGroup',
       componentProps: {
         defaultValue: '1',

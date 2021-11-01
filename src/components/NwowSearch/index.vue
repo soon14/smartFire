@@ -50,22 +50,22 @@
   import { SearchOutlined } from '@ant-design/icons-vue';
   import { computed, onMounted, reactive, ref, watch } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  // const defaultSchemas = [
-  //   {
-  //     field: 'field1',
-  //     component: 'Input',
-  //     label: '字段1',
-  //     colProps: {
-  //       span: 8,
-  //     },
-  //     componentProps: {
-  //       placeholder: '自定义placeholder',
-  //       onChange: (e) => {
-  //         console.log(e);
-  //       },
-  //     },
-  //   },
-  // ];
+  const defaultSchemas = [
+    {
+      field: 'field1',
+      component: 'Input',
+      label: '字段1',
+      colProps: {
+        span: 8,
+      },
+      componentProps: {
+        placeholder: '自定义placeholder',
+        onChange: (e) => {
+          console.log(e);
+        },
+      },
+    },
+  ];
   const props = defineProps({
     hasMoreSearch: {
       type: Boolean,
@@ -119,7 +119,7 @@
   };
 
   const schemasData = computed(() => {
-    return props.schemas();
+    return (props.schemas && props.schemas()) ?? defaultSchemas;
   });
   const [register, { getFieldsValue }] = useForm({
     labelWidth: 120,

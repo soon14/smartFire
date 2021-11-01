@@ -45,9 +45,10 @@
   import { getBaseTableColumns } from './modules/rosterManagement.tsx';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { getRosterList } from '/@/api/sys/roster';
+  import { getRosterList, deleteRoster } from '/@/api/sys/roster';
   import { useModal } from '/@/components/Modal';
   import Modal from './components/AddRosterModal.vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
   const [registerTable, { reload, setProps }] = useTable({
     api: getRosterList,
     showIndexColumn: false,
@@ -59,17 +60,36 @@
       slots: { customRender: 'action' },
     },
   });
+  const { createConfirm, createMessage } = useMessage();
   const handleDelete = (record) => {
-    console.log('🚀 ~ file: jobManagement.vue ~ line 43 ~ handleDelete ~ record', record);
+    createConfirm({
+      iconType: 'error',
+      title: '提示',
+      content: '是否确认删除当前人员！',
+      onOk: async () => {
+        await deleteRoster({
+          userId: record.id,
+        });
+        createMessage.success('删除成功');
+        handleRefresh();
+      },
+    });
   };
   const handleView = (record) => {
     console.log('🚀 ~ file: rosterManagement.vue ~ line 66 ~ handleView ~ record', record);
   };
   const handleUpdata = (record) => {
-    console.log('🚀 ~ file: jobManagement.vue ~ line 46 ~ handleUpdata ~ record', record);
+    const tempData = Object.assign({}, record);
+    openModal(true, tempData);
   };
   const handleAddEvent = () => {
-    openModal();
+    const tempData = Object.assign(
+      {},
+      {
+        id: null,
+      },
+    );
+    openModal(true, tempData);
   };
   const handleSearch = (val) => {
     setProps({

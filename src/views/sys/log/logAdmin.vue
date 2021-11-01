@@ -57,5 +57,12 @@
     console.log('添加添加');
     // openModal();
   };
+  const handleSearch = (val) => {
+    setProps({
+      searchInfo: {
+        condition: val,
+      },
+    });
+  };
 </script>
 <style lang="less"></style>
