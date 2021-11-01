@@ -18,12 +18,12 @@ import { defHttp } from '/@/utils/http/axios';
 // POST /dept/updateDept
 // 修改部门
 enum Api {
-  ABBDEPT = 'dept/addDept',
-  DELETE_DEPT = 'dept/deleteDept',
-  DEPT_LIST = 'dept/deptList',
-  DEPT_LIST2 = 'dept/deptList2',
-  DEPT_LIST3 = 'dept/deptList3',
-  UPDATE_DEPT = 'dept/updateDept',
+  ABBDEPT = '/dept/addDept',
+  DELETE_DEPT = '/dept/deleteDept',
+  DEPT_LIST = '/dept/deptList',
+  DEPT_LIST2 = '/dept/deptList2',
+  DEPT_LIST3 = '/dept/deptList3',
+  UPDATE_DEPT = '/dept/updateDept',
 }
 export const addDept = (data) => {
   return defHttp.post({ url: Api.ABBDEPT, params: data });

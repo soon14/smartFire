@@ -15,7 +15,7 @@ export default {
       // Field name of the form data returned by the interface
       listField: 'list',
       // Total number of tables returned by the interface field name
-      totalField: 'ttotalCountotal',
+      totalField: 'totalCount',
     },
     // Number of pages that can be selected
     pageSizeOptions: ['10', '50', '80', '100'],

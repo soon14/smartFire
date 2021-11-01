@@ -6,7 +6,7 @@
         title="更多搜索条件"
         placement="top"
         :height="400"
-        :closable="false"
+        :closable="true"
         :visible="visible"
         :get-container="false"
         :wrap-style="{ position: 'absolute' }"
@@ -48,7 +48,7 @@
 <script setup>
   import { Drawer } from 'ant-design-vue';
   import { SearchOutlined } from '@ant-design/icons-vue';
-  import { computed, onMounted, reactive, ref, watch } from 'vue';
+  import { computed, reactive, ref, watch } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   // const defaultSchemas = [
   //   {
@@ -110,15 +110,18 @@
   const onClose = () => {
     visible.value = false;
   };
-  onMounted(() => {
-    console.log('shuju', props.schemas);
-  });
+  // const schemasData  = onMounted(() => {
+
+  //   // console.log('shuju', typeof(props.schemas)
+  // });
   //===================================
   const handleSubmit = () => {
     getFieldsValue();
   };
 
   const schemasData = computed(() => {
+    console.log('11111');
+    console.log('shuajua', props.schemas());
     return props.schemas();
   });
   const [register, { getFieldsValue }] = useForm({
