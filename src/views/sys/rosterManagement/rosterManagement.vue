@@ -20,17 +20,22 @@
             {
               label: '',
               icon: 'ic:outline-delete-outline',
-              onClick: handleView.bind(null, record),
-            },
-            {
-              label: '',
-              icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
             },
             {
               label: '',
               icon: 'clarity:note-edit-line',
               onClick: handleUpdata.bind(null, record),
+            },
+            {
+              label: '',
+              icon: 'icon-park-outline:eyes',
+              onClick: handleView.bind(null, record),
+            },
+            {
+              label: '',
+              icon: 'icon-park-outline:key',
+              onClick: handleResetPassword.bind(null, record),
             },
           ]"
         />
@@ -45,7 +50,7 @@
   import { getBaseTableColumns } from './modules/rosterManagement.tsx';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { getRosterList, deleteRoster } from '/@/api/sys/roster';
+  import { getRosterList, deleteRoster, updateRosterPassword } from '/@/api/sys/roster';
   import { useModal } from '/@/components/Modal';
   import Modal from './components/AddRosterModal.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -75,8 +80,22 @@
       },
     });
   };
-  const handleView = (record) => {
-    console.log('🚀 ~ file: rosterManagement.vue ~ line 66 ~ handleView ~ record', record);
+  const handleView = () => {
+    createMessage.warning('功能正在施工，waiting！');
+  };
+  const handleResetPassword = (record) => {
+    createConfirm({
+      iconType: 'warning',
+      title: '你确定要回复此人密码吗？',
+      content: '密码将重置为 123456 ！',
+      onOk: async () => {
+        await updateRosterPassword({
+          userId: record.id,
+        });
+        createMessage.success('重置成功');
+        handleRefresh();
+      },
+    });
   };
   const handleUpdata = (record) => {
     const tempData = Object.assign({}, record);

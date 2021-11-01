@@ -15,3 +15,10 @@ export function initStringToArray(data, name, resultName) {
     data[resultName] = [];
   }
 }
+export function initImgPath(data, pathName) {
+  if (data[pathName]) {
+    data[pathName] = [data[pathName]];
+  } else {
+    data[pathName] = [];
+  }
+}

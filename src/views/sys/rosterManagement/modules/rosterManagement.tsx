@@ -59,10 +59,6 @@ export function getBaseTableColumns() {
       dataIndex: 'gender',
       customRender: ({ record }) => {
         const showIndex = genderMap.findIndex((item) => item.value == record.gender);
-        console.log(
-          '🚀 ~ file: rosterManagement.tsx ~ line 61 ~ getBaseTableColumns ~ showIndex',
-          showIndex,
-        );
         let temp = '';
         if (showIndex > -1) {
           temp = genderMap[showIndex].label;
