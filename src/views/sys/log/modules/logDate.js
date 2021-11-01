@@ -2,11 +2,11 @@ export function getBaseTableColumns() {
   return [
     {
       title: '标题',
-      dataIndex: 'deptName',
+      dataIndex: 'content',
     },
     {
       title: '操作人',
-      dataIndex: 'id',
+      dataIndex: 'userName',
     },
     {
       title: '操作时间',
@@ -14,7 +14,7 @@ export function getBaseTableColumns() {
     },
     {
       title: 'IP地址',
-      dataIndex: 'description',
+      dataIndex: 'ip',
     },
   ];
 }

@@ -35,7 +35,6 @@
     showIndexColumn: false,
     columns: getVisitorsTableColumns(),
   });
-
   const handleSearch = (val) => {
     setProps({
       searchInfo: {
@@ -45,6 +44,7 @@
     reload();
   };
   const handleSuccess = (val) => {
+    console.log('val==>', val);
     setProps({
       searchInfo: val,
     });

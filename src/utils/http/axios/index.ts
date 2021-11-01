@@ -237,6 +237,11 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
 }
 export const defHttp = createAxios();
 
+export const systemLogHttp = createAxios({
+  requestOptions: {
+    apiUrl: 'http://192.168.1.85:1234/nwowLog', // 测试服务器
+  },
+});
 // other api url
 // export const otherHttp = createAxios({
 //   requestOptions: {

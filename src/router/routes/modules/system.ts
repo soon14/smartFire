@@ -31,15 +31,15 @@ const system: AppRouteModule = {
         icon: 'icon-park-outline:handbag',
       },
     },
-    // {
-    //   path: 'roleManagement',
-    //   name: 'RoleManagement',
-    //   component: getParentLayout('RoleManagement'),
-    //   meta: {
-    //     title: '角色管理',
-    //     icon: 'icon-park-outline:people-safe-one',
-    //   },
-    // },
+    {
+      path: 'roleManagement',
+      name: 'RoleManagement',
+      component: () => import('/@/views/sys/roleAdmin/roleManagement.vue'),
+      meta: {
+        title: '角色管理',
+        icon: 'icon-park-outline:people-safe-one',
+      },
+    },
     {
       path: 'roster',
       name: 'Roster',
