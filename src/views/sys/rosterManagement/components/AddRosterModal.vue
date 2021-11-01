@@ -7,17 +7,18 @@
     @visible-change="handleResetForm"
     @register="registerModalInner"
   >
-    <BasicForm @register="registerForm" layout="vertical" />
+    <BasicForm @register="registerForm" :model="model" layout="vertical" />
   </BasicModal>
 </template>
 <script>
-  import { defineComponent } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { getBaseAddForm } from '../modules/rosterManagement.tsx';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { addRoster } from '/@/api/sys/roster';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { dateUtil } from '/@/utils/dateUtil';
+  import { initString, initStringToArray } from '/@/utils/initValue';
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['requestFinish', 'register'],
@@ -68,14 +69,39 @@
           changeOkLoading(false);
         }
       };
-      const [registerModalInner, { closeModal, changeOkLoading }] = useModalInner((data) => {
-        console.log('🚀 ~ file: AddRosterModal.vue ~ line 67 ~ setup ~ data', data);
-      });
+      // let formId = null;
+      const modelRef = ref({});
+      const [registerModalInner, { closeModal, changeOkLoading, setModalProps }] = useModalInner(
+        (data) => {
+          console.log('🚀 ~ file: AddRosterModal.vue ~ line 75 ~ setup ~ data', data);
+          if (data.id) {
+            initString(data, 'postId');
+            initString(data, 'eduBackground');
+            initString(data, 'major');
+            initString(data, 'roleId');
+            initString(data, 'gender');
+            initStringToArray(data, 'nowCity', 'nowDivision');
+            initStringToArray(data, 'reProvince', 'reDivision');
+            console.log('data===', data);
+            // formId = data.id;
+            setModalProps({
+              title: '修改人员',
+            });
+          } else {
+            // formId = null;
+            setModalProps({
+              title: '新增人员',
+            });
+          }
+          modelRef.value = data;
+        },
+      );
       return {
         registerForm,
         handleSubmit,
         handleResetForm,
         registerModalInner,
+        model: modelRef,
       };
     },
   });

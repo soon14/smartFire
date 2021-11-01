@@ -7,7 +7,7 @@
       <NwowSearch
         add-text="新增职务"
         :hasAddBtn="true"
-        :hasMoreSearch="true"
+        :hasMoreSearch="false"
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"
       />
@@ -37,12 +37,14 @@
 <script setup>
   // import { Input, Space } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getBaseTableColumns } from './modules/jobManagement.js';
+  import { getBaseTableColumns } from './modules/jobManagement';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { getJobList } from '/@/api/sys/job';
+  import { getJobList, deleteJob } from '/@/api/sys/job';
   import { useModal } from '/@/components/Modal';
   import Modal from './components/AddJobModal.vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createConfirm, createMessage } = useMessage();
   const [registerTable, { reload }] = useTable({
     api: getJobList,
     showIndexColumn: false,
@@ -55,14 +57,31 @@
     },
   });
   const handleDelete = (record) => {
-    console.log('🚀 ~ file: jobManagement.vue ~ line 43 ~ handleDelete ~ record', record);
+    createConfirm({
+      iconType: 'error',
+      title: '提示',
+      content: '是否确认删除当前职务！',
+      onOk: async () => {
+        await deleteJob({
+          postId: record.id,
+        });
+        createMessage.success('删除成功');
+        handleRefresh();
+      },
+    });
   };
   const handleUpdata = (record) => {
-    console.log('🚀 ~ file: jobManagement.vue ~ line 46 ~ handleUpdata ~ record', record);
+    const tempData = Object.assign({}, record);
+    openModal(true, tempData);
   };
   const handleAddEvent = () => {
-    console.log('添加添加');
-    openModal();
+    const tempData = Object.assign(
+      {},
+      {
+        id: null,
+      },
+    );
+    openModal(true, tempData);
   };
   const handleSearch = (val) => {
     console.log('val====', val);

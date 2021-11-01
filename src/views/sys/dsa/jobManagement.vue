@@ -37,7 +37,7 @@
 <script setup>
   // import { Input, Space } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getBaseTableColumns } from './modules/jobManagement.js';
+  import { getBaseTableColumns } from './modules/jobManagement';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { getJobList } from '/@/api/sys/job';

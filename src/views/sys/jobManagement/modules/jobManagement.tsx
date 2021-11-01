@@ -40,7 +40,7 @@ export function getBaseTableColumns() {
           loading: record.pendingStatus,
           onChange(checked) {
             record.pendingStatus = true;
-            const newStatus = checked ? '1' : '0';
+            const newStatus = checked ? 1 : 0;
             const { createMessage } = useMessage();
             const transData = {
               id: record.id,
@@ -49,6 +49,10 @@ export function getBaseTableColumns() {
             updateJob(transData)
               .then(() => {
                 record.stat = newStatus;
+                console.log(
+                  '🚀 ~ file: jobManagement.tsx ~ line 52 ~ .then ~ record.stat',
+                  record.stat,
+                );
                 createMessage.success(`已成功修改角色状态`);
               })
               .catch(() => {

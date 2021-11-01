@@ -6,8 +6,8 @@
       <div></div>
     </div>
     <div style="padding: 0 6px">
-      <Row>
-        <Col :span="8" style="padding: 0 6px">
+      <Row :gutter="16">
+        <Col :span="8">
           <Upload
             v-model:file-list="fileList"
             list-type="picture-card"
@@ -30,7 +30,7 @@
           <div
             style="height: 300px; width: 100%; border-radius: 8px"
             :style="getBgPic(item.path)"
-            class="picItem flex justify-center items-center"
+            class="flex items-center justify-center picItem"
           >
             <span class="actionSheet" style="z-index: 3">
               <Icon

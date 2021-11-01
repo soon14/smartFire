@@ -6,20 +6,22 @@
     @visible-change="handleResetForm"
     @register="registerModalInner"
   >
-    <BasicForm @register="registerForm" layout="vertical" />
+    <BasicForm @register="registerForm" :model="model" layout="vertical" />
   </BasicModal>
 </template>
 <script>
-  import { defineComponent } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { getBaseAddForm } from '../modules/jobManagement.js';
+  import { getBaseAddForm } from '../modules/jobManagement';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { addJob } from '/@/api/sys/job';
+  import { addJob, updateJob } from '/@/api/sys/job';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { initString } from '/@/utils/initValue';
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['requestFinish', 'register'],
     setup(_, { emit }) {
+      let formId = null;
       const [registerForm, { resetFields, clearValidate, validate }] = useForm({
         labelWidth: 120,
         schemas: getBaseAddForm(),
@@ -36,8 +38,14 @@
           const [values] = await Promise.all([validate()]);
           const transData = Object.assign({}, values);
           transData.stat = transData.stat ?? '1';
-          await addJob(transData);
-          success('创建成功');
+          if (formId) {
+            transData.id = formId;
+            await updateJob(transData);
+            success('修改成功');
+          } else {
+            await addJob(transData);
+            success('创建成功');
+          }
           closeModal();
           emit('requestFinish');
         } catch (error) {
@@ -51,14 +59,30 @@
           changeOkLoading(false);
         }
       };
-      const [registerModalInner, { closeModal, changeOkLoading }] = useModalInner((data) => {
-        console.log('🚀 ~ file: AddJobModal.vue ~ line 56 ~ setup ~ data', data);
-      });
+      const modelRef = ref({});
+      const [registerModalInner, { closeModal, changeOkLoading, setModalProps }] = useModalInner(
+        (data) => {
+          initString(data, 'stat');
+          if (data.id) {
+            formId = data.id;
+            setModalProps({
+              title: '修改职务',
+            });
+          } else {
+            formId = null;
+            setModalProps({
+              title: '新增职务',
+            });
+          }
+          modelRef.value = data;
+        },
+      );
       return {
         registerForm,
         handleSubmit,
         handleResetForm,
         registerModalInner,
+        model: modelRef,
       };
     },
   });
