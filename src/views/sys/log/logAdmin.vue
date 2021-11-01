@@ -39,11 +39,11 @@
   import { BasicTable, useTable } from '/@/components/Table';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  // import { deptList } from '/@/api/sys/department';
+  import { logList } from '/@/api/sys/log';
   import { getBaseTableColumns } from './modules/logDate.js';
 
   const [registerTable] = useTable({
-    // api: deptList,
+    api: logList,
     showIndexColumn: false,
     columns: getBaseTableColumns(),
     // actionColumn: {

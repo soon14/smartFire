@@ -30,7 +30,6 @@
     columns: getVisitorsTableColumns(),
     pagination: true,
   });
-
   const handleSearch = (val) => {
     // console.log('val====', val);
     setProps({
@@ -41,6 +40,7 @@
     reload();
   };
   const handleSuccess = (val) => {
+    console.log('val==>', val);
     setProps({
       searchInfo: {
         intervieweeName: val.intervieweeName,

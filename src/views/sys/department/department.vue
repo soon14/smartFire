@@ -12,7 +12,7 @@
         @OnSearch="handleSearch"
       />
     </div>
-    <BasicTable @register="registerTable">
+    <BasicTable @register="registerTable" @expand="subsidiaryDataList">
       <template #action="{ record }">
         <TableAction
           :actions="[
@@ -26,13 +26,29 @@
               icon: 'clarity:note-edit-line',
               onClick: handleUpdata.bind(null, record),
             },
-            {
-              label: '',
-              icon: 'clarity:note-edit-line',
-              onClick: subsidiaryDepartment.bind(null, record),
-            },
           ]"
         />
+      </template>
+      <template #expandedRowRender>
+        <!-- {{subsidiaryData}} -->
+        <BasicTable @register="subsidiaryTable">
+          <template #action="{ record }">
+            <TableAction
+              :actions="[
+                {
+                  label: '',
+                  icon: 'ic:outline-delete-outline',
+                  onClick: handleDelete.bind(null, record),
+                },
+                {
+                  label: '',
+                  icon: 'clarity:note-edit-line',
+                  onClick: handleUpdata.bind(null, record),
+                },
+              ]"
+            />
+          </template>
+        </BasicTable>
       </template>
     </BasicTable>
     <Modal @register="registerModal" @requestFinish="handleRefresh" />
@@ -40,24 +56,43 @@
 </template>
 <script setup>
   // import { Input, Space } from 'ant-design-vue';
+  import { ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getBaseTableColumns } from './modules/department.js';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { deptList2, deleteDept } from '/@/api/sys/department';
+  import { deptList2, deleteDept, deptList3 } from '/@/api/sys/department';
   import { useModal } from '/@/components/Modal';
   import Modal from './departmentModel.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+
   const { createConfirm, createMessage } = useMessage();
+  const subsidiaryData = ref([]);
+  //父级部门表格
   const [registerTable, { reload, setProps }] = useTable({
     api: deptList2,
     showIndexColumn: false,
     columns: getBaseTableColumns(),
+    // isTreeTable: true,
     actionColumn: {
-      width: 160,
+      width: 260,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+    },
+  });
+  //子级部门表格
+  const [subsidiaryTable] = useTable({
+    dataSource: subsidiaryData,
+    showIndexColumn: false,
+    columns: getBaseTableColumns(),
+    bordered: true,
+    // isTreeTable: true,
+    actionColumn: {
+      width: 260,
+      title: '操作',
+      dataIndex: 'actions',
+      slots: { customRender: 'actions' },
     },
   });
   const handleDelete = (record) => {
@@ -78,11 +113,12 @@
     const tempData = Object.assign({}, record);
     openModal(true, tempData);
   };
-  const subsidiaryDepartment = (record) => {
-    console.log(record);
+  const subsidiaryDataList = async (expanded, record) => {
+    console.log('id====>', expanded, record);
+    subsidiaryData.value = await deptList3({ deptId: record.id });
   };
   const handleAddEvent = () => {
-    console.log('添加添加');
+    // console.log('添加添加');
     openModal();
   };
   const handleSearch = (val) => {
