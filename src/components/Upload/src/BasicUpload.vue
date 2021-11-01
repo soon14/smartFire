@@ -100,6 +100,7 @@
           });
         }
         fileListRef.value = [...unref(fileListRef), ...(temp || [])];
+        console.log('fileListRef.value===', fileListRef.value);
         emit('change', fileListRef.value);
       }
 

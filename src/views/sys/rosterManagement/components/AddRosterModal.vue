@@ -15,15 +15,18 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { getBaseAddForm } from '../modules/rosterManagement.tsx';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { addRoster } from '/@/api/sys/roster';
+  import { addRoster, updateRoster } from '/@/api/sys/roster';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { dateUtil } from '/@/utils/dateUtil';
-  import { initString, initStringToArray } from '/@/utils/initValue';
+  import { initImgPath, initString, initStringToArray } from '/@/utils/initValue';
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['requestFinish', 'register'],
     setup(_, { emit }) {
-      const [registerForm, { resetFields, clearValidate, validate }] = useForm({
+      const [
+        registerForm,
+        { resetFields, clearValidate, validate, removeSchemaByFiled, appendSchemaByField },
+      ] = useForm({
         labelWidth: 120,
         schemas: getBaseAddForm(),
         showActionButtonGroup: false,
@@ -50,12 +53,22 @@
           if (transData.nowAddress) transData.nowCity = transData?.nowDivision?.join(',');
           if (transData.signaturePath.length > 0) {
             transData.signaturePath = transData.signaturePath.toString();
+          } else {
+            transData.signaturePath = '';
           }
           if (transData.headPath.length > 0) {
             transData.headPath = transData.headPath.toString();
+          } else {
+            transData.headPath = '';
           }
-          await addRoster(transData);
-          success('创建成功');
+          if (formId) {
+            transData.id = formId;
+            await updateRoster(transData);
+            success('修改成功');
+          } else {
+            await addRoster(transData);
+            success('创建成功');
+          }
           closeModal();
           emit('requestFinish');
         } catch (error) {
@@ -69,11 +82,11 @@
           changeOkLoading(false);
         }
       };
-      // let formId = null;
+      let formId = null;
       const modelRef = ref({});
       const [registerModalInner, { closeModal, changeOkLoading, setModalProps }] = useModalInner(
         (data) => {
-          console.log('🚀 ~ file: AddRosterModal.vue ~ line 75 ~ setup ~ data', data);
+          removeSchemaByFiled('password');
           if (data.id) {
             initString(data, 'postId');
             initString(data, 'eduBackground');
@@ -82,16 +95,29 @@
             initString(data, 'gender');
             initStringToArray(data, 'nowCity', 'nowDivision');
             initStringToArray(data, 'reProvince', 'reDivision');
-            console.log('data===', data);
-            // formId = data.id;
+            initImgPath(data, 'headPath');
+            initImgPath(data, 'signaturePath');
+            formId = data.id;
             setModalProps({
               title: '修改人员',
             });
           } else {
-            // formId = null;
+            formId = null;
             setModalProps({
               title: '新增人员',
             });
+            appendSchemaByField(
+              {
+                field: 'password',
+                component: 'Input',
+                label: '密码',
+                colProps: {
+                  span: 12,
+                },
+                rules: [{ required: true }],
+              },
+              'account',
+            );
           }
           modelRef.value = data;
         },

@@ -5,6 +5,7 @@ enum Api {
   ADDROSTER = '/user/addUser',
   DELETEROSTER = '/user/deleteUser',
   UPDATEROSTER = '/user/updateUser',
+  UPDATEPASSWORD = '/user/updatePassword',
 }
 
 export const getRosterList = (data) => {
@@ -21,4 +22,8 @@ export const updateRoster = (data) => {
 
 export const deleteRoster = (data) => {
   return defHttp.post({ url: Api.DELETEROSTER, params: data });
+};
+
+export const updateRosterPassword = (data) => {
+  return defHttp.post({ url: Api.UPDATEPASSWORD, params: data });
 };
