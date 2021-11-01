@@ -8,7 +8,7 @@ const sentry: AppRouteModule = {
   component: LAYOUT,
   redirect: '/sentry/visitorsRecord',
   meta: {
-    icon: 'icon-park-outline:system',
+    icon: 'icon-park-outline:open-door',
     title: '岗哨管理',
     orderNo: 100001,
   },
@@ -19,7 +19,7 @@ const sentry: AppRouteModule = {
       component: () => import('/@/views/sentry/visitorsRecord.vue'),
       meta: {
         title: '访客记录',
-        icon: 'icon-park-outline:user-positioning',
+        icon: 'icon-park-outline:file-staff',
       },
     },
   ],

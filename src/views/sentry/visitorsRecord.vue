@@ -7,6 +7,7 @@
       <NwowSearch
         :hasMoreSearch="true"
         :schemas="defaultSchemas"
+        :fieldMapToTime="fieldTimeMap"
         @OnSearch="handleSearch"
         @handleMoreSearch="handleSuccess"
       />
@@ -24,6 +25,11 @@
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { getVisitorsTableColumns, defaultSchemas } from './modules/Visitors';
   import { visitorRecordList } from '/@/api/visitors/visitors';
+  const fieldTimeMap = [
+    ['datetime', ['inTimeBegin', 'inTimeEnd'], 'YYYY-MM-DD'],
+    // 支持多个字段
+    ['datetime1', ['outTimeBegin', 'outTimeEnd'], 'YYYY-MM-DD'],
+  ];
   const [registerTable, { reload, setProps }] = useTable({
     api: visitorRecordList,
     showIndexColumn: false,
@@ -31,7 +37,6 @@
   });
 
   const handleSearch = (val) => {
-    // console.log('val====', val);
     setProps({
       searchInfo: {
         visitorName: val,
@@ -41,10 +46,7 @@
   };
   const handleSuccess = (val) => {
     setProps({
-      searchInfo: {
-        intervieweeName: val.intervieweeName,
-        visitorName: val.visitorName,
-      },
+      searchInfo: val,
     });
     reload();
   };
