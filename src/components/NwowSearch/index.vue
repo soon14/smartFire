@@ -48,24 +48,24 @@
 <script setup>
   import { Drawer } from 'ant-design-vue';
   import { SearchOutlined } from '@ant-design/icons-vue';
-  import { reactive, ref, watch } from 'vue';
+  import { computed, onMounted, reactive, ref, watch } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  const defaultSchemas = [
-    {
-      field: 'field1',
-      component: 'Input',
-      label: '字段1',
-      colProps: {
-        span: 8,
-      },
-      componentProps: {
-        placeholder: '自定义placeholder',
-        onChange: (e) => {
-          console.log(e);
-        },
-      },
-    },
-  ];
+  // const defaultSchemas = [
+  //   {
+  //     field: 'field1',
+  //     component: 'Input',
+  //     label: '字段1',
+  //     colProps: {
+  //       span: 8,
+  //     },
+  //     componentProps: {
+  //       placeholder: '自定义placeholder',
+  //       onChange: (e) => {
+  //         console.log(e);
+  //       },
+  //     },
+  //   },
+  // ];
   const props = defineProps({
     hasMoreSearch: {
       type: Boolean,
@@ -110,21 +110,33 @@
   const onClose = () => {
     visible.value = false;
   };
+  onMounted(() => {
+    console.log('shuju', props.schemas);
+  });
   //===================================
+  const handleSubmit = () => {
+    getFieldsValue();
+  };
+
+  const schemasData = computed(() => {
+    return props.schemas();
+  });
   const [register, { getFieldsValue }] = useForm({
     labelWidth: 120,
-    schemas: defaultSchemas,
+    schemas: schemasData,
     actionColOptions: {
       span: 24,
     },
   });
-  const handleSubmit = () => {
-    getFieldsValue();
-  };
+  console.log(schemasData);
   watch(
-    () => props.schemas,
-    () => {
+    () => schemasData,
+    (newVal, oldVal) => {
+      console.log('val==》', newVal, oldVal);
       console.log('12312312');
+    },
+    {
+      deep: true,
     },
   );
 </script>

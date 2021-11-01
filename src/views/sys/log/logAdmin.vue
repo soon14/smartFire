@@ -5,7 +5,7 @@
       <NwowHeader title="日志管理" />
       <!-- 右侧搜索栏目 -->
       <NwowSearch
-        add-text="新增部门"
+        add-text="新增日志"
         :hasAddBtn="false"
         :hasMoreSearch="false"
         :onClick="handleAddEvent"
