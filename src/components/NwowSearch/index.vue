@@ -32,7 +32,7 @@
       type="primary"
       preIcon="icon-park-outline:search"
       ghost
-      @click="handleMoreSearch"
+      @click="handleShowMoreSearch"
       >更多查询条件</a-button
     >
     <a-button
@@ -87,8 +87,12 @@
       type: Function,
       deafult: null,
     },
+    fieldMapToTime: {
+      type: Array,
+      default: () => [],
+    },
   });
-  const emit = defineEmits(['OnSearch', 'OnMoreSearch']);
+  const emit = defineEmits(['OnSearch', 'OnMoreSearch', 'handleMoreSearch']);
   // const searchBarRef = ref(null);
   const searchForm = reactive({
     condition: '',
@@ -96,10 +100,9 @@
   const handleSearch = () => {
     emit('OnSearch', searchForm.condition);
   };
-  const handleMoreSearch = () => {
+  const handleShowMoreSearch = () => {
     visible.value = true;
   };
-  // const { hasMoreSearch, addText, schemas } = toRefs(props);
   //  弹窗状态维护======================
   const visible = ref(false);
 
@@ -117,16 +120,16 @@
   //===================================
   const handleSubmit = () => {
     const value = getFieldsValue();
-    console.log('value==>', value);
-    emit('success', value);
+    emit('handleMoreSearch', value);
   };
 
   const schemasData = computed(() => {
     return (props.schemas && props.schemas()) ?? defaultSchemas;
   });
   const [register, { getFieldsValue }] = useForm({
-    labelWidth: 120,
+    labelWidth: 100,
     schemas: schemasData,
+    fieldMapToTime: props.fieldMapToTime,
     actionColOptions: {
       span: 24,
     },

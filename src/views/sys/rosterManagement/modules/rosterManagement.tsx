@@ -13,6 +13,10 @@ const genderMap = [
   { value: '1', label: '男' },
   { value: '2', label: '女' },
 ];
+const statMap = [
+  { value: '0', label: '禁用' },
+  { value: '1', label: '启用' },
+];
 const eduMap = [
   { value: '1', label: '大专' },
   { value: '2', label: '本科' },
@@ -514,6 +518,121 @@ export function getBaseAddForm() {
       label: '性别',
       colProps: {
         span: 12,
+      },
+    },
+  ];
+}
+
+export function rosterSearchSchemas() {
+  return [
+    {
+      field: 'personName',
+      component: 'Input',
+      label: '人员姓名',
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      field: 'roleId',
+      component: 'ApiSelect',
+      componentProps: {
+        api: getRoleList,
+        resultField: 'list',
+        labelField: 'roleName',
+        valueField: 'id',
+        numberToString: true,
+      },
+      colProps: {
+        span: 12,
+      },
+      label: '角色',
+    },
+    {
+      field: 'deptId',
+      component: 'ApiTreeSelect',
+      componentProps: {
+        // xxxx props
+        api: getDeptListAll,
+        replaceFields: {
+          label: 'deptName',
+          value: 'id',
+          children: 'deptVos',
+        },
+      },
+      colProps: {
+        span: 12,
+      },
+      label: '部门',
+    },
+    {
+      field: 'postId',
+      component: 'ApiSelect',
+      componentProps: {
+        api: getJobList,
+        resultField: 'list',
+        labelField: 'postName',
+        valueField: 'id',
+        numberToString: true,
+      },
+      //
+      label: '岗位',
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      field: 'gender',
+      component: 'Select',
+      componentProps: {
+        options: genderMap,
+      },
+      label: '性别',
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      field: 'stat',
+      component: 'Select',
+      componentProps: {
+        options: statMap,
+      },
+      label: '状态',
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      field: 'contractPhone',
+      component: 'Input',
+      label: '联系电话',
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      field: 'datetime',
+      component: 'RangePicker',
+      label: '入伍事件',
+      colProps: {
+        span: 24,
+      },
+      componentProps: {
+        style: { width: '100%' },
+        placeholder: ['入伍起始时间', '结束时间'],
+      },
+    },
+    {
+      field: 'datetime1',
+      component: 'RangePicker',
+      label: '入队时间',
+      colProps: {
+        span: 24,
+      },
+      componentProps: {
+        style: { width: '100%' },
+        placeholder: ['入队起始时间', '离开结束时间'],
       },
     },
   ];

@@ -8,8 +8,11 @@
         add-text="新增人员"
         :hasAddBtn="true"
         :hasMoreSearch="true"
+        :schemas="rosterSearchSchemas"
+        :fieldMapToTime="fieldTimeMap"
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"
+        @handleMoreSearch="handleMoreSearch"
       />
     </div>
 
@@ -47,13 +50,20 @@
 <script setup>
   // import { Input, Space } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getBaseTableColumns } from './modules/rosterManagement.tsx';
+  import { getBaseTableColumns, rosterSearchSchemas } from './modules/rosterManagement.tsx';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { getRosterList, deleteRoster, updateRosterPassword } from '/@/api/sys/roster';
   import { useModal } from '/@/components/Modal';
   import Modal from './components/AddRosterModal.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  const fieldTimeMap = [
+    // data为时间组件在表单内的字段，startTime，endTime为转化后的开始时间于结束时间
+    // 'YYYY-MM-DD'为时间格式，参考moment
+    ['datetime', ['enlistmentTimeBegin', 'enlistmentTimeEnd'], 'YYYY-MM-DD'],
+    // 支持多个字段
+    ['datetime1', ['joinDateBegin', 'joinDateEnd'], 'YYYY-MM-DD'],
+  ];
   const [registerTable, { reload, setProps }] = useTable({
     api: getRosterList,
     showIndexColumn: false,
@@ -122,5 +132,11 @@
     reload();
   };
   const [registerModal, { openModal }] = useModal();
+  const handleMoreSearch = (val) => {
+    setProps({
+      searchInfo: val,
+    });
+    handleRefresh();
+  };
 </script>
 <style lang="less"></style>
