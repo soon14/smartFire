@@ -8,7 +8,7 @@
         :hasMoreSearch="true"
         :schemas="defaultSchemas"
         @OnSearch="handleSearch"
-        @success="handleSuccess"
+        @handleMoreSearch="handleSuccess"
       />
     </div>
     <BasicTable @register="registerTable">
@@ -28,7 +28,6 @@
     api: visitorRecordList,
     showIndexColumn: false,
     columns: getVisitorsTableColumns(),
-    pagination: true,
   });
   const handleSearch = (val) => {
     // console.log('val====', val);
