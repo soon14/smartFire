@@ -17,6 +17,7 @@
       <!-- ================== -->
     </div>
     <a-input
+      v-if="hasSearch"
       placeholder="请输入搜索条件"
       v-model:value="searchForm.condition"
       style="margin-right: 32px"
@@ -25,7 +26,7 @@
         <SearchOutlined />
       </template>
     </a-input>
-    <a-button @click="handleSearch" style="margin-right: 32px">查询</a-button>
+    <a-button v-if="hasSearch" @click="handleSearch" style="margin-right: 32px">查询</a-button>
     <a-button
       v-if="hasMoreSearch"
       style="margin-right: 32px"
@@ -67,6 +68,10 @@
     },
   ];
   const props = defineProps({
+    hasSearch: {
+      type: Boolean,
+      deafult: true,
+    },
     hasMoreSearch: {
       type: Boolean,
       deafult: false,

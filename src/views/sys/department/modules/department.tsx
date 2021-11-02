@@ -1,4 +1,5 @@
-import { deptList, updateDept } from '/@/api/sys/department';
+import { updateDept } from '/@/api/sys/department';
+import { getDeptListAll } from '/@/api/sys/dept';
 import { h } from 'vue';
 import { Switch } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
@@ -9,18 +10,24 @@ export function getBaseTableColumns() {
     {
       title: '部门名称',
       dataIndex: 'deptName',
+      fixed: 'left',
+      width: 200,
+      align: 'left',
     },
     {
       title: '创建人',
       dataIndex: 'personName',
+      align: 'left',
     },
     {
       title: '创建时间',
       dataIndex: 'createDate',
+      align: 'left',
     },
     {
       title: '备注',
       dataIndex: 'description',
+      align: 'left',
     },
     {
       title: '状态',
@@ -52,10 +59,10 @@ export function getBaseTableColumns() {
                   '🚀 ~ file: jobManagement.tsx ~ line 52 ~ .then ~ record.stat',
                   record.stat,
                 );
-                createMessage.success(`已成功修改角色状态`);
+                createMessage.success(`已成功修改部门状态`);
               })
               .catch(() => {
-                createMessage.error('修改角色状态失败');
+                createMessage.error('修改部门状态失败');
               })
               .finally(() => {
                 record.pendingStatus = false;
@@ -80,18 +87,23 @@ export function getDepartmentForm() {
     },
     {
       field: 'parentId',
-      component: 'ApiSelect',
-      label: '所属部门',
+      component: 'ApiTreeSelect',
+      componentProps: {
+        style: {
+          width: '100%',
+        },
+        // xxxx props
+        api: getDeptListAll,
+        replaceFields: {
+          label: 'deptName',
+          value: 'id',
+          children: 'deptVos',
+        },
+      },
+      label: '部门',
       colProps: {
         span: 24,
       },
-      componentProps: {
-        api: deptList,
-        labelField: 'deptName',
-        valueField: 'id',
-        placeholder: '所属部门',
-      },
-      required: true,
     },
     {
       field: 'description',

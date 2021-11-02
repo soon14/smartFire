@@ -27,6 +27,7 @@
           roleId: myRoleId,
         },
         columns: getBasicColumnsRole(),
+        resizeHeightOffset: 30,
       });
       watch(
         () => props.roleId,

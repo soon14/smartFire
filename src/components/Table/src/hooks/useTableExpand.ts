@@ -40,6 +40,10 @@ export function useTableExpand(
   function getAllKeys(data?: Recordable[]) {
     const keys: string[] = [];
     const { childrenColumnName } = unref(propsRef);
+    console.log(
+      '🚀 ~ file: useTableExpand.ts ~ line 43 ~ getAllKeys ~ childrenColumnName',
+      childrenColumnName,
+    );
     toRaw(data || unref(tableData)).forEach((item) => {
       keys.push(item[unref(getRowKey) as string]);
       const children = item[childrenColumnName || 'children'];
