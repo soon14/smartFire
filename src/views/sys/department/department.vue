@@ -6,10 +6,10 @@
       <!-- 右侧搜索栏目 -->
       <NwowSearch
         add-text="新增部门"
-        :hasAddBtn="true"
         :hasMoreSearch="false"
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"
+        :hasAddBtn="hasPermission(['1-24-25'])"
       />
     </div>
     <BasicTable @register="registerTable">
@@ -20,11 +20,17 @@
               label: '',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-24-27']);
+              },
             },
             {
               label: '',
               icon: 'clarity:note-edit-line',
               onClick: handleUpdata.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-24-26']);
+              },
             },
           ]"
         />

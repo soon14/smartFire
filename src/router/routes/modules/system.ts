@@ -20,6 +20,7 @@ const system: AppRouteModule = {
       meta: {
         title: '职务管理',
         icon: 'icon-park-outline:user-positioning',
+        roles: ['1-2-6'],
       },
     },
     {
@@ -29,6 +30,7 @@ const system: AppRouteModule = {
       meta: {
         title: '部门管理',
         icon: 'icon-park-outline:handbag',
+        roles: ['1-24-28'],
       },
     },
     {
@@ -38,6 +40,7 @@ const system: AppRouteModule = {
       meta: {
         title: '角色管理',
         icon: 'icon-park-outline:people-safe-one',
+        roles: ['1-9-13'],
       },
     },
     {
@@ -47,6 +50,7 @@ const system: AppRouteModule = {
       meta: {
         title: '花名册',
         icon: 'icon-park-outline:handbag',
+        roles: ['1-17-21'],
       },
     },
     {

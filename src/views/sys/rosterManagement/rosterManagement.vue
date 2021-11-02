@@ -6,7 +6,7 @@
       <!-- 右侧搜索栏目 -->
       <NwowSearch
         add-text="新增人员"
-        :hasAddBtn="true"
+        :hasAddBtn="hasPermission(['1-17-18'])"
         :hasMoreSearch="true"
         :schemas="rosterSearchSchemas"
         :fieldMapToTime="fieldTimeMap"
@@ -24,11 +24,17 @@
               label: '',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-17-20']);
+              },
             },
             {
               label: '',
               icon: 'clarity:note-edit-line',
               onClick: handleUpdata.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-17-19']);
+              },
             },
             {
               label: '',
@@ -57,6 +63,8 @@
   import { useModal } from '/@/components/Modal';
   import Modal from './components/AddRosterModal.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const fieldTimeMap = [
     // data为时间组件在表单内的字段，startTime，endTime为转化后的开始时间于结束时间
     // 'YYYY-MM-DD'为时间格式，参考moment

@@ -3,6 +3,8 @@ import { getDeptListAll } from '/@/api/sys/dept';
 import { h } from 'vue';
 import { Switch } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
+import { usePermission } from '/@/hooks/web/usePermission';
+const { hasPermission } = usePermission();
 export function getBaseTableColumns() {
   return [
     {
@@ -30,6 +32,9 @@ export function getBaseTableColumns() {
     {
       title: '状态',
       dataIndex: 'stat',
+      ifShow: (_column) => {
+        return hasPermission(['1-24-29']);
+      },
       customRender: ({ record }) => {
         if (!Reflect.has(record, 'pendingStatus')) {
           record.pendingStatus = false;

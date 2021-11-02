@@ -9,6 +9,8 @@ import { dateUtil } from '/@/utils/dateUtil';
 import { isEmpty, isUnDef } from '/@/utils/is';
 import { divisionOptions } from '/@/utils/chinaDivision';
 import { uploadApi } from '/@/api/sys/upload';
+import { usePermission } from '/@/hooks/web/usePermission';
+const { hasPermission } = usePermission();
 const genderMap = [
   { value: '1', label: '男' },
   { value: '2', label: '女' },
@@ -125,6 +127,9 @@ export function getBaseTableColumns() {
     {
       title: '状态',
       dataIndex: 'stat',
+      ifShow: () => {
+        return hasPermission(['1-17-22']);
+      },
       customRender: ({ record }) => {
         if (!Reflect.has(record, 'pendingStatus')) {
           record.pendingStatus = false;
