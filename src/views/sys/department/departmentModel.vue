@@ -12,7 +12,7 @@
 <script>
   import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { getDepartmentForm } from './modules/department.js';
+  import { getDepartmentForm } from './modules/department.tsx';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { addDept, updateDept } from '/@/api/sys/department';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -38,7 +38,7 @@
           changeOkLoading(true);
           const [values] = await Promise.all([validate()]);
           const transData = Object.assign({}, values);
-          console.log('transData==>', transData);
+          transData.parentId = transData.parentId ?? 0;
           transData.stat = transData.stat ?? '1';
           if (formId) {
             transData.id = formId;
@@ -63,8 +63,10 @@
       };
       const [registerModalInner, { closeModal, changeOkLoading, setModalProps }] = useModalInner(
         (data) => {
-          console.log('🚀 ~ file: AddJobModal.vue ~ line 56 ~ setup ~ data', data);
+          console.log('🚀 ~ file: departmentModel.vue ~ line 66 ~ setup ~ data', data);
           initString(data, 'stat');
+          data.parentId = data.parentId || '';
+          initString(data, 'parentId');
           if (data.id) {
             formId = data.id;
             setModalProps({
@@ -76,7 +78,6 @@
               title: '新增部门',
             });
           }
-          data.parentId = String(data.parentId);
           modelRef.value = data;
         },
       );

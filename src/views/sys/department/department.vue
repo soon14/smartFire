@@ -12,7 +12,7 @@
         @OnSearch="handleSearch"
       />
     </div>
-    <BasicTable @register="registerTable" @expand="subsidiaryDataList">
+    <BasicTable @register="registerTable">
       <template #action="{ record }">
         <TableAction
           :actions="[
@@ -29,70 +29,50 @@
           ]"
         />
       </template>
-      <template #expandedRowRender>
-        <!-- {{subsidiaryData}} -->
-        <BasicTable @register="subsidiaryTable">
-          <template #action="{ record }">
-            <TableAction
-              :actions="[
-                {
-                  label: '',
-                  icon: 'ic:outline-delete-outline',
-                  onClick: handleDelete.bind(null, record),
-                },
-                {
-                  label: '',
-                  icon: 'clarity:note-edit-line',
-                  onClick: handleUpdata.bind(null, record),
-                },
-              ]"
-            />
-          </template>
-        </BasicTable>
-      </template>
     </BasicTable>
     <Modal @register="registerModal" @requestFinish="handleRefresh" />
   </div>
 </template>
 <script setup>
   // import { Input, Space } from 'ant-design-vue';
-  import { ref } from 'vue';
+  import { onMounted, ref, nextTick } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getBaseTableColumns } from './modules/department.js';
+  import { getBaseTableColumns } from './modules/department.tsx';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { deptList2, deleteDept, deptList3 } from '/@/api/sys/department';
+  import { deptList, deleteDept } from '/@/api/sys/department';
   import { useModal } from '/@/components/Modal';
   import Modal from './departmentModel.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { cloneDeep } from 'lodash';
 
   const { createConfirm, createMessage } = useMessage();
-  const subsidiaryData = ref([]);
-  //父级部门表格
-  const [registerTable, { reload, setProps }] = useTable({
-    api: deptList2,
-    showIndexColumn: false,
+  const tableList = ref([]);
+  let sourceList = null;
+  const getTableList = async () => {
+    const searchForm = {
+      pageNum: 1,
+      pageSize: 10,
+    };
+    const apiRes = await deptList(searchForm);
+    sourceList = apiRes;
+    tableList.value = apiRes;
+  };
+  onMounted(async () => {
+    await getTableList();
+  });
+  const [registerTable, { expandAll, collapseAll }] = useTable({
+    isTreeTable: true,
     columns: getBaseTableColumns(),
-    // isTreeTable: true,
+    dataSource: tableList,
+    rowKey: 'id',
+    childrenColumnName: 'deptVos',
+    pagination: false,
     actionColumn: {
-      width: 260,
+      width: 160,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
-    },
-  });
-  //子级部门表格
-  const [subsidiaryTable] = useTable({
-    dataSource: subsidiaryData,
-    showIndexColumn: false,
-    columns: getBaseTableColumns(),
-    bordered: true,
-    // isTreeTable: true,
-    actionColumn: {
-      width: 260,
-      title: '操作',
-      dataIndex: 'actions',
-      slots: { customRender: 'actions' },
     },
   });
   const handleDelete = (record) => {
@@ -113,25 +93,56 @@
     const tempData = Object.assign({}, record);
     openModal(true, tempData);
   };
-  const subsidiaryDataList = async (expanded, record) => {
-    console.log('id====>', expanded, record);
-    subsidiaryData.value = await deptList3({ deptId: record.id });
-  };
   const handleAddEvent = () => {
-    // console.log('添加添加');
-    openModal();
+    const tempData = Object.assign(
+      {},
+      {
+        id: null,
+      },
+    );
+    openModal(true, tempData);
   };
   const handleSearch = (val) => {
-    console.log('val====', val);
-    setProps({
-      searchInfo: {
-        deptName: val,
-      },
+    const tempData = cloneDeep(sourceList);
+    const processData = matchTreeData(tempData, val);
+    tableList.value = processData;
+    nextTick(() => {
+      expandAll();
     });
-    reload();
+    // getTableList();
+  };
+  const matchTreeData = (arr, searchCon) => {
+    let newArr = [];
+    let searchNameList = ['deptName'];
+    arr.forEach((item) => {
+      for (let i = 0, len = searchNameList.length; i < len; i++) {
+        let nameKey = searchNameList[i];
+        if (item.hasOwnProperty(nameKey)) {
+          if (item[nameKey] && item[nameKey].indexOf(searchCon) !== -1) {
+            newArr.push(item);
+            break;
+          } else {
+            if (item.deptVos && item.deptVos.length > 0) {
+              let resultArr = matchTreeData(item.deptVos, searchCon);
+              if (resultArr && resultArr.length > 0) {
+                newArr.push({
+                  ...item,
+                  deptVos: resultArr,
+                });
+                break;
+              }
+            }
+          }
+        } else {
+          continue;
+        }
+      }
+    });
+    return newArr;
   };
   const handleRefresh = () => {
-    reload();
+    getTableList();
+    collapseAll();
   };
   const [registerModal, { openModal }] = useModal();
 </script>
