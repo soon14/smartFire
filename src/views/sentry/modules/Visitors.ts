@@ -58,7 +58,7 @@ export function defaultSchemas() {
       },
     },
     {
-      field: 'inTime',
+      field: 'datetime',
       component: 'RangePicker',
       label: '进入时间',
       colProps: {
@@ -70,7 +70,7 @@ export function defaultSchemas() {
       },
     },
     {
-      field: 'outTime',
+      field: 'datetime1',
       component: 'RangePicker',
       label: '离开时间',
       colProps: {
