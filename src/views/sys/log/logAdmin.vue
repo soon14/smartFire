@@ -8,6 +8,7 @@
         add-text="新增日志"
         :hasAddBtn="false"
         :hasMoreSearch="false"
+        hasSearch
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"
         style="padding-left: 1300px"

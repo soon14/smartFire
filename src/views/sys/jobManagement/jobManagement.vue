@@ -7,6 +7,7 @@
       <NwowSearch
         add-text="新增职务"
         :hasAddBtn="hasPermission(['1-2-3'])"
+        hasSearch
         :hasMoreSearch="false"
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"

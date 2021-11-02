@@ -11,6 +11,7 @@
         :schemas="rosterSearchSchemas"
         :fieldMapToTime="fieldTimeMap"
         :onClick="handleAddEvent"
+        hasSearch
         @OnSearch="handleSearch"
         @handleMoreSearch="handleMoreSearch"
       />

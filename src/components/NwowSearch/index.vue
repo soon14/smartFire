@@ -99,6 +99,7 @@
   });
   const emit = defineEmits(['OnSearch', 'OnMoreSearch', 'handleMoreSearch']);
   // const searchBarRef = ref(null);
+  console.log('props====', props);
   const searchForm = reactive({
     condition: '',
   });

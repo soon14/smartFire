@@ -8,6 +8,7 @@
         add-text="新增部门"
         :hasMoreSearch="false"
         :onClick="handleAddEvent"
+        hasSearch
         @OnSearch="handleSearch"
         :hasAddBtn="hasPermission(['1-24-25'])"
       />

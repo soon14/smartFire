@@ -8,6 +8,7 @@
         :hasMoreSearch="true"
         :schemas="defaultSchemas"
         :fieldMapToTime="fieldTimeMap"
+        hasSearch
         @OnSearch="handleSearch"
         @handleMoreSearch="handleSuccess"
       />
