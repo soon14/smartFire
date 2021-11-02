@@ -51,7 +51,8 @@
   import Modal from './departmentModel.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { cloneDeep } from 'lodash';
-
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createConfirm, createMessage } = useMessage();
   const tableList = ref([]);
   let sourceList = null;

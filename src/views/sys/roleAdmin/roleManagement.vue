@@ -8,11 +8,12 @@
         add-text="新增角色"
         :hasAddBtn="hasPermission(['1-9-10'])"
         :hasMoreSearch="false"
+        :hasSearch="false"
         :onClick="handleAddRole"
       />
     </div>
     <!-- Row 角色管理 start -->
-    <a-row :gutter="10">
+    <a-row :gutter="10" style="padding: 0 8px">
       <!-- Col 左侧角色列表模块 start -->
       <a-col :lg="5" :md="8">
         <div ref="sideMenu">
@@ -107,7 +108,7 @@
               </a-menu-item>
               <!-- MenuItem 角色列表项 end -->
             </a-menu>
-            <a-empty v-else />
+            <Empty v-else />
           </a-card>
           <!-- Menu 角色列表 start -->
         </div>
@@ -170,7 +171,7 @@
       [Dropdown.name]: Dropdown,
       [Badge.name]: Badge,
       [Input.name]: Input,
-      [Empty.name]: Empty,
+      Empty,
       NwowHeader,
       NwowSearch,
       Loading,
