@@ -6,10 +6,10 @@
       <!-- 右侧搜索栏目 -->
       <NwowSearch
         add-text="新增部门"
-        :hasAddBtn="true"
         :hasMoreSearch="false"
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"
+        :hasAddBtn="hasPermission(['1-24-25'])"
       />
     </div>
     <BasicTable @register="registerTable" @expand="subsidiaryDataList">
@@ -20,11 +20,17 @@
               label: '',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-24-27']);
+              },
             },
             {
               label: '',
               icon: 'clarity:note-edit-line',
               onClick: handleUpdata.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-24-26']);
+              },
             },
           ]"
         />
@@ -65,7 +71,8 @@
   import { useModal } from '/@/components/Modal';
   import Modal from './departmentModel.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
-
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createConfirm, createMessage } = useMessage();
   const subsidiaryData = ref([]);
   //父级部门表格

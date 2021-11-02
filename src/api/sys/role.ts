@@ -6,6 +6,9 @@ enum Api {
   ADDROLE = '/role/addRole',
   DELETEROLE = '/role/deleteRole',
   UPDATEROLE = '/role/updateRole',
+
+  SELECT_ROLE = '/role/selectRole',
+  GET_AUTHORITY_DETAIL_LIST = '/role/getAuthorityDetailList',
 }
 
 export const getRoleList = (data) => {
@@ -17,9 +20,15 @@ export const addRole = (data) => {
 };
 
 export const updateRole = (data) => {
-  return defHttp.post({ url: Api.DELETEROLE, params: data });
+  return defHttp.post({ url: Api.UPDATEROLE, params: data });
 };
 
 export const deleteRole = (data) => {
-  return defHttp.post({ url: Api.UPDATEROLE, params: data });
+  return defHttp.post({ url: Api.DELETEROLE, params: data });
+};
+export const selectRole = (data) => {
+  return defHttp.post({ url: Api.SELECT_ROLE, params: data });
+};
+export const getAuthorityDetailList = (data) => {
+  return defHttp.post({ url: Api.GET_AUTHORITY_DETAIL_LIST, params: data });
 };

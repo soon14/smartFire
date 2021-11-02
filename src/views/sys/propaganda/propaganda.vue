@@ -9,6 +9,7 @@
       <Row :gutter="16">
         <Col :span="8">
           <Upload
+            v-if="hasPermission(['1-30-31'])"
             v-model:file-list="fileList"
             list-type="picture-card"
             class="avatar-uploader"
@@ -37,6 +38,7 @@
                 class="cursor-pointer"
                 icon="icon-park-outline:delete"
                 :size="38"
+                v-if="hasPermission(['1-30-32'])"
                 @click="handleDelete(item)"
               />
             </span>
@@ -56,6 +58,8 @@
   import { getToken } from '/@/utils/auth';
   import { addPicture, deletePicture, getPictureList } from '/@/api/sys/propaganda';
   import { Icon } from '/@/components/Icon';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const imageList = ref([]);
   const setting = useGlobSetting();
   const { uploadUrl } = setting;

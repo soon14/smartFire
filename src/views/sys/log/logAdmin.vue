@@ -12,7 +12,9 @@
         @OnSearch="handleSearch"
         style="padding-left: 1300px"
       />
-      <a-button type="primary">清空日志</a-button>
+      <a-button type="primary" @click="clearLog" v-if="hasPermission(['1-34-35'])"
+        >清空日志</a-button
+      >
     </div>
     <BasicTable @register="registerTable">
       <!-- <template #action="{ record }">
@@ -39,10 +41,11 @@
   import { BasicTable, useTable } from '/@/components/Table';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { logList } from '/@/api/sys/log';
+  import { logList, deleteLog } from '/@/api/sys/log';
   import { getBaseTableColumns } from './modules/logDate.js';
-
-  const [registerTable] = useTable({
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
+  const [registerTable, { reload, setProps }] = useTable({
     api: logList,
     showIndexColumn: false,
     columns: getBaseTableColumns(),
@@ -57,12 +60,18 @@
     console.log('添加添加');
     // openModal();
   };
+  const clearLog = async () => {
+    await deleteLog({});
+    reload();
+  };
   const handleSearch = (val) => {
+    console.log('val==>', val);
     setProps({
       searchInfo: {
-        condition: val,
+        userName: val,
       },
     });
+    reload();
   };
 </script>
 <style lang="less"></style>

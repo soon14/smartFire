@@ -6,7 +6,7 @@
       <!-- 右侧搜索栏目 -->
       <NwowSearch
         add-text="新增职务"
-        :hasAddBtn="true"
+        :hasAddBtn="hasPermission(['1-2-3'])"
         :hasMoreSearch="false"
         :onClick="handleAddEvent"
         @OnSearch="handleSearch"
@@ -21,11 +21,17 @@
               label: '',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-2-5']);
+              },
             },
             {
               label: '',
               icon: 'clarity:note-edit-line',
               onClick: handleUpdata.bind(null, record),
+              ifShow: () => {
+                return hasPermission(['1-2-4']);
+              },
             },
           ]"
         />
@@ -45,6 +51,8 @@
   import Modal from './components/AddJobModal.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   const { createConfirm, createMessage } = useMessage();
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const [registerTable, { reload }] = useTable({
     api: getJobList,
     showIndexColumn: false,
