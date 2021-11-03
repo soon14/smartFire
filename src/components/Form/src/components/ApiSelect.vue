@@ -124,7 +124,7 @@
       async function handleFetch() {
         if (!props.immediate && unref(isFirstLoad)) {
           await fetch();
-          isFirstLoad.value = false;
+          isFirstLoad.value = true;
         }
       }
 

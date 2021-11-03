@@ -66,6 +66,8 @@
         loading.value = true;
         treeData.value = [];
         let result;
+        console.log('props.params===', props.params);
+
         try {
           result = await api(props.params);
         } catch (e) {

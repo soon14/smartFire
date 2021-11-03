@@ -40,7 +40,6 @@
         try {
           changeOkLoading(true);
           const [values] = await Promise.all([validate()]);
-          console.log('🚀 ~ file: AddRosterModal.vue ~ line 38 ~ handleSubmit ~ values', values);
           const transData = Object.assign({}, values);
           transData.stat = '1';
           transData.gender = transData.gender ?? '1';
@@ -51,16 +50,21 @@
             transData.joinDate = dateUtil(transData.joinDate).toDate().toString();
           if (transData.registeredAddress) transData.reProvince = transData?.reDivision?.join(',');
           if (transData.nowAddress) transData.nowCity = transData?.nowDivision?.join(',');
-          if (transData.signaturePath.length > 0) {
+          if (transData.signaturePath?.length > 0) {
             transData.signaturePath = transData.signaturePath.toString();
           } else {
             transData.signaturePath = '';
           }
-          if (transData.headPath.length > 0) {
+          if (transData.headPath?.length > 0) {
             transData.headPath = transData.headPath.toString();
           } else {
             transData.headPath = '';
           }
+          console.log(
+            '🚀 ~ file: AddRosterModal.vue ~ line 46 ~ handleSubmit ~ transData',
+            transData,
+          );
+
           if (formId) {
             transData.id = formId;
             await updateRoster(transData);

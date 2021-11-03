@@ -73,7 +73,7 @@ export function getBaseTableColumns() {
       },
     },
     {
-      title: '岗位',
+      title: '职务',
       dataIndex: 'postName',
     },
     {
@@ -194,6 +194,9 @@ export function getBaseAddForm() {
         labelField: 'roleName',
         valueField: 'id',
         numberToString: true,
+        params: {
+          stat: 1,
+        },
       },
       label: '所属角色',
       colProps: {
@@ -211,6 +214,9 @@ export function getBaseAddForm() {
           label: 'deptName',
           value: 'id',
           children: 'deptVos',
+        },
+        params: {
+          stat: 1,
         },
       },
       label: '部门',
@@ -303,9 +309,12 @@ export function getBaseAddForm() {
         labelField: 'postName',
         valueField: 'id',
         numberToString: true,
+        params: {
+          stat: 1,
+        },
       },
       //
-      label: '岗位',
+      label: '职务',
       colProps: {
         span: 12,
       },
@@ -581,7 +590,7 @@ export function rosterSearchSchemas() {
         numberToString: true,
       },
       //
-      label: '岗位',
+      label: '职务',
       colProps: {
         span: 12,
       },

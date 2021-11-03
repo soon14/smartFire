@@ -6,10 +6,12 @@
       <!-- 右侧搜索栏目 -->
       <NwowSearch
         add-text="新增部门"
-        :hasMoreSearch="false"
+        :hasMoreSearch="true"
         :onClick="handleAddEvent"
         hasSearch
+        :schemas="deptSearchSchemas"
         @OnSearch="handleSearch"
+        @handleMoreSearch="handleMoreSearch"
         :hasAddBtn="hasPermission(['1-24-25'])"
       />
     </div>
@@ -53,6 +55,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { cloneDeep } from 'lodash';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { initString } from '/@/utils/initValue';
   const { hasPermission } = usePermission();
   const { createConfirm, createMessage } = useMessage();
   const tableList = ref([]);
@@ -69,7 +72,25 @@
   onMounted(async () => {
     await getTableList();
   });
-  const [registerTable, { expandAll, collapseAll }] = useTable({
+  const deptSearchSchemas = () => {
+    return [
+      {
+        field: 'stat',
+        component: 'Select',
+        componentProps: {
+          options: [
+            { value: '0', label: '禁用' },
+            { value: '1', label: '启用' },
+          ],
+        },
+        label: '状态',
+        colProps: {
+          span: 12,
+        },
+      },
+    ];
+  };
+  const [registerTable, { expandAll }] = useTable({
     isTreeTable: true,
     columns: getBaseTableColumns(),
     dataSource: tableList,
@@ -119,6 +140,24 @@
     });
     // getTableList();
   };
+  const handleMoreSearch = (val) => {
+    console.log('🚀 ~ file: department.vue ~ line 143 ~ handleMoreSearch ~ val', val);
+    const tempData = cloneDeep(sourceList);
+    if (!val.stat) {
+      tableList.value = tempData;
+    } else {
+      const processData = matchTreeDataByStat(tempData, val.stat);
+      console.log(
+        '🚀 ~ file: department.vue ~ line 146 ~ handleMoreSearch ~ processData',
+        processData,
+      );
+      tableList.value = processData;
+    }
+
+    nextTick(() => {
+      expandAll();
+    });
+  };
   const matchTreeData = (arr, searchCon) => {
     let newArr = [];
     let searchNameList = ['deptName'];
@@ -148,9 +187,39 @@
     });
     return newArr;
   };
+  const matchTreeDataByStat = (arr, searchCon) => {
+    let newArr = [];
+    let searchNameList = ['stat'];
+    arr.forEach((item) => {
+      for (let i = 0, len = searchNameList.length; i < len; i++) {
+        let nameKey = searchNameList[i];
+        initString(item, 'stat');
+        if (item.hasOwnProperty(nameKey)) {
+          if (item[nameKey] && item[nameKey] == searchCon) {
+            newArr.push(item);
+            break;
+          } else {
+            if (item.deptVos && item.deptVos.length > 0) {
+              let resultArr = matchTreeData(item.deptVos, searchCon);
+              if (resultArr && resultArr.length > 0) {
+                newArr.push({
+                  ...item,
+                  deptVos: resultArr,
+                });
+                break;
+              }
+            }
+          }
+        } else {
+          continue;
+        }
+      }
+    });
+    return newArr;
+  };
   const handleRefresh = () => {
     getTableList();
-    collapseAll();
+    // collapseAll();
   };
   const [registerModal, { openModal }] = useModal();
 </script>
