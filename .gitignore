@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 dist
+smartFire
 .npmrc
 .cache
 
@@ -21,9 +22,11 @@ pnpm-debug.log*
 
 # Editor directories and files
 .idea
+.zip
 # .vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+smartFire.zip

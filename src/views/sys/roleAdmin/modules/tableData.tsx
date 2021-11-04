@@ -8,7 +8,7 @@ export function getBasicColumnsRole(): BasicColumn[] {
       width: 150,
     },
     {
-      title: '岗位',
+      title: '职务',
       dataIndex: 'postName',
     },
     {

@@ -217,6 +217,8 @@ export function getBaseAddForm() {
         },
         params: {
           stat: 1,
+          pageNum: 1,
+          pageSize: 99999,
         },
       },
       label: '部门',
@@ -428,7 +430,7 @@ export function getBaseAddForm() {
     },
     {
       field: 'enlistmentTime',
-      component: 'DatePicker',
+      component: 'MonthPicker',
       componentProps: ({ formModel }) => {
         return {
           style: {
@@ -460,7 +462,7 @@ export function getBaseAddForm() {
     },
     {
       field: 'joinDate',
-      component: 'DatePicker',
+      component: 'MonthPicker',
       componentProps: {
         style: {
           width: '100%',

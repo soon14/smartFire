@@ -18,7 +18,7 @@
     </li>
     <li>
       <div class="shunt-node" data-type="shunt-node" @mousedown="startDrag">
-        <img src="src/assets/images/flowIcon/shunt.png" alt />
+        <img src="/src/assets/images/flowIcon/shunt.png" alt />
       </div>
       <p>分流</p>
     </li>

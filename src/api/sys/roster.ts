@@ -1,3 +1,4 @@
+import { deepMerge } from '/@/utils';
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
@@ -9,7 +10,12 @@ enum Api {
 }
 
 export const getRosterList = (data) => {
-  return defHttp.get({ url: Api.GETROSTERLIST, params: data });
+  const defaultData = {
+    pageNum: 1,
+    pageSize: 99999,
+  };
+  const transData = deepMerge(defaultData, data || {});
+  return defHttp.get({ url: Api.GETROSTERLIST, params: transData });
 };
 
 export const addRoster = (data) => {
