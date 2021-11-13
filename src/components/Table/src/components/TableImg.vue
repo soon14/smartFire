@@ -69,6 +69,8 @@
   @prefix-cls: ~'@{namespace}-basic-table-img';
 
   .@{prefix-cls} {
+    overflow: hidden;
+
     .ant-image {
       margin-right: 4px;
       cursor: zoom-in;

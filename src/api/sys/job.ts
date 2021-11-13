@@ -1,5 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
-
+import { deepMerge } from '/@/utils';
 enum Api {
   GETJOBLIST = '/post/postList',
   ADDJOB = '/post/addPost',
@@ -12,7 +12,12 @@ enum Api {
  */
 
 export const getJobList = (data) => {
-  return defHttp.post({ url: Api.GETJOBLIST, params: data });
+  const defaultData = {
+    pageNum: 1,
+    pageSize: 99999,
+  };
+  const transData = deepMerge(defaultData, data || {});
+  return defHttp.post({ url: Api.GETJOBLIST, params: transData });
 };
 
 export const addJob = (data) => {

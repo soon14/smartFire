@@ -11,19 +11,21 @@
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem
+        <!-- <MenuItem
           key="doc"
           :text="t('layout.header.dropdownItemDoc')"
           icon="ion:document-text-outline"
           v-if="getShowDoc"
-        />
-        <MenuDivider v-if="getShowDoc" />
-        <MenuItem
+        /> -->
+        <!-- <MenuDivider v-if="getShowDoc" /> -->
+        <!-- <MenuItem
           v-if="getUseLockPage"
           key="lock"
           :text="t('layout.header.tooltipLock')"
           icon="ion:lock-closed-outline"
-        />
+        /> -->
+        <MenuItem key="personInfo" text="个人资料" icon="icon-park-outline:address-book" />
+        <MenuItem key="editPassword" text="修改密码" icon="icon-park-outline:personal-privacy" />
         <MenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
@@ -54,7 +56,7 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'editPassword';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -62,7 +64,7 @@
       Dropdown,
       Menu,
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
-      MenuDivider: Menu.Divider,
+      // MenuDivider: Menu.Divider,
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
     },
     props: {
@@ -94,9 +96,12 @@
       function openDoc() {
         openWindow(DOC_URL);
       }
-
+      const handleEditPassword = () => {};
       function handleMenuClick(e: { key: MenuEvent }) {
         switch (e.key) {
+          case 'editPassword':
+            handleEditPassword();
+            break;
           case 'logout':
             handleLoginOut();
             break;

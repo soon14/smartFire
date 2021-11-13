@@ -1,6 +1,6 @@
 import { updateDept } from '/@/api/sys/department';
 import { getDeptListAll } from '/@/api/sys/dept';
-import { h } from 'vue';
+import { h, ref } from 'vue';
 import { Switch } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { usePermission } from '/@/hooks/web/usePermission';
@@ -73,7 +73,7 @@ export function getBaseTableColumns() {
     },
   ];
 }
-
+export const refreshComp = ref(true);
 export function getDepartmentForm() {
   return [
     {
@@ -99,10 +99,16 @@ export function getDepartmentForm() {
           value: 'id',
           children: 'deptVos',
         },
+        params: {
+          stat: 1,
+        },
       },
       label: '部门',
       colProps: {
         span: 24,
+      },
+      ifShow: () => {
+        return refreshComp.value;
       },
     },
     {

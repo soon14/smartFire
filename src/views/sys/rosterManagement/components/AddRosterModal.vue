@@ -19,6 +19,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { dateUtil } from '/@/utils/dateUtil';
   import { initImgPath, initString, initStringToArray } from '/@/utils/initValue';
+  import { identity, pickBy } from 'lodash';
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['requestFinish', 'register'],
@@ -40,7 +41,6 @@
         try {
           changeOkLoading(true);
           const [values] = await Promise.all([validate()]);
-          console.log('🚀 ~ file: AddRosterModal.vue ~ line 38 ~ handleSubmit ~ values', values);
           const transData = Object.assign({}, values);
           transData.stat = '1';
           transData.gender = transData.gender ?? '1';
@@ -51,16 +51,21 @@
             transData.joinDate = dateUtil(transData.joinDate).toDate().toString();
           if (transData.registeredAddress) transData.reProvince = transData?.reDivision?.join(',');
           if (transData.nowAddress) transData.nowCity = transData?.nowDivision?.join(',');
-          if (transData.signaturePath.length > 0) {
+          if (transData.signaturePath?.length > 0) {
             transData.signaturePath = transData.signaturePath.toString();
           } else {
             transData.signaturePath = '';
           }
-          if (transData.headPath.length > 0) {
+          if (transData.headPath?.length > 0) {
             transData.headPath = transData.headPath.toString();
           } else {
             transData.headPath = '';
           }
+          console.log(
+            '🚀 ~ file: AddRosterModal.vue ~ line 46 ~ handleSubmit ~ transData',
+            transData,
+          );
+
           if (formId) {
             transData.id = formId;
             await updateRoster(transData);
@@ -87,16 +92,17 @@
       const [registerModalInner, { closeModal, changeOkLoading, setModalProps }] = useModalInner(
         (data) => {
           removeSchemaByFiled('password');
+          const processData = pickBy(data, identity);
           if (data.id) {
-            initString(data, 'postId');
-            initString(data, 'eduBackground');
-            initString(data, 'major');
-            initString(data, 'roleId');
-            initString(data, 'gender');
-            initStringToArray(data, 'nowCity', 'nowDivision');
-            initStringToArray(data, 'reProvince', 'reDivision');
-            initImgPath(data, 'headPath');
-            initImgPath(data, 'signaturePath');
+            initString(processData, 'postId');
+            initString(processData, 'eduBackground');
+            initString(processData, 'major');
+            initString(processData, 'roleId');
+            initString(processData, 'gender');
+            initStringToArray(processData, 'nowCity', 'nowDivision');
+            initStringToArray(processData, 'reProvince', 'reDivision');
+            initImgPath(processData, 'headPath');
+            initImgPath(processData, 'signaturePath');
             formId = data.id;
             setModalProps({
               title: '修改人员',
@@ -119,7 +125,7 @@
               'account',
             );
           }
-          modelRef.value = data;
+          modelRef.value = processData;
         },
       );
       return {

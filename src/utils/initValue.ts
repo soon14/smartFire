@@ -1,4 +1,7 @@
 export function initString(data, name) {
+  if (!data[name]) {
+    return;
+  }
   data[name] = String(data[name] ?? 1);
 }
 export function initBoolean(data, name) {

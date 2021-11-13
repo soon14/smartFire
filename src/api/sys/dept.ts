@@ -9,8 +9,8 @@ enum Api {
   UPDATEDEPT = '/dept/updateDept',
 }
 
-export const getDeptListAll = () => {
-  return defHttp.get({ url: Api.GETDEPTLISTALL });
+export const getDeptListAll = (data) => {
+  return defHttp.get({ url: Api.GETDEPTLISTALL, params: data });
 };
 
 export const getDeptListFirstLevel = (data) => {

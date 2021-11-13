@@ -10,6 +10,7 @@
             :slides-per-view="2"
             :space-between="16"
             :pagination="{ clickable: true }"
+            :autoplay="true"
             @swiper="onSwiper"
             @slideChange="onSlideChange"
             style="height: 240px"
@@ -29,13 +30,14 @@
   import { getPictureList } from '/@/api/sys/propaganda';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   // import Swiper core and required modules
-  import { Pagination } from 'swiper';
+  import { Pagination, Autoplay } from 'swiper';
   // Import Swiper Vue.js components
   import { Swiper, SwiperSlide } from 'swiper/vue';
   // Import Swiper styles
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
+  import 'swiper/css/autoplay';
 
   export default defineComponent({
     name: 'HomeMid',
@@ -70,7 +72,7 @@
         onSwiper,
         onSlideChange,
         imageList,
-        modules: [Pagination],
+        modules: [Pagination, Autoplay],
         getBgPic,
       };
     },

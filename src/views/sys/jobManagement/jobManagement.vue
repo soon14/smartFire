@@ -54,7 +54,7 @@
   const { createConfirm, createMessage } = useMessage();
   import { usePermission } from '/@/hooks/web/usePermission';
   const { hasPermission } = usePermission();
-  const [registerTable, { reload }] = useTable({
+  const [registerTable, { reload, setProps }] = useTable({
     api: getJobList,
     showIndexColumn: false,
     columns: getBaseTableColumns(),
@@ -93,7 +93,12 @@
     openModal(true, tempData);
   };
   const handleSearch = (val) => {
-    console.log('val====', val);
+    setProps({
+      searchInfo: {
+        condition: val,
+      },
+    });
+    reload();
   };
   const handleRefresh = () => {
     reload();

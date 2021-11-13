@@ -31,16 +31,30 @@
           <div
             style="height: 300px; width: 100%; border-radius: 8px"
             :style="getBgPic(item.path)"
-            class="flex items-center justify-center picItem"
+            class="flex items-center justify-center picItem relative"
           >
+            <div class="absolute bottom-0 left-0" style="padding: 16px">
+              <div>创建人: {{ item.createName }}</div>
+              <div>创建时间: {{ item.createDate }}</div>
+            </div>
             <span class="actionSheet" style="z-index: 3">
-              <Icon
-                class="cursor-pointer"
-                icon="icon-park-outline:delete"
-                :size="38"
-                v-if="hasPermission(['1-30-32'])"
-                @click="handleDelete(item)"
-              />
+              <span style="padding: 0 16px">
+                <Icon
+                  class="cursor-pointer"
+                  icon="icon-park-outline:eyes"
+                  :size="38"
+                  @click="handlePreview(item)"
+                />
+              </span>
+              <span style="padding: 0 16px">
+                <Icon
+                  class="cursor-pointer"
+                  icon="icon-park-outline:delete"
+                  :size="38"
+                  v-if="hasPermission(['1-30-32'])"
+                  @click="handleDelete(item)"
+                />
+              </span>
             </span>
           </div>
         </Col>
@@ -59,6 +73,7 @@
   import { addPicture, deletePicture, getPictureList } from '/@/api/sys/propaganda';
   import { Icon } from '/@/components/Icon';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { createImgPreview } from '/@/components/Preview/index';
   const { hasPermission } = usePermission();
   const imageList = ref([]);
   const setting = useGlobSetting();
@@ -141,6 +156,9 @@
         getList();
       },
     });
+  };
+  const handlePreview = (item) => {
+    createImgPreview({ imageList: [item.path] });
   };
   const getList = async () => {
     const apiResult = await getPictureList();

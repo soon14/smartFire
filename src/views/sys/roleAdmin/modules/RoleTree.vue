@@ -142,6 +142,7 @@
         required: true,
       },
     },
+    emits: ['editOk'],
     setup(props, context) {
       const compState = reactive({
         absolute: true,
