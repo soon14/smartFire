@@ -1,6 +1,7 @@
 <template>
   <div>
     <div style="padding: 6px 6px 24px" class="flex items-center justify-between">
+      <!-- 访客记录 -->
       <!-- 头部标题 -->
       <NwowHeader title="岗哨管理" />
       <!-- 右侧搜索栏目 -->

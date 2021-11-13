@@ -76,7 +76,7 @@
     },
   });
 </script>
-<style lang="less">
+<style lang="less" scoped>
   .home-page-swiper {
     .swiper-pagination {
       text-align: right;

@@ -25,6 +25,22 @@ const dashboard: AppRouteModule = {
         hideMenu: true,
       },
     },
+    {
+      path: 'personalInformation/:id',
+      name: 'personalInformation',
+      component: () =>
+        import(
+          '/@/layouts/default/header/components/secondary-menu/secondary-menu-left/secondary-userList/personalInformation.vue'
+        ),
+      meta: {
+        title: '个人信息',
+        // roles: ['1-2-3', '1-2-4', '1-2-5'],
+        hideMenu: true,
+        // hideTab: true,
+        carryParam: true,
+        currentActiveMenu: '/dashboard/analysis',
+      },
+    },
     // {
     //   path: 'workbench',
     //   name: 'Workbench',

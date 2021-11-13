@@ -54,6 +54,15 @@ const system: AppRouteModule = {
       },
     },
     {
+      path: 'recipes',
+      name: 'Recipes',
+      component: () => import('/@/views/sys/recipesAdmin/recipes.vue'),
+      meta: {
+        title: '食谱',
+        icon: 'icon-park-outline:chicken',
+      },
+    },
+    {
       path: 'propaganda',
       name: 'Propaganda',
       component: () => import('/@/views/sys/propaganda/propaganda.vue'),

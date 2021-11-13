@@ -16,10 +16,19 @@ const sentry: AppRouteModule = {
     {
       path: 'visitorsRecord',
       name: 'VisitorsRecord',
-      component: () => import('/@/views/sentry/visitorsRecord.vue'),
+      component: () => import('/@/views/sentry/visitorsRecord/visitorsRecord.vue'),
       meta: {
         title: '访客记录',
         icon: 'icon-park-outline:file-staff',
+      },
+    },
+    {
+      path: 'vehicleRecord',
+      name: 'VehicleRecord',
+      component: () => import('/@/views/sentry/vehicleRecord/vehicleRecord.vue'),
+      meta: {
+        title: '车辆记录',
+        icon: 'ion:bus-outline',
       },
     },
   ],
