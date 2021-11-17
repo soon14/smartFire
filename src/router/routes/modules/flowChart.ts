@@ -14,6 +14,15 @@ const flowChary: AppRouteModule = {
   },
   children: [
     {
+      path: 'standingBook',
+      name: 'StandingBook',
+      component: () => import('/@/views/standingBook/standingBook.vue'),
+      meta: {
+        title: '台账',
+        icon: 'fluent:notepad-28-regular',
+      },
+    },
+    {
       path: 'flowDraw',
       name: 'FlowDraw',
       component: () => import('/@/views/flowChart/flowDraw/index.vue'),
@@ -32,15 +41,6 @@ const flowChary: AppRouteModule = {
       //     },
       //   },
       // ],
-    },
-    {
-      path: 'position',
-      name: 'Position',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
-      meta: {
-        title: '表单设计',
-        icon: 'icon-park-outline:handbag',
-      },
     },
   ],
 };

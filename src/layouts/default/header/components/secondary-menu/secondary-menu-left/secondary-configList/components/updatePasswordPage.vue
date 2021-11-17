@@ -37,9 +37,9 @@
           console.log('values=>>111', values);
           if (values.password == values.newPassword) {
             await updatePersonPassword(values);
-            success('修改成功');
+            success('修改密码成功');
           } else {
-            error('你输入的两次密码不一致,请重新输入！');
+            error('请保持输入的密码一致');
           }
           closeModal();
           emit('requestFinish');

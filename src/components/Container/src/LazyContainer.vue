@@ -1,6 +1,6 @@
 <template>
   <transition-group
-    class="h-full w-full"
+    class="w-full h-full"
     v-bind="$attrs"
     ref="elRef"
     :name="transitionName"

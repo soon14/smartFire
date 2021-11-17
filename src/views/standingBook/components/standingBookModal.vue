@@ -1,0 +1,632 @@
+<template>
+  <BasicModal
+    v-bind="$attrs"
+    title="用车详情"
+    @ok="handleSubmit"
+    @visible-change="handleResetForm"
+    @register="registerModalInner"
+    width="1024px"
+  >
+    <!-- 列表详情数据 -->
+    <a-descriptions
+      title="公安消防部队派车单"
+      bordered
+      :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }"
+      style="text-align: center"
+    >
+      <template v-for="(date, index) in model" :key="index">
+        <a-descriptions-item :label="date.label" style="background-color: #111a69" :span="2">
+          {{ date.placeholder }}
+        </a-descriptions-item>
+      </template>
+    </a-descriptions>
+    <!-- 按钮 -->
+    <template #footer>
+      <span>
+        <a-button @click="printBill(model)" :loading="draftLoading" type="primary"
+          >打印此单据</a-button
+        >
+      </span>
+    </template>
+  </BasicModal>
+  <PrintModal @register="registrModel_print" />
+</template>
+<script>
+  import { defineComponent, ref } from 'vue';
+  import { BasicModal, useModalInner } from '/@/components/Modal';
+  // import { BasicForm } from '/@/components/Form/index';
+  // import { carDetails } from '/@/api/vehicle/vehicle';
+  // import { BasicTable } from '/@/components/Table';
+  import { Descriptions } from 'ant-design-vue';
+  // import { useMessage } from '/@/hooks/web/useMessage';
+  import PrintModal from './PrintModal.vue';
+  import { useModal } from '/@/components/Modal';
+  const modelRef = ref({});
+  let formId = null;
+  const fields = [
+    {
+      cmpType: 'common',
+      label: '张存财',
+      tag: 'el-input',
+      tagIcon: 'input',
+      placeholder: '请输入张存财',
+      span: 24,
+      labelWidth: null,
+      style: {
+        width: '100%',
+      },
+      clearable: true,
+      prepend: '',
+      append: '',
+      'prefix-icon': '',
+      'suffix-icon': '',
+      maxlength: null,
+      'show-word-limit': false,
+      readonly: false,
+      disabled: false,
+      required: true,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 1,
+      renderKey: 1636944772187,
+      layout: 'colFormItem',
+      vModel: 'field1',
+    },
+    {
+      cmpType: 'common',
+      label: '多行张村才',
+      tag: 'el-input',
+      tagIcon: 'textarea',
+      type: 'textarea',
+      placeholder: '请输入多行张村才',
+      span: 24,
+      labelWidth: null,
+      autosize: {
+        minRows: 4,
+        maxRows: 4,
+      },
+      style: {
+        width: '100%',
+      },
+      maxlength: null,
+      'show-word-limit': false,
+      readonly: false,
+      disabled: false,
+      required: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 2,
+      renderKey: 1636944773798,
+      layout: 'colFormItem',
+      vModel: 'field2',
+    },
+    {
+      cmpType: 'common',
+      label: '数字输入框',
+      tag: 'el-input-number',
+      tagIcon: 'number',
+      placeholder: '数字输入框',
+      style: {
+        width: null,
+      },
+      span: 24,
+      labelWidth: null,
+      'step-strictly': false,
+      'controls-position': 'right',
+      disabled: false,
+      required: false,
+      regList: [],
+      changeTag: true,
+      proCondition: true,
+      formId: 3,
+      renderKey: 1636944808149,
+      layout: 'colFormItem',
+      vModel: 'field3',
+    },
+    {
+      cmpType: 'common',
+      label: '选择类型',
+      tag: 'el-select',
+      tagIcon: 'select',
+      placeholder: '请选择下拉选择',
+      style: {
+        width: '100%',
+      },
+      span: 24,
+      labelWidth: null,
+      clearable: true,
+      disabled: false,
+      required: true,
+      filterable: false,
+      multiple: false,
+      options: [
+        {
+          label: '选择张存财',
+          value: '选择张存财',
+        },
+        {
+          label: '选择张村才2',
+          value: '选择张村才2',
+        },
+      ],
+      regList: [],
+      changeTag: true,
+      proCondition: true,
+      formId: 4,
+      renderKey: 1636944838580,
+      layout: 'colFormItem',
+      vModel: 'field4',
+    },
+    {
+      cmpType: 'common',
+      label: '联系人',
+      tag: 'fc-address-book',
+      tagIcon: 'people',
+      span: 24,
+      labelWidth: null,
+      style: {},
+      type: 'single',
+      disabled: false,
+      required: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      formId: 5,
+      renderKey: 1636944893092,
+      layout: 'colFormItem',
+      vModel: 'field5',
+    },
+    {
+      cmpType: 'common',
+      label: '多维联系人',
+      tag: 'fc-address-book',
+      tagIcon: 'people',
+      span: 24,
+      labelWidth: null,
+      style: {},
+      type: 'more',
+      disabled: false,
+      required: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      formId: 18,
+      renderKey: 1636944893856,
+      layout: 'colFormItem',
+      vModel: 'field18',
+    },
+    {
+      cmpType: 'common',
+      label: '车辆选择',
+      tag: 'fc-car-book',
+      tagIcon: 'car',
+      span: 24,
+      labelWidth: null,
+      style: {},
+      type: 'more',
+      disabled: false,
+      required: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      formId: 6,
+      renderKey: 1636944897782,
+      layout: 'colFormItem',
+      vModel: 'field6',
+    },
+    {
+      cmpType: 'common',
+      label: '单选框组',
+      tag: 'el-radio-group',
+      tagIcon: 'radio',
+      span: 24,
+      labelWidth: null,
+      style: {},
+      optionType: 'default',
+      border: false,
+      size: 'medium',
+      disabled: false,
+      required: false,
+      options: [
+        {
+          label: '选项一',
+          value: '选项一',
+        },
+        {
+          label: '选项二',
+          value: '选项二',
+        },
+      ],
+      regList: [],
+      changeTag: true,
+      proCondition: true,
+      formId: 7,
+      renderKey: 1636944917101,
+      layout: 'colFormItem',
+      vModel: 'field7',
+    },
+    {
+      cmpType: 'common',
+      label: '多选框组',
+      tag: 'el-checkbox-group',
+      tagIcon: 'checkbox',
+      defaultValue: [],
+      span: 24,
+      labelWidth: null,
+      style: {},
+      optionType: 'default',
+      border: false,
+      size: 'medium',
+      disabled: false,
+      required: false,
+      options: [
+        {
+          label: '选项一',
+          value: '选项一',
+        },
+        {
+          label: '选项二',
+          value: '选项二',
+        },
+      ],
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 8,
+      renderKey: 1636944922631,
+      layout: 'colFormItem',
+      vModel: 'field8',
+    },
+    {
+      cmpType: 'common',
+      label: '开关',
+      tag: 'el-switch',
+      tagIcon: 'switch',
+      defaultValue: false,
+      span: 24,
+      labelWidth: null,
+      style: {},
+      disabled: false,
+      required: false,
+      'active-text': '',
+      'inactive-text': '',
+      'active-color': null,
+      'inactive-color': null,
+      'active-value': true,
+      'inactive-value': false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 9,
+      renderKey: 1636944925692,
+      layout: 'colFormItem',
+      vModel: 'field9',
+    },
+    {
+      cmpType: 'common',
+      label: '滑动选择器',
+      tag: 'el-slider',
+      tagIcon: 'slider',
+      defaultValue: 0,
+      span: 24,
+      labelWidth: null,
+      disabled: false,
+      required: false,
+      min: 0,
+      max: 100,
+      step: 1,
+      'show-stops': true,
+      range: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 10,
+      renderKey: 1636944929666,
+      layout: 'colFormItem',
+      vModel: 'field10',
+    },
+    {
+      cmpType: 'common',
+      label: '组织机构',
+      tag: 'fc-org-select',
+      tagIcon: 'dept',
+      defaultValue: null,
+      tabList: ['dep'],
+      buttonType: 'button',
+      title: '组织机构',
+      searchable: true,
+      maxNum: 1,
+      tagConfig: {
+        type: 'info',
+        closable: true,
+        'disable-transitions': false,
+        hit: false,
+        size: 'small',
+        effect: 'light',
+      },
+      style: {
+        width: '100%',
+      },
+      span: 24,
+      labelWidth: null,
+      disabled: false,
+      required: true,
+      regList: [],
+      changeTag: true,
+      proCondition: true,
+      asSummary: false,
+      formId: 11,
+      renderKey: 1636944958151,
+      layout: 'colFormItem',
+      vModel: 'field11',
+    },
+    {
+      cmpType: 'common',
+      label: '组织机构23',
+      tag: 'fc-org-select',
+      tagIcon: 'dept',
+      defaultValue: null,
+      tabList: ['dep'],
+      buttonType: 'button',
+      title: '组织机构',
+      searchable: true,
+      maxNum: 3,
+      tagConfig: {
+        type: 'info',
+        closable: true,
+        'disable-transitions': false,
+        hit: false,
+        size: 'small',
+        effect: 'light',
+      },
+      style: {
+        width: '100%',
+      },
+      span: 24,
+      labelWidth: null,
+      disabled: false,
+      required: true,
+      regList: [],
+      changeTag: true,
+      proCondition: true,
+      asSummary: false,
+      formId: 20,
+      renderKey: 1636944958191,
+      layout: 'colFormItem',
+      vModel: 'field20',
+    },
+    {
+      cmpType: 'common',
+      label: '时间选择',
+      tag: 'el-time-picker',
+      tagIcon: 'time',
+      placeholder: '请选择时间选择',
+      defaultValue: null,
+      span: 24,
+      labelWidth: null,
+      style: {
+        width: '100%',
+      },
+      disabled: false,
+      clearable: true,
+      required: false,
+      'picker-options': {
+        selectableRange: '00:00:00-23:59:59',
+      },
+      format: 'HH:mm:ss',
+      'value-format': 'HH:mm:ss',
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 12,
+      renderKey: 1636944961009,
+      layout: 'colFormItem',
+      vModel: 'field12',
+    },
+    {
+      cmpType: 'common',
+      label: '时间范围',
+      tag: 'fc-time-duration',
+      showDuration: false,
+      tagIcon: 'time-range',
+      defaultValue: null,
+      span: 24,
+      labelWidth: null,
+      style: {
+        width: '100%',
+      },
+      disabled: false,
+      clearable: true,
+      required: false,
+      'is-range': true,
+      'range-separator': '至',
+      'start-placeholder': '开始时间',
+      'end-placeholder': '结束时间',
+      format: 'HH:mm:ss',
+      'value-format': 'HH:mm:ss',
+      regList: [],
+      changeTag: true,
+      proCondition: true,
+      asSummary: false,
+      formId: 13,
+      renderKey: 1636944963861,
+      layout: 'colFormItem',
+      vModel: 'field13',
+    },
+    {
+      cmpType: 'common',
+      label: '日期选择',
+      tag: 'el-date-picker',
+      tagIcon: 'date',
+      placeholder: '请选择日期选择',
+      defaultValue: null,
+      type: 'date',
+      span: 24,
+      labelWidth: null,
+      style: {
+        width: '100%',
+      },
+      disabled: false,
+      clearable: true,
+      required: false,
+      format: 'yyyy-MM-dd',
+      'value-format': 'yyyy-MM-dd',
+      readonly: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 14,
+      renderKey: 1636944967035,
+      layout: 'colFormItem',
+      vModel: 'field14',
+    },
+    {
+      cmpType: 'common',
+      label: '日期范围',
+      tag: 'fc-date-duration',
+      showDuration: false,
+      tagIcon: 'date-range',
+      defaultValue: null,
+      span: 24,
+      labelWidth: null,
+      style: {
+        width: '100%',
+      },
+      type: 'daterange',
+      'range-separator': '至',
+      'start-placeholder': '开始日期',
+      'end-placeholder': '结束日期',
+      disabled: false,
+      clearable: true,
+      required: false,
+      format: 'yyyy-MM-dd',
+      'value-format': 'yyyy-MM-dd',
+      readonly: false,
+      regList: [],
+      changeTag: true,
+      proCondition: true,
+      asSummary: false,
+      formId: 15,
+      renderKey: 1636944971418,
+      layout: 'colFormItem',
+      vModel: 'field15',
+    },
+    {
+      cmpType: 'common',
+      label: '评分',
+      tag: 'el-rate',
+      tagIcon: 'rate',
+      defaultValue: 0,
+      span: 24,
+      labelWidth: null,
+      style: {},
+      max: 5,
+      'allow-half': false,
+      'show-text': false,
+      'show-score': false,
+      disabled: false,
+      required: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 16,
+      renderKey: 1636944971897,
+      layout: 'colFormItem',
+      vModel: 'field16',
+    },
+    {
+      cmpType: 'common',
+      label: '附件',
+      tag: 'el-upload',
+      tagIcon: 'upload',
+      action: 'https://jsonplaceholder.typicode.com/posts/',
+      defaultValue: [],
+      labelWidth: null,
+      disabled: false,
+      required: false,
+      accept: '',
+      name: 'file',
+      'auto-upload': true,
+      showTip: false,
+      buttonText: '点击上传附件',
+      fileSize: 20,
+      sizeUnit: 'MB',
+      'list-type': 'picture-card',
+      multiple: false,
+      regList: [],
+      changeTag: true,
+      proCondition: false,
+      asSummary: false,
+      formId: 17,
+      renderKey: 1636944972342,
+      layout: 'colFormItem',
+      vModel: 'field17',
+    },
+  ];
+
+  export default defineComponent({
+    components: {
+      BasicModal,
+      // BasicForm,
+      // BasicTable,
+      [Descriptions.name]: Descriptions,
+      [Descriptions.Item.name]: Descriptions.Item,
+      PrintModal,
+    },
+    emits: ['requestFinish', 'register'],
+    setup() {
+      // const carData = reactive({
+      //   carDetailsData: [],
+      // });
+      // const { createConfirm, createMessage } = useMessage();
+      const [registrModel_print, { openModal: openModal_print }] = useModal();
+      const handleSubmit = async () => {
+        closeModal();
+        changeOkLoading(false);
+      };
+      const handleResetForm = (visible) => {
+        if (!visible) {
+          closeModal();
+          changeOkLoading(false);
+        }
+      };
+      const [registerModalInner, { changeOkLoading, closeModal }] = useModalInner(async (data) => {
+        console.log(data);
+        console.log('data==>', formId);
+        modelRef.value = fields;
+      });
+
+      //打印数据
+      const printBill = (pringtDate) => {
+        console.log('pringtDate==>', pringtDate);
+        createConfirm({
+          iconType: 'warning',
+          title: '提示',
+          content: '确认打印？',
+          onOk: async () => {
+            openModal_print(true, pringtDate);
+          },
+        });
+      };
+      return {
+        handleSubmit,
+        handleResetForm,
+        registerModalInner,
+        model: modelRef,
+        formId,
+        printBill,
+        registrModel_print,
+      };
+    },
+  });
+</script>

@@ -1,23 +1,25 @@
 <template>
   <BasicModal
     v-bind="$attrs"
-    title="新增职务"
+    title="新增车辆"
     @ok="handleSubmit"
     @visible-change="handleResetForm"
     @register="registerModalInner"
   >
-    <BasicForm @register="registerForm" :model="model" layout="vertical" />
+    <BasicForm @register="registerForm" layout="vertical" :model="model" />
   </BasicModal>
 </template>
 <script>
   import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { getBaseAddForm } from '../modules/jobManagement';
+  import { getMaterialWarehouseForm } from '../modules/materialWarehouse';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { addJob, updateJob } from '/@/api/sys/job';
+  // import { addDept, updateDept } from '/@/api/sys/department';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { initString } from '/@/utils/initValue';
+  // import { initString } from '/@/utils/initValue';
+  import { addCar, updateCar } from '/@/api/vehicle/vehicle';
   import { buildUUID } from '/@/utils/uuid';
+  const modelRef = ref({});
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['requestFinish', 'register'],
@@ -25,7 +27,7 @@
       let formId = null;
       const [registerForm, { resetFields, clearValidate, validate }] = useForm({
         labelWidth: 120,
-        schemas: getBaseAddForm(),
+        schemas: getMaterialWarehouseForm(),
         showActionButtonGroup: false,
         actionColOptions: {
           span: 24,
@@ -37,21 +39,24 @@
       const handleSubmit = async () => {
         try {
           changeOkLoading(true);
-          const [values] = await Promise.all([validate()]);
-          const transData = Object.assign({}, values);
-          transData.stat = transData.stat ?? '1';
+          const values = await validate();
+          console.log('values=>>111', values.path);
+          const fireEngineData = values;
           if (formId) {
-            transData.id = formId;
-            await updateJob(transData);
-            closeModal();
+            console.log('2');
+            fireEngineData.id = formId;
+            await updateCar(fireEngineData);
             success('修改成功');
           } else {
-            await addJob(transData, uuid);
-            closeModal();
+            await addCar(fireEngineData, uuid);
             uuid = buildUUID();
             success('创建成功');
           }
+          closeModal();
           emit('requestFinish');
+          resetFields();
+          clearValidate();
+          changeOkLoading(false);
         } catch (error) {
           changeOkLoading(false);
         }
@@ -63,19 +68,21 @@
           changeOkLoading(false);
         }
       };
-      const modelRef = ref({});
       const [registerModalInner, { closeModal, changeOkLoading, setModalProps }] = useModalInner(
         (data) => {
-          initString(data, 'stat');
+          console.log('🚀 ~ file: departmentModel.vue ~ line 66 ~ setup ~ data', data);
+          // initString(data, 'stat');
+          // data.parentId = data.parentId || '';
+          // initString(data, 'parentId');
           if (data.id) {
             formId = data.id;
             setModalProps({
-              title: '修改职务',
+              title: '修改物资',
             });
           } else {
             formId = null;
             setModalProps({
-              title: '新增职务',
+              title: '新增物资',
             });
           }
           modelRef.value = data;

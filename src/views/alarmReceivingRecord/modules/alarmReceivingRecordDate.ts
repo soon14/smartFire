@@ -45,25 +45,13 @@ export function defaultSchemas() {
     {
       field: 'time',
       component: 'RangePicker',
-      label: '出发时间',
+      label: '查询时间',
       colProps: {
         span: 24,
       },
       componentProps: {
         style: { width: '100%' },
-        placeholder: ['出发时间起始时间', '出发结束时间'],
-      },
-    },
-    {
-      field: 'time2',
-      component: 'RangePicker',
-      label: '归来时间',
-      colProps: {
-        span: 24,
-      },
-      componentProps: {
-        style: { width: '100%' },
-        placeholder: ['归来起始时间', '归来结束时间'],
+        placeholder: ['起始时间', '结束时间'],
       },
     },
     {

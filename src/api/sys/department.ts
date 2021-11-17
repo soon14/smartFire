@@ -25,8 +25,21 @@ enum Api {
   DEPT_LIST3 = '/dept/deptList3',
   UPDATE_DEPT = '/dept/updateDept',
 }
-export const addDept = (data) => {
-  return defHttp.post({ url: Api.ABBDEPT, params: data });
+export const addDept = (data, uuid) => {
+  const params = new URLSearchParams();
+  if (data.deptName !== '' && data.deptName !== null && data.deptName !== undefined) {
+    params.append('deptName', data.deptName);
+  }
+  if (data.description !== '' && data.description !== null && data.description !== undefined) {
+    params.append('description', data.description);
+  }
+  if (data.parentId !== '' && data.parentId !== null && data.parentId !== undefined) {
+    params.append('parentId', data.parentId);
+  }
+  if (data.stat !== '' && data.stat !== null && data.stat !== undefined) {
+    params.append('stat', data.stat);
+  }
+  return defHttp.post({ url: Api.ABBDEPT, params: params, headers: { uuid: uuid } });
 };
 export const deleteDept = (data) => {
   return defHttp.post({ url: Api.DELETE_DEPT, params: data });

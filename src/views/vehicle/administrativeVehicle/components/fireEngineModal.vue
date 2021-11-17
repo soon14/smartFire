@@ -19,6 +19,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { addCar, updateCar } from '/@/api/vehicle/vehicle';
   import { dateUtil } from '/@/utils/dateUtil';
+  import { buildUUID } from '/@/utils/uuid';
   const modelRef = ref({});
   export default defineComponent({
     components: { BasicModal, BasicForm },
@@ -35,6 +36,7 @@
       });
       const { createMessage } = useMessage();
       const { success } = createMessage;
+      let uuid = buildUUID();
       const handleSubmit = async () => {
         try {
           changeOkLoading(true);
@@ -54,7 +56,8 @@
             if (fireEngineData?.path && fireEngineData.path.length > 0) {
               fireEngineData.path = fireEngineData.path[0];
             }
-            await addCar(fireEngineData);
+            await addCar(fireEngineData, uuid);
+            uuid = buildUUID();
             success('创建成功');
           }
           closeModal();

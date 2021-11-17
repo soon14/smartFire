@@ -22,11 +22,7 @@
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { getVisitorsTableColumns, defaultSchemas } from './modules/alarmReceivingRecordDate';
   import { callPoliceRecordList } from '/@/api/alarmReceivingRecord/alarmReceivingRecord';
-  const fieldTimeMap = [
-    ['time', ['outTimeBegin', 'outTimeEnd'], 'YYYY-MM-DD'],
-    // 支持多个字段
-    ['time2', ['inTimeBegin', 'inTimeEnd'], 'YYYY-MM-DD'],
-  ];
+  const fieldTimeMap = [['time', ['timeBegin', 'timeEnd'], 'YYYY-MM-DD']];
   const [registerTable, { reload, setProps }] = useTable({
     api: callPoliceRecordList,
     showIndexColumn: false,

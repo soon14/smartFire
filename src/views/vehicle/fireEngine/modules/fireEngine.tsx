@@ -1,12 +1,15 @@
 import { BasicColumn } from '/@/components/Table/src/types/table';
 import { uploadApi } from '/@/api/sys/upload';
+import { isEmpty, isUnDef } from '/@/utils/is';
 const categoryMap = {
   1: '消防车',
   2: '行政车',
 };
 const carTypeMap = {
-  1: '小轿车',
-  2: '消防车',
+  1: '中型水罐消防车',
+  2: '泡沫消防车',
+  3: '干粉消防车',
+  4: '云梯消防车',
 };
 export function getFireEngineTable(): BasicColumn[] {
   return [
@@ -24,9 +27,9 @@ export function getFireEngineTable(): BasicColumn[] {
     },
     {
       title: '类别',
-      dataIndex: 'categoryId',
+      dataIndex: 'type',
       customRender: ({ record }) => {
-        return categoryMap[record.categoryId];
+        return categoryMap[record.type];
       },
     },
     {
@@ -39,9 +42,9 @@ export function getFireEngineTable(): BasicColumn[] {
     },
     {
       title: '车型',
-      dataIndex: 'type',
+      dataIndex: 'categoryId',
       customRender: ({ record }) => {
-        return carTypeMap[record.type];
+        return carTypeMap[record.categoryId];
       },
     },
     {
@@ -74,7 +77,23 @@ export function getFireEngineForm() {
       colProps: {
         span: 12,
       },
-      rules: [{ required: true }],
+      rules: [
+        {
+          type: 'number',
+          validator: async (_, value) => {
+            if (isUnDef(value) || isEmpty(value)) {
+              return Promise.resolve();
+            }
+            const phoneReg = /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/;
+            if (!phoneReg.test(value)) {
+              return Promise.reject('请输入正确格式车牌号');
+            }
+            return Promise.resolve();
+          },
+          trigger: ['change', 'blur'],
+          required: true,
+        },
+      ],
     },
     {
       field: 'license',
@@ -86,7 +105,7 @@ export function getFireEngineForm() {
       rules: [{ required: true }],
     },
     {
-      field: 'categoryId',
+      field: 'type',
       component: 'Select',
       componentProps: {
         options: [
@@ -116,7 +135,7 @@ export function getFireEngineForm() {
       },
     },
     {
-      field: 'type',
+      field: 'categoryId',
       component: 'Select',
       label: '车型',
       colProps: {
@@ -125,12 +144,20 @@ export function getFireEngineForm() {
       componentProps: {
         options: [
           {
-            label: '小轿车',
+            label: '中型水罐消防车',
             value: '1',
           },
           {
-            label: '消防车',
+            label: '泡沫消防车',
             value: '2',
+          },
+          {
+            label: '干粉消防车',
+            value: '3',
+          },
+          {
+            label: '云梯消防车',
+            value: '4',
           },
         ],
       },
@@ -217,7 +244,7 @@ export function getLookUpVehicleForm() {
       rules: [{ required: true }],
     },
     {
-      field: 'categoryId',
+      field: 'type',
       component: 'Select',
       dynamicDisabled: true,
       componentProps: {
@@ -248,7 +275,7 @@ export function getLookUpVehicleForm() {
       },
     },
     {
-      field: 'type',
+      field: 'categoryId',
       component: 'Select',
       dynamicDisabled: true,
       label: '车型',
@@ -258,12 +285,20 @@ export function getLookUpVehicleForm() {
       componentProps: {
         options: [
           {
-            label: '小轿车',
+            label: '中型水罐消防车',
             value: '1',
           },
           {
-            label: '消防车',
+            label: '泡沫消防车',
             value: '2',
+          },
+          {
+            label: '干粉消防车',
+            value: '3',
+          },
+          {
+            label: '云梯消防车',
+            value: '4',
           },
         ],
       },

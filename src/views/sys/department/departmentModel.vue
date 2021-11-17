@@ -17,6 +17,7 @@
   import { addDept, updateDept } from '/@/api/sys/department';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { initString } from '/@/utils/initValue';
+  import { buildUUID } from '/@/utils/uuid';
   const modelRef = ref({});
   export default defineComponent({
     components: { BasicModal, BasicForm },
@@ -33,6 +34,10 @@
       });
       const { createMessage } = useMessage();
       const { success } = createMessage;
+      let uuid = buildUUID();
+      //   const init = () => {
+      //      uuid = buildUUID();
+      //  };
       const handleSubmit = async () => {
         try {
           changeOkLoading(true);
@@ -43,12 +48,15 @@
           if (formId) {
             transData.id = formId;
             await updateDept(transData);
+            console.log('result==>', result);
+            closeModal();
             success('修改成功');
           } else {
-            await addDept(transData);
+            await addDept(transData, uuid);
             success('创建成功');
+            closeModal();
+            uuid = buildUUID();
           }
-          closeModal();
           emit('requestFinish');
         } catch (error) {
           changeOkLoading(false);

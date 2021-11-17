@@ -24,12 +24,7 @@
                 >
               </template>
               <template #avatar>
-                <a-avatar
-                  :src="userData.signaturePath"
-                  shape="square"
-                  :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }"
-                  alt="Han Solo"
-                />
+                <img :src="userData.signaturePath" style="width: 150px; height: 150px" />
               </template>
               <template #content>
                 <a-descriptions title="基本信息">
@@ -52,22 +47,23 @@
             </a-comment>
           </a-col>
           <!-- 年度信息统计 -->
-          <a-col :span="12">
-            <a-row>
-              <a-card title="年度信息统计" style="width: 100%">
-                <a-space align="center" size="20">
-                  <a-col style="width: 200px; padding-right: 10px">
-                    <a-card title="请销假统计">ffdfg</a-card></a-col
-                  >
-                  <a-col style="width: 200px; padding-right: 10px">
-                    <a-card title="用车统计">ffdfg</a-card></a-col
-                  >
-                  <a-col style="width: 200px; padding-right: 10px">
-                    <a-card title="出警统计">ffdfg</a-card></a-col
-                  >
-                </a-space>
-              </a-card>
-            </a-row>
+          <a-col
+            :span="12"
+            style="
+              width: 100%;
+              border: 1px solid #406ba9;
+              background-color: #141f44;
+              border-radius: 15px;
+            "
+          >
+            <div style="padding: 10px 20px">年度信息统计</div>
+            <div style="padding: 20px">
+              <a-row :gutter="16">
+                <a-col :span="8"> <a-card title="请销假统计">ffdfg</a-card></a-col>
+                <a-col :span="8"> <a-card title="用车统计">ffdfg</a-card></a-col>
+                <a-col :span="8"> <a-card title="出警统计">ffdfg</a-card></a-col>
+              </a-row>
+            </div>
           </a-col>
         </a-row>
         <!-- 统计 -->

@@ -20,6 +20,7 @@
   // import { initString } from '/@/utils/initValue';
   import { addCar, updateCar } from '/@/api/vehicle/vehicle';
   import { dateUtil } from '/@/utils/dateUtil';
+  import { buildUUID } from '/@/utils/uuid';
   const modelRef = ref({});
   export default defineComponent({
     components: { BasicModal, BasicForm },
@@ -36,6 +37,7 @@
       });
       const { createMessage } = useMessage();
       const { success } = createMessage;
+      let uuid = buildUUID();
       const handleSubmit = async () => {
         try {
           changeOkLoading(true);
@@ -45,7 +47,6 @@
           console.log('fireEngineData=>>111', fireEngineData.path);
           fireEngineData.buyDate = dateUtil(fireEngineData.buyDate).toDate().toString();
           console.log('fireEngineData=>>asas', fireEngineData);
-
           if (formId) {
             console.log('2');
             fireEngineData.id = formId;
@@ -55,7 +56,8 @@
             if (fireEngineData?.path && fireEngineData.path.length > 0) {
               fireEngineData.path = fireEngineData.path[0];
             }
-            await addCar(fireEngineData);
+            await addCar(fireEngineData, uuid);
+            uuid = buildUUID();
             success('创建成功');
           }
           closeModal();

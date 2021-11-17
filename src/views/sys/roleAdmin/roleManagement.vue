@@ -160,6 +160,7 @@
   const { createConfirm, createMessage } = useMessage();
   const { success } = createMessage;
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { buildUUID } from '/@/utils/uuid';
   const { hasPermission } = usePermission();
   export default defineComponent({
     components: {
@@ -195,6 +196,7 @@
       const roleId = ref(0);
       const roleName = ref<string>('');
       const displayTab = ref(1);
+      var uuid = buildUUID();
       //角色数据
       async function handleGetRoleList() {
         compState.loading = true;
@@ -221,10 +223,9 @@
       }
       //添加角色
       async function handleSureRole() {
-        await addRole({
-          roleName: roleName.value,
-        });
+        await addRole(roleName.value, uuid);
         roleName.value = '';
+        uuid = buildUUID();
         compState.addRoleInputStat = false;
         handleGetRoleList();
       }

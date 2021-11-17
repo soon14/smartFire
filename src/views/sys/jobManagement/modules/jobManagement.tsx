@@ -96,7 +96,6 @@ export function getBaseAddForm() {
       field: 'stat',
       component: 'RadioGroup',
       componentProps: {
-        defaultValue: '1',
         options: [
           {
             label: '启动',
@@ -109,6 +108,7 @@ export function getBaseAddForm() {
         ],
       },
       label: '状态',
+      defaultValue: '1',
       colProps: {
         span: 24,
       },
