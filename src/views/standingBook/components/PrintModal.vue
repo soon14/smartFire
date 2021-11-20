@@ -9,46 +9,53 @@
     heigth="1024px"
   >
     <!-- 公安消防部队派车单 -->
-    <div class="table-d" id="printJS-form" v-show="true">
+    <div class="table-d" id="printJS-form" v-show="Sendcar">
       <h2 align="center" style="width: 100%">公安消防部队派车单</h2>
-      <p> 年 月 日</p>
-
+      <div>
+        <span>{{ model.flowCreateDate }}</span>
+        <span style="float: right">NO:{{ flowData.flowNumber }}</span>
+      </div>
       <table border="1" style="width: 100%">
         <tr>
           <th>用车单位</th>
-          <th>用车单位值</th>
+          <th> {{ model.field1 }} </th>
           <th>电话</th>
-          <th>电话值 </th>
+          <th>{{ userData.contactPhone }}</th>
         </tr>
         <tr>
           <th>用车人</th>
-          <th>用车人（值） </th>
+          <th>{{ flowData.createPersonName }} </th>
           <th>职务</th>
-          <th> 职务值 </th>
+          <th>{{ userData.postName }} </th>
         </tr>
         <tr>
           <td rowspan="2">事由</td>
-          <td rowspan="2">事由值 </td>
+          <td rowspan="2">{{ model.field8 }} </td>
           <td>乘务员额（名）</td>
-          <td>1 </td>
+          <td>{{ model.field6 }}</td>
         </tr>
         <tr>
           <td>承运物品（吨、件）</td>
-          <td>1 </td>
+          <td>{{ model.field7 }} </td>
         </tr>
         <tr>
           <th>车型</th>
-          <th>车型（值）</th>
-          <th>用车台次!</th>
-          <th>用车台次（值） </th>
+          <th>{{ model.field2 }}</th>
+          <th>用车台次</th>
+          <th>1 </th>
         </tr>
         <tr>
           <th>归队时间</th>
-          <th colspan="3">归队时间(值)</th>
+          <th colspan="3">{{ model.field41 }} -- {{ model.field42 }}</th>
         </tr>
         <tr>
           <th>批准人签字</th>
-          <th colspan="3">年 月 日 时 分 秒</th>
+          <th colspan="3">
+            <span v-for="(personName, index) in model.flowActualPersonName" :key="index"
+              >{{ personName }}、</span
+            >
+            <span> {{ model.flowActualDate }} </span></th
+          >
         </tr>
         <tr>
           <th>备注</th>
@@ -257,14 +264,67 @@
       const printTime = formatToDateTime(dateUtil.now());
       const modelRef = ref({});
       const flowInfo = ref([]);
+      const userData = ref({});
+      const flowValueList = ref({});
+      const flowData = ref({});
+      let Sendcar = ref(false);
       const [registerModel] = useModalInner(async (data) => {
-        console.log(
-          '🚀 ~ file: PrintIndex.vue ~ line 89 ~ const[registerModel,{closeModal}]=useModalInner ~ data',
-          data,
-        );
-        const userData = await getRosterList({ id: data.createPersonId });
-        console.log('userData==>', userData);
-        modelRef.value = userData;
+        console.log('data[0].templateId==>>>', data[0].templateId);
+        if (data[0].templateId === 2) {
+          Sendcar.value = true;
+          flowData.value = data[0];
+          const userDataList = await getRosterList({ id: data[0].createPersonId });
+          userData.value = userDataList.list[0];
+          //流程json
+          // const flowJson = JSON.parse(data[0].formData);
+          // console.log('flowJson==>', flowJson.fields);
+          //流程值
+          flowValueList.value = JSON.parse(data[0].formModel);
+          // console.log('flowValueList==>', flowValueList.value);
+          //获取审批时间和审批人
+          let flowActualDate = '';
+          let flowActualPersonName = [];
+          for (var i = 0; flowData.value.flowActionVos.length > i; i++) {
+            flowActualDate = flowData.value.flowActionVos[i].actualDate;
+            if (flowData.value.flowActionVos[i].actualPersonName)
+              flowActualPersonName.push(flowData.value.flowActionVos[i].actualPersonName);
+          }
+          var timearr = flowActualDate.replace(' ', ':').replace(/\:/g, '-').split('-');
+          var ActualDate =
+            '' +
+            timearr[1].split('')[1] +
+            '月' +
+            timearr[2] +
+            '日\t' +
+            timearr[3] +
+            '时' +
+            timearr[4] +
+            '分';
+          // console.log('ActualDate==>', ActualDate);
+          //获取创建时间
+          let CreateDatelist = flowData.value.createDate;
+          var timearr = CreateDatelist.replace(' ', ':').replace(/\:/g, '-').split('-');
+          // console.log('timearr==>', timearr);
+          var flowCreateDate =
+            timearr[0] + '年' + timearr[1].split('')[1] + '月' + timearr[2] + '日\t';
+          // console.log('flowCreateDate==>' + flowCreateDate);
+          modelRef.value.field1 = flowValueList.value.field1OrgName;
+          modelRef.value.field2 = flowValueList.value.field2CarName;
+          modelRef.value.field3 = flowValueList.value.field3;
+          modelRef.value.field41 = flowValueList.value.field4[0];
+          modelRef.value.field42 = flowValueList.value.field4[1];
+          modelRef.value.field5 = flowValueList.value.field5;
+          modelRef.value.field6 = flowValueList.value.field6MoreNumber;
+          modelRef.value.field7 = flowValueList.value.field7;
+          modelRef.value.field8 = flowValueList.value.field8;
+          modelRef.value.flowActualDate = ActualDate;
+          modelRef.value.flowCreateDate = flowCreateDate;
+          modelRef.value.flowActualPersonName = flowActualPersonName.splice(0, 1);
+        } else {
+          Sendcar.value = false;
+          modelRef.value = [];
+          userData.value = [];
+        }
       });
       //  发送数据请求
       async function handleSubmit() {
@@ -273,6 +333,9 @@
           type: 'html',
           scanStyles: false,
           style: `
+                table{
+                    height:500px;
+                }
                 .table-d .title {
                   width: 100%;
                   font-size: 24px;
@@ -304,9 +367,9 @@
                 }
 
                 .table-d table td:nth-child(1) {
-                  width: 150px;
+                  width: 200px;
                 }
-
+ 
                 .table-d .bottom {
                   display: flex;
                   justify-content: flex-start;
@@ -320,6 +383,14 @@
                 }
                 `,
         });
+        modelRef.value = [];
+        userData.value = [];
+        console.log('数据==>', modelRef.value, userData.value);
+      }
+      async function handleResetForm() {
+        modelRef.value = [];
+        userData.value = [];
+        console.log('数据==>', modelRef.value, userData.value);
       }
       return {
         registerModel,
@@ -328,6 +399,11 @@
         printTime,
         applyTime,
         flowInfo,
+        userData,
+        flowValueList,
+        flowData,
+        Sendcar,
+        handleResetForm,
       };
     },
   });

@@ -49,6 +49,7 @@
   import { useModal } from '/@/components/Modal';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { flowList } from '/@/api/flow/workFlow';
+  import { flowDetail } from '/@/api/flow/workFlow';
   const { createConfirm } = useMessage();
   //from弹框
   const [standingBookModel, { openModal }] = useModal();
@@ -82,15 +83,17 @@
     });
     reload();
   };
-  const print = (data) => {
-    console.log('adta', data);
+  const print = async (data) => {
+    // console.log('adta', data);
+    const flowData = await flowDetail({ flowInfoId: data.id });
+    console.log('flowData==>', flowData);
     //目前功能数据还未完善
     createConfirm({
       iconType: 'warning',
       title: '提示',
       content: '确认打印？',
       onOk: async () => {
-        openModal_print(true, pringtDate);
+        openModal_print(true, flowData);
       },
     });
   };

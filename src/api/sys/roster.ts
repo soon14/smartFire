@@ -10,6 +10,7 @@ enum Api {
 }
 
 export const getRosterList = (data) => {
+  console.log('data==>', data);
   const defaultData = {
     pageNum: 1,
     pageSize: 99999,

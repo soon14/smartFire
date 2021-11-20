@@ -51,9 +51,6 @@
 <script>
   import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  // import { BasicForm } from '/@/components/Form/index';
-  // import { carDetails } from '/@/api/vehicle/vehicle';
-  // import { BasicTable } from '/@/components/Table';
   import { Descriptions } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import PrintModal from './PrintModal.vue';
@@ -64,8 +61,6 @@
   export default defineComponent({
     components: {
       BasicModal,
-      // BasicForm,
-      // BasicTable,
       [Descriptions.name]: Descriptions,
       [Descriptions.Item.name]: Descriptions.Item,
       PrintModal,
@@ -88,35 +83,16 @@
         }
       };
       const [registerModalInner, { changeOkLoading, closeModal }] = useModalInner(async (data) => {
-        // console.log(data);
         const flowData = await flowDetail({ flowInfoId: data.id });
         flowList.value = flowData;
         console.log('数据==>', flowData);
         if (flowData[0].formData) {
           //表单json 数据
           const flowJson = JSON.parse(flowData[0].formData);
-          // const  flowJsonList    =  flowJson.fields
-          console.log('flowJson==>', flowJson.fields);
-
+          // console.log('flowJson==>', flowJson.fields);
           //表单value 数据
           flowValueList.value = JSON.parse(flowData[0].formModel);
-          console.log('flowValueList==>', flowValueList.value);
-          // for (var i = 0; i < flowJsonList.length; i++) {
-          //     console.log("111", flowJsonList[i].tag)
-          //    if( flowJsonList[i].tag === 'fc-org-select')  {
-          //       flowValueData.field1OrgName = flowValueList.field1OrgName
-          //    }else if  (flowJsonList[i].tag === 'fc-car-book' &&  flowJsonList[i].type === "single" )  {
-          //       flowValueData.field2CarName = flowValueList.field2CarName
-          //    }else if  (flowJsonList[i].tag === 'fc-car-book' &&    flowJsonList[i].type === "more"  ){
-          //          flowValueData.MoreCarMumber = flowValueList.MoreCarMumber
-          //    } else if  (flowJsonList[i].tag === 'fc-address-book' &&    flowJsonList[i].type === "single"  ){
-          //          flowValueData.personName = flowValueList.personName
-          //    } else if  (flowJsonList[i].tag === 'fc-address-book' &&    flowJsonList[i].type === "more"  ){
-          //          flowValueData.field6MoreNumber = flowValueList.field6MoreNumber
-          //    }else{
-
-          //    }
-          // }
+          // console.log('flowValueList==>', flowValueList.value);
           modelRef.value = flowJson.fields;
         }
       });
@@ -124,7 +100,6 @@
       //打印数据
       const printBill = () => {
         const pringtDate = flowList.value;
-        console.log('pringtDate==>', pringtDate);
         createConfirm({
           iconType: 'warning',
           title: '提示',
