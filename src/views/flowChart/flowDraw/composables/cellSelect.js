@@ -9,6 +9,7 @@ export default (graph, curCell) => {
     // console.log(instance.ctx.node);
     curCell.value = cell;
     let removeBtnCfg;
+    let addBtnCfg;
     if (cell.isEdge()) {
       cell.attr('line', { stroke: 'skyblue', strokeWidth: 3 });
       removeBtnCfg = { distance: '30%' };
@@ -18,11 +19,18 @@ export default (graph, curCell) => {
       const cellView = graph.value.findView(cell);
       cellView.addClass(`${cell.shape}-selected`);
       removeBtnCfg = { x: 0, y: 0, offset: { x: -5, y: -5 } };
+      addBtnCfg = { x: 0, y: 0, offset: { x: 10, y: 10 } };
     }
-    cell.addTools({
-      name: 'button-remove', // 工具名称
-      args: removeBtnCfg, // 工具对应的参数
-    });
+    cell.addTools([
+      {
+        name: 'button', // 工具名称
+        args: addBtnCfg, // 工具对应的参数
+      },
+      {
+        name: 'button-remove', // 工具名称
+        args: removeBtnCfg, // 工具对应的参数
+      },
+    ]);
   });
 
   graph.value.on('cell:unselected', ({ cell }) => {
@@ -33,6 +41,6 @@ export default (graph, curCell) => {
       const cellView = graph.value.findView(cell);
       cellView && cellView.removeClass(`${cell.shape}-selected`);
     }
-    cell.removeTools();
+    // cell.removeTools();
   });
 };
