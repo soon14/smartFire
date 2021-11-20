@@ -1,14 +1,18 @@
 import { Shape } from '@antv/x6';
 import startIcon from '/@/assets/images/flowIcon/start.png';
-export default class StratNode extends Shape.Circle {}
+export default class StratNode extends Shape.Rect {}
 StratNode.config({
-  width: 40,
-  height: 40,
+  width: 260,
+  height: 80,
   zIndex: 100,
   markup: [
     {
-      tagName: 'circle',
+      tagName: 'rect',
       selector: 'body',
+    },
+    {
+      tagName: 'text',
+      selector: 'label',
     },
     {
       tagName: 'image',
@@ -16,6 +20,12 @@ StratNode.config({
     },
   ],
   attrs: {
+    label: {
+      text: '开始节点',
+      fill: '#0D3290',
+      strokeWidth: 0.4,
+      fontSize: 20,
+    },
     body: {
       stroke: '#06CC76',
       strokeWidth: 1,

@@ -2,7 +2,7 @@
   <div class="layout">
     <NodesBar />
     <div id="container" class="cavs"></div>
-    <CellInfo @changeNodeName="changeNodeName" :cur-cell="curCell" />
+    <!-- <CellInfo @changeNodeName="changeNodeName" :cur-cell="curCell" /> -->
   </div>
 </template>
 
@@ -10,7 +10,6 @@
   import { provide, ref, reactive, onMounted } from 'vue';
   import { Graph } from '@antv/x6';
   import NodesBar from './components/NodesBar.vue';
-  import CellInfo from './components/CellInfo.vue';
   import registerNode from './shape/registerNode';
   import cellHover from './composables/cellHover';
   import cellSelect from './composables/cellSelect';
@@ -642,10 +641,10 @@
     connectEdge(graph);
     blankEvent(graph, curCell);
   };
-  const changeNodeName = (name) => {
-    curCell.value.isNode() && curCell.value.setAttrs({ label: { text: name } });
-    curCell.value.isEdge() && curCell.value.setLabels(name);
-  };
+  // const changeNodeName = (name) => {
+  //   curCell.value.isNode() && curCell.value.setAttrs({ label: { text: name } });
+  //   curCell.value.isEdge() && curCell.value.setLabels(name);
+  // };
   onMounted(init);
   provide('graph', graph);
 </script>
