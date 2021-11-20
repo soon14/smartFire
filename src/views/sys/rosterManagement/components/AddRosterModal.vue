@@ -20,6 +20,7 @@
   import { dateUtil } from '/@/utils/dateUtil';
   import { initImgPath, initString, initStringToArray } from '/@/utils/initValue';
   import { identity, pickBy } from 'lodash';
+  import { buildUUID } from '/@/utils/uuid';
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['requestFinish', 'register'],
@@ -37,6 +38,7 @@
       });
       const { createMessage } = useMessage();
       const { success } = createMessage;
+      let uuid = buildUUID();
       const handleSubmit = async () => {
         try {
           changeOkLoading(true);
@@ -71,7 +73,8 @@
             await updateRoster(transData);
             success('修改成功');
           } else {
-            await addRoster(transData);
+            await addRoster(transData, uuid);
+            uuid = buildUUID();
             success('创建成功');
           }
           closeModal();

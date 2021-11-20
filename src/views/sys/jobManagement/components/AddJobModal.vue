@@ -17,6 +17,7 @@
   import { addJob, updateJob } from '/@/api/sys/job';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { initString } from '/@/utils/initValue';
+  import { buildUUID } from '/@/utils/uuid';
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['requestFinish', 'register'],
@@ -32,6 +33,7 @@
       });
       const { createMessage } = useMessage();
       const { success } = createMessage;
+      let uuid = buildUUID();
       const handleSubmit = async () => {
         try {
           changeOkLoading(true);
@@ -41,12 +43,14 @@
           if (formId) {
             transData.id = formId;
             await updateJob(transData);
+            closeModal();
             success('修改成功');
           } else {
-            await addJob(transData);
+            await addJob(transData, uuid);
+            closeModal();
+            uuid = buildUUID();
             success('创建成功');
           }
-          closeModal();
           emit('requestFinish');
         } catch (error) {
           changeOkLoading(false);

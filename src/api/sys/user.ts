@@ -8,6 +8,12 @@ enum Api {
   Logout = '/logout',
   GetUserInfo = '/user/userInfo',
   GetPermCode = '/getPermCode',
+  // 查询个人信息
+  USER_INFO2 = '/user/userInfo2',
+  //修改密码
+  UPDATE_PERSON_PASSWORD = '/user/updatePersonPassword',
+  //修改个人资料
+  UPDATE_USER = '/user/updateUser',
 }
 
 /**
@@ -39,3 +45,13 @@ export function getPermCode() {
 export function doLogout() {
   return defHttp.get({ url: Api.Logout });
 }
+
+export const userInfo2 = (data) => {
+  return defHttp.get({ url: Api.USER_INFO2, params: data });
+};
+export const updatePersonPassword = (data) => {
+  return defHttp.post({ url: Api.UPDATE_PERSON_PASSWORD, params: data });
+};
+export const updateUser = (data) => {
+  return defHttp.post({ url: Api.UPDATE_USER, params: data });
+};

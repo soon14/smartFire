@@ -54,6 +54,24 @@ const system: AppRouteModule = {
       },
     },
     {
+      path: 'recipes',
+      name: 'Recipes',
+      component: () => import('/@/views/sys/recipesAdmin/recipes.vue'),
+      meta: {
+        title: '食谱',
+        icon: 'icon-park-outline:chicken',
+      },
+    },
+    {
+      path: 'scheduling',
+      name: 'Scheduling',
+      component: () => import('/@/views/sys/schedulingAdmin/scheduling.vue'),
+      meta: {
+        title: '排班',
+        icon: 'zondicons:travel-case',
+      },
+    },
+    {
       path: 'propaganda',
       name: 'Propaganda',
       component: () => import('/@/views/sys/propaganda/propaganda.vue'),

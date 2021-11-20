@@ -59,6 +59,7 @@
   const { hasPermission } = usePermission();
   const { createConfirm, createMessage } = useMessage();
   const tableList = ref([]);
+
   let sourceList = null;
   const getTableList = async () => {
     const searchForm = {

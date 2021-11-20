@@ -244,6 +244,11 @@ export const systemLogHttp = createAxios({
     apiUrl: 'http://153.3.252.58:1234/nwowLog',
   },
 });
+export const workFlowHttp = createAxios({
+  requestOptions: {
+    apiUrl: 'http://192.168.1.25:6612/workFlow', //流程服务器
+  },
+});
 // other api url
 // export const otherHttp = createAxios({
 //   requestOptions: {

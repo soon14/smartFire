@@ -6,7 +6,6 @@ enum Api {
   ADDROLE = '/role/addRole',
   DELETEROLE = '/role/deleteRole',
   UPDATEROLE = '/role/updateRole',
-
   SELECT_ROLE = '/role/selectRole',
   GET_AUTHORITY_DETAIL_LIST = '/role/getAuthorityDetailList',
 }
@@ -15,8 +14,13 @@ export const getRoleList = (data) => {
   return defHttp.get({ url: Api.GETROLELIST, params: data });
 };
 
-export const addRole = (data) => {
-  return defHttp.post({ url: Api.ADDROLE, params: data });
+export const addRole = (data, uuid) => {
+  console.log('data==>', data);
+  const params = new URLSearchParams();
+  if (data !== '' && data !== null && data !== undefined) {
+    params.append('roleName', data);
+  }
+  return defHttp.post({ url: Api.ADDROLE, params: params, headers: { uuid: uuid } });
 };
 
 export const updateRole = (data) => {

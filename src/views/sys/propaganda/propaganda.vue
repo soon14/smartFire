@@ -31,7 +31,7 @@
           <div
             style="height: 300px; width: 100%; border-radius: 8px"
             :style="getBgPic(item.path)"
-            class="flex items-center justify-center picItem relative"
+            class="relative flex items-center justify-center picItem"
           >
             <div class="absolute bottom-0 left-0" style="padding: 16px">
               <div>创建人: {{ item.createName }}</div>

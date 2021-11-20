@@ -1,6 +1,10 @@
 <template>
   <div :class="`cursor-pointer ${prefixCls}`">
-    <Avatar :src="getUserInfo.avatar" :size="props.size" />
+    <Avatar
+      :src="getUserInfo.avatar"
+      :size="props.size"
+      @click="personalInformation(getUserInfo.id)"
+    />
     <div v-if="props.showInfo" :class="`text-center ${prefixCls}-personInfo`">
       {{ getUserInfo.personName }}
     </div>
@@ -15,6 +19,8 @@
   import { Avatar } from 'ant-design-vue';
   import { useUserStore } from '/@/store/modules/user';
   import { useDesign } from '/@/hooks/web/useDesign';
+  //跳转页面
+  import { useGo } from '/@/hooks/web/usePage';
   export default defineComponent({
     name: 'SecondaryUserList',
     components: {
@@ -31,10 +37,11 @@
       },
     },
     setup(props) {
+      const go = useGo();
       const getUserInfo = computed(() => {
         const userStore = useUserStore();
-        const { personName = '', headPath, desc, deptName } = userStore.getUserInfo.user || {};
-        return { personName, avatar: headPath || headerImg, desc, deptName };
+        const { personName = '', headPath, desc, deptName, id } = userStore.getUserInfo.user || {};
+        return { personName, avatar: headPath || headerImg, desc, deptName, id };
       });
       // const getUserInfo = computed(() => {
       //   const userStore = useUserStore();
@@ -42,10 +49,14 @@
       //   return { realName, avatar: avatar || headerImg, desc };
       // });
       const { prefixCls } = useDesign('secondary-menu-left-user-list');
+      function personalInformation(id) {
+        go(`/dashboard/personalInformation/${id}`);
+      }
       return {
         prefixCls,
         getUserInfo,
         props,
+        personalInformation,
       };
     },
   });

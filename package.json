@@ -49,6 +49,7 @@
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.2.0",
     "pinia": "2.0.0-rc.9",
+    "print-js": "^1.6.0",
     "qrcode": "^1.4.4",
     "resize-observer-polyfill": "^1.5.1",
     "sortablejs": "^1.14.0",

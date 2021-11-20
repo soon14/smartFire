@@ -20,8 +20,18 @@ export const getJobList = (data) => {
   return defHttp.post({ url: Api.GETJOBLIST, params: transData });
 };
 
-export const addJob = (data) => {
-  return defHttp.post({ url: Api.ADDJOB, params: data });
+export const addJob = (data, uuid) => {
+  const params = new URLSearchParams();
+  if (data.duty !== '' && data.duty !== null && data.duty !== undefined) {
+    params.append('duty', data.duty);
+  }
+  if (data.postName !== '' && data.postName !== null && data.postName !== undefined) {
+    params.append('postName', data.postName);
+  }
+  if (data.stat !== '' && data.stat !== null && data.stat !== undefined) {
+    params.append('stat', data.stat);
+  }
+  return defHttp.post({ url: Api.ADDJOB, params: params, headers: { uuid: uuid } });
 };
 
 export const deleteJob = (data) => {

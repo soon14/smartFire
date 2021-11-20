@@ -25,22 +25,22 @@
 
         <template #content>
           <div v-if="getPaginationList.length">
-            <ScrollContainer class="border border-solid border-t-0">
+            <ScrollContainer class="border border-t-0 border-solid">
               <ul class="flex flex-wrap px-2">
                 <li
                   v-for="icon in getPaginationList"
                   :key="icon"
                   :class="currentSelect === icon ? 'border border-primary' : ''"
                   class="
-                    p-2
-                    w-1/8
-                    cursor-pointer
-                    mr-1
-                    mt-1
                     flex
-                    justify-center
                     items-center
+                    justify-center
+                    p-2
+                    mt-1
+                    mr-1
                     border border-solid
+                    cursor-pointer
+                    w-1/8
                     hover:border-primary
                   "
                   @click="handleClick(icon)"
@@ -52,7 +52,7 @@
                 </li>
               </ul>
             </ScrollContainer>
-            <div class="flex py-2 items-center justify-center" v-if="getTotal >= pageSize">
+            <div class="flex items-center justify-center py-2" v-if="getTotal >= pageSize">
               <Pagination
                 showLessItems
                 size="small"
@@ -67,10 +67,10 @@
           </template>
         </template>
 
-        <span class="cursor-pointer px-2 py-1 flex items-center" v-if="isSvgMode && currentSelect">
+        <span class="flex items-center px-2 py-1 cursor-pointer" v-if="isSvgMode && currentSelect">
           <SvgIcon :name="currentSelect" />
         </span>
-        <Icon :icon="currentSelect || 'ion:apps-outline'" class="cursor-pointer px-2 py-1" v-else />
+        <Icon :icon="currentSelect || 'ion:apps-outline'" class="px-2 py-1 cursor-pointer" v-else />
       </Popover>
     </template>
   </a-input>

@@ -6,13 +6,22 @@ const flowChary: AppRouteModule = {
   path: '/flow',
   name: 'Flow',
   component: LAYOUT,
-  redirect: '/flow/flowDraw',
+  redirect: '/flow/standingBook',
   meta: {
     icon: 'icon-park-outline:connection-arrow',
     title: '流程中心',
     orderNo: 100001,
   },
   children: [
+    {
+      path: 'standingBook',
+      name: 'StandingBook',
+      component: () => import('/@/views/standingBook/standingBook.vue'),
+      meta: {
+        title: '台账',
+        icon: 'fluent:notepad-28-regular',
+      },
+    },
     {
       path: 'flowDraw',
       name: 'FlowDraw',
@@ -32,15 +41,6 @@ const flowChary: AppRouteModule = {
       //     },
       //   },
       // ],
-    },
-    {
-      path: 'position',
-      name: 'Position',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
-      meta: {
-        title: '表单设计',
-        icon: 'icon-park-outline:handbag',
-      },
     },
   ],
 };
