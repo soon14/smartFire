@@ -322,8 +322,6 @@
           modelRef.value.flowActualPersonName = flowActualPersonName.splice(0, 1);
         } else {
           Sendcar.value = false;
-          modelRef.value = [];
-          userData.value = [];
         }
       });
       //  发送数据请求
@@ -383,15 +381,8 @@
                 }
                 `,
         });
-        modelRef.value = [];
-        userData.value = [];
-        console.log('数据==>', modelRef.value, userData.value);
       }
-      async function handleResetForm() {
-        modelRef.value = [];
-        userData.value = [];
-        console.log('数据==>', modelRef.value, userData.value);
-      }
+      async function handleResetForm() {}
       return {
         registerModel,
         handleSubmit,
