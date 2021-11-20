@@ -63,6 +63,15 @@ const system: AppRouteModule = {
       },
     },
     {
+      path: 'scheduling',
+      name: 'Scheduling',
+      component: () => import('/@/views/sys/schedulingAdmin/scheduling.vue'),
+      meta: {
+        title: '排班',
+        icon: 'zondicons:travel-case',
+      },
+    },
+    {
       path: 'propaganda',
       name: 'Propaganda',
       component: () => import('/@/views/sys/propaganda/propaganda.vue'),

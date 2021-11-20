@@ -17,7 +17,7 @@ const alarmReceivingRecord: AppRouteModule = {
     {
       path: 'meetingRecordAdmin',
       name: 'MeetingRecordAdmin',
-      component: () => import('/@/views/alarmReceivingRecord/alarmReceivingRecord.vue'),
+      component: () => import('/@/views/meetingRecord/meetingRecordAdmin.vue'),
       meta: {
         title: '会议记录',
         icon: 'ph:address-book-bold',

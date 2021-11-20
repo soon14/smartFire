@@ -43,18 +43,19 @@
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { standingBookTable, standingBookSchemas } from './modules/standingBookDate';
-  import { callPoliceRecordList } from '/@/api/alarmReceivingRecord/alarmReceivingRecord';
+  // import { callPoliceRecordList } from '/@/api/alarmReceivingRecord/alarmReceivingRecord';
   import StandingBookModal from './components/standingBookModal.vue';
   import PrintModal from './components/PrintModal.vue';
   import { useModal } from '/@/components/Modal';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { flowList } from '/@/api/flow/workFlow';
   const { createConfirm } = useMessage();
   //from弹框
   const [standingBookModel, { openModal }] = useModal();
   //打印
   const [registrModel_print, { openModal: openModal_print }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
-    api: callPoliceRecordList,
+    api: flowList,
     showIndexColumn: false,
     columns: standingBookTable(),
     actionColumn: {
@@ -73,6 +74,7 @@
     });
     reload();
   };
+
   const handleSuccess = (val) => {
     console.log('val==>', val);
     setProps({

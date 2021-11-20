@@ -6,7 +6,7 @@ const flowChary: AppRouteModule = {
   path: '/flow',
   name: 'Flow',
   component: LAYOUT,
-  redirect: '/flow/flowDraw',
+  redirect: '/flow/standingBook',
   meta: {
     icon: 'icon-park-outline:connection-arrow',
     title: '流程中心',
