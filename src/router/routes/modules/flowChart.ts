@@ -1,7 +1,7 @@
 import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
-
+const IFrame = () => import('/@/views/sys/iframe/FrameBlank.vue');
 const flowChary: AppRouteModule = {
   path: '/flow',
   name: 'Flow',
@@ -25,7 +25,7 @@ const flowChary: AppRouteModule = {
     {
       path: 'flowDraw',
       name: 'FlowDraw',
-      component: () => import('/@/views/flowChart/flowDraw/index.vue'),
+      component: () => import('/@/views/flowDesign/flowDesign.vue'),
       meta: {
         title: '流程设计',
         icon: 'icon-park-outline:people-safe-one',
@@ -41,6 +41,18 @@ const flowChary: AppRouteModule = {
       //     },
       //   },
       // ],
+    },
+    {
+      path: 'flowDesign',
+      name: 'FlowDesign',
+      component: IFrame,
+      meta: {
+        // frameSrc: 'http://192.168.1.89:9090/approvalflow/',
+        frameSrc: 'http://192.168.1.170:8088/approvalflow/',
+        title: '流程设计',
+        hideMenu: true,
+        currentActiveMenu: '/flow/flowDraw',
+      },
     },
   ],
 };

@@ -5,20 +5,21 @@
         :src="frameSrc"
         :class="`${prefixCls}__main`"
         ref="frameRef"
+        id="childPage"
         @load="hideLoading"
       ></iframe>
     </Spin>
   </div>
 </template>
 <script lang="ts" setup>
-  import type { CSSProperties } from 'vue';
+  import { CSSProperties, onMounted, toRaw } from 'vue';
   import { ref, unref, computed } from 'vue';
   import { Spin } from 'ant-design-vue';
   import { useWindowSizeFn } from '/@/hooks/event/useWindowSizeFn';
   import { propTypes } from '/@/utils/propTypes';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLayoutHeight } from '/@/layouts/default/content/useContentViewHeight';
-
+  import { useTemplateStore } from '/@/store/modules/template';
   defineProps({
     frameSrc: propTypes.string.def(''),
   });
@@ -38,6 +39,10 @@
     };
   });
 
+  onMounted(() => {
+    iframeInit();
+  });
+
   function calcHeight() {
     const iframe = unref(frameRef);
     if (!iframe) {
@@ -53,6 +58,15 @@
   function hideLoading() {
     loading.value = false;
     calcHeight();
+  }
+  function iframeInit() {
+    const data = toRaw(useTemplateStore().getTemplateInfo);
+    useTemplateStore().setTemplateInfo(null);
+    console.log('data===', data);
+    const iframe = unref(frameRef);
+    iframe.onload = function () {
+      iframe.contentWindow.postMessage(data, '*');
+    };
   }
 </script>
 <style lang="less" scoped>
