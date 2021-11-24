@@ -55,7 +55,7 @@
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { getmaterialWarehouseTable, materialSchemas } from './modules/materialWarehouse';
-  import { carList } from '/@/api/vehicle/vehicle';
+  // import { carList } from '/@/api/vehicle/vehicle';
   import Material from './components/materialWarehouseFrom.vue';
   import { useModal } from '/@/components/Modal';
   // import { usePermission } from '/@/hooks/web/usePermission';
@@ -72,7 +72,7 @@
   // const [scrapReasonModal, { openModal: scrapModal }] = useModal();
   const [lookUpModal, { openModal: lookModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
-    api: carList,
+    // api: carList,
     showIndexColumn: false,
     columns: getmaterialWarehouseTable(),
     actionColumn: {

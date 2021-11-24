@@ -4,7 +4,7 @@ export function getVisitorsTableColumns(): BasicColumn[] {
   return [
     {
       title: '时间',
-      dataIndex: 'time',
+      dataIndex: 'createDate',
     },
     {
       title: '出警类型',
@@ -16,11 +16,11 @@ export function getVisitorsTableColumns(): BasicColumn[] {
     },
     {
       title: '出动车辆',
-      dataIndex: 'outCar',
+      dataIndex: 'registrationNumber',
     },
     {
       title: '出动人员',
-      dataIndex: 'outPersonsName',
+      dataIndex: 'outPersons',
     },
     {
       title: '疏散人员',
@@ -66,11 +66,15 @@ export function defaultSchemas() {
         options: [
           {
             label: '火灾',
-            value: '1',
+            value: '火灾',
           },
           {
             label: '社会救助',
-            value: '2',
+            value: '社会救助',
+          },
+          {
+            label: '抢险救援',
+            value: '抢险救援',
           },
         ],
       },

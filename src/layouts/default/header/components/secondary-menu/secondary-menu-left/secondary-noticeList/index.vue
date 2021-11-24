@@ -34,7 +34,7 @@
       const messageDate = ref({});
       const [message, { openModal }] = useModal();
       const init = async () => {
-        messageDate.value = await messageList({ messageStat: 0 });
+        messageDate.value = await messageList({ messageStat: 0, pageSize: 999999 });
       };
       const messageModel = (data) => {
         console.log('消息信息', data);

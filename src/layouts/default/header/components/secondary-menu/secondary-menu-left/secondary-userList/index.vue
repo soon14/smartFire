@@ -21,6 +21,7 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   //跳转页面
   import { useGo } from '/@/hooks/web/usePage';
+  import { nodeStore } from '/@/store/modules/pictureList';
   export default defineComponent({
     name: 'SecondaryUserList',
     components: {
@@ -40,8 +41,18 @@
       const go = useGo();
       const getUserInfo = computed(() => {
         const userStore = useUserStore();
-        const { personName = '', headPath, desc, deptName, id } = userStore.getUserInfo.user || {};
-        return { personName, avatar: headPath || headerImg, desc, deptName, id };
+        const { personName = '', desc, deptName, id } = userStore.getUserInfo.user || {};
+        //图片
+        const token = userStore.getToken;
+        console.log('token', token);
+        let headPathImg = '';
+        const nodeData = nodeStore();
+        if (token) {
+          nodeData.getNodeList(id);
+          console.log('nodeData=>', nodeData);
+          headPathImg = nodeData.headPath;
+        }
+        return { personName, avatar: headPathImg || headerImg, desc, deptName, id };
       });
       // const getUserInfo = computed(() => {
       //   const userStore = useUserStore();

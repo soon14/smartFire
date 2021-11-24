@@ -26,7 +26,7 @@
   import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { List, Avatar } from 'ant-design-vue';
-  import headerImg from '/@/assets/images/foreignVisitors.png';
+  import headerImg from '/@/assets/images/process_handling.png';
   export default defineComponent({
     components: {
       BasicModal,

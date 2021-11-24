@@ -70,7 +70,7 @@
     //查询条件
     setProps({
       searchInfo: {
-        visitorName: val,
+        flowNumber: val,
       },
     });
     reload();
@@ -87,7 +87,6 @@
     // console.log('adta', data);
     const flowData = await flowDetail({ flowInfoId: data.id });
     console.log('flowData==>', flowData);
-    //目前功能数据还未完善
     createConfirm({
       iconType: 'warning',
       title: '提示',

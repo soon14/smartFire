@@ -5,12 +5,12 @@ const categoryMap = {
   1: '消防车',
   2: '行政车',
 };
-const carTypeMap = {
-  1: '中型水罐消防车',
-  2: '泡沫消防车',
-  3: '干粉消防车',
-  4: '云梯消防车',
-};
+// const carTypeMap = {
+//   1: '中型水罐消防车',
+//   2: '泡沫消防车',
+//   3: '干粉消防车',
+//   4: '云梯消防车',
+// };
 export function getAdministrativeVehicleTable(): BasicColumn[] {
   return [
     {
@@ -40,13 +40,13 @@ export function getAdministrativeVehicleTable(): BasicColumn[] {
       title: '购买日期',
       dataIndex: 'buyDate',
     },
-    {
-      title: '车型',
-      dataIndex: 'categoryId',
-      customRender: ({ record }) => {
-        return carTypeMap[record.categoryId];
-      },
-    },
+    // {
+    //   title: '车型',
+    //   dataIndex: 'categoryId',
+    //   customRender: ({ record }) => {
+    //     return carTypeMap[record.categoryId];
+    //   },
+    // },
     {
       title: '发动机号',
       dataIndex: 'engineNumber',
@@ -84,7 +84,8 @@ export function getAdministrativeVehicleForm() {
             if (isUnDef(value) || isEmpty(value)) {
               return Promise.resolve();
             }
-            const phoneReg = /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/;
+            const phoneReg =
+              /^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/;
             if (!phoneReg.test(value)) {
               return Promise.reject('请输入正确格式车牌号');
             }
@@ -125,6 +126,7 @@ export function getAdministrativeVehicleForm() {
         span: 12,
       },
       rules: [{ required: true }],
+      dynamicDisabled: true,
     },
     {
       field: 'buyDate',
@@ -134,34 +136,34 @@ export function getAdministrativeVehicleForm() {
         span: 12,
       },
     },
-    {
-      field: 'categoryId',
-      component: 'Select',
-      label: '车型',
-      colProps: {
-        span: 12,
-      },
-      componentProps: {
-        options: [
-          {
-            label: '中型水罐消防车',
-            value: '1',
-          },
-          {
-            label: '泡沫消防车',
-            value: '2',
-          },
-          {
-            label: '干粉消防车',
-            value: '3',
-          },
-          {
-            label: '云梯消防车',
-            value: '4',
-          },
-        ],
-      },
-    },
+    // {
+    //   field: 'categoryId',
+    //   component: 'Select',
+    //   label: '车型',
+    //   colProps: {
+    //     span: 12,
+    //   },
+    //   componentProps: {
+    //     options: [
+    //       {
+    //         label: '中型水罐消防车',
+    //         value: '1',
+    //       },
+    //       {
+    //         label: '泡沫消防车',
+    //         value: '2',
+    //       },
+    //       {
+    //         label: '干粉消防车',
+    //         value: '3',
+    //       },
+    //       {
+    //         label: '云梯消防车',
+    //         value: '4',
+    //       },
+    //     ],
+    //   },
+    // },
     {
       field: 'engineNumber',
       component: 'Input',
@@ -274,35 +276,35 @@ export function getLookUpVehicleForm() {
         span: 12,
       },
     },
-    {
-      field: 'categoryId',
-      component: 'Select',
-      dynamicDisabled: true,
-      label: '车型',
-      colProps: {
-        span: 12,
-      },
-      componentProps: {
-        options: [
-          {
-            label: '中型水罐消防车',
-            value: '1',
-          },
-          {
-            label: '泡沫消防车',
-            value: '2',
-          },
-          {
-            label: '干粉消防车',
-            value: '3',
-          },
-          {
-            label: '云梯消防车',
-            value: '4',
-          },
-        ],
-      },
-    },
+    // {
+    //   field: 'categoryId',
+    //   component: 'Select',
+    //   dynamicDisabled: true,
+    //   label: '车型',
+    //   colProps: {
+    //     span: 12,
+    //   },
+    //   componentProps: {
+    //     options: [
+    //       {
+    //         label: '中型水罐消防车',
+    //         value: '1',
+    //       },
+    //       {
+    //         label: '泡沫消防车',
+    //         value: '2',
+    //       },
+    //       {
+    //         label: '干粉消防车',
+    //         value: '3',
+    //       },
+    //       {
+    //         label: '云梯消防车',
+    //         value: '4',
+    //       },
+    //     ],
+    //   },
+    // },
     {
       field: 'engineNumber',
       component: 'Input',

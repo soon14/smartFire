@@ -23,8 +23,19 @@
                   ></span
                 >
               </template>
-              <template #avatar>
-                <img :src="userData.signaturePath" style="width: 150px; height: 150px" />
+              <template #avatar shape="square">
+                <img
+                  v-show="picture.pictureData.headPath !== ''"
+                  :src="picture.pictureData.headPath"
+                  :v-model="picture"
+                  style="width: 150px; height: 150px"
+                />
+                <img
+                  v-show="picture.pictureData.headPath == ''"
+                  :src="picture.pictureData.img"
+                  :v-model="picture"
+                  style="width: 150px; height: 150px"
+                />
               </template>
               <template #content>
                 <a-descriptions title="基本信息">
@@ -168,7 +179,7 @@
 </template>
 <script lang="ts">
   import { Card, Row, Col, Comment, Avatar, Descriptions, Tag, Space, List } from 'ant-design-vue';
-  import { defineComponent, onMounted, ref, unref, computed } from 'vue';
+  import { defineComponent, onMounted, ref, unref, computed, reactive } from 'vue';
   import { LeftOutlined, UserOutlined } from '@ant-design/icons-vue';
   import { userInfo2 } from '/@/api/sys/user';
   import { useRouter } from 'vue-router';
@@ -176,6 +187,9 @@
   import updataInformationModal from './components/updataInformation.vue';
   //跳转页面
   import { useGo } from '/@/hooks/web/usePage';
+  import { useUserStore } from '/@/store/modules/user';
+  import { nodeStore } from '/@/store/modules/pictureList';
+  import header from '/@/assets/images/header.jpg';
   export default defineComponent({
     components: {
       [Card.name]: Card,
@@ -203,6 +217,12 @@
       onMounted(() => {
         init();
       });
+      const picture = reactive({
+        pictureData: {
+          picturePath: '',
+          img: '',
+        },
+      });
       async function init() {
         const params = computed(() => {
           console.log('路由传过来的值', params);
@@ -211,6 +231,20 @@
         console.log('params==>', params);
         userData.value = await userInfo2({ userId: params.value.id });
         console.log('userData==>', userData.value);
+
+        //查看是否有token
+        const userStore = useUserStore();
+        const token = userStore.getToken;
+        console.log('token', token);
+        const nodeData = nodeStore();
+        if (token) {
+          nodeData.getNodeList(params.value.id);
+          console.log('nodeData=>', nodeData);
+          picture.pictureData = nodeData;
+        }
+
+        // 没有图片
+        picture.pictureData.img = header;
       }
       function returnPage() {
         go('/dashboard/analysis');
@@ -225,6 +259,7 @@
         returnPage,
         updataInformation,
         updataInformationFrom,
+        picture,
       };
     },
   });

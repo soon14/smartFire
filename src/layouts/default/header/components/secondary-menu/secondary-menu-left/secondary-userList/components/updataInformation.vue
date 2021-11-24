@@ -20,6 +20,7 @@
   import { updateUser } from '/@/api/sys/user';
   import { dateUtil } from '/@/utils/dateUtil';
   import { initImgPath, initString, initStringToArray } from '/@/utils/initValue';
+  import { nodeStore } from '/@/store/modules/pictureList';
   const modelRef = ref({});
   export default defineComponent({
     components: { BasicModal, BasicForm },
@@ -80,6 +81,9 @@
           await updateUser(transData);
           success('修改成功');
           closeModal();
+
+          const nodeData = nodeStore();
+          nodeData.getNodeList(formId);
           // resetFields();
           // clearValidate();
           changeOkLoading(false);
@@ -103,7 +107,6 @@
             title: '修改资料',
           });
           const dataList = data.userdata;
-
           removeSchemaByFiled('password');
           initString(dataList, 'postId');
           initString(dataList, 'eduBackground');

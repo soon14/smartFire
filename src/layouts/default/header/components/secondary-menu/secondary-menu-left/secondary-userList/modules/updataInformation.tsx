@@ -23,6 +23,7 @@ export function getUpdataInformationForm() {
         span: 12,
       },
       rules: [{ required: true }],
+      dynamicDisabled: true,
     },
     {
       field: 'password',
@@ -48,6 +49,7 @@ export function getUpdataInformationForm() {
         span: 12,
       },
       rules: [{ required: true }],
+      dynamicDisabled: true,
     },
     {
       field: 'deptId',
@@ -72,6 +74,7 @@ export function getUpdataInformationForm() {
           trigger: ['change', 'blur'],
         },
       ],
+      dynamicDisabled: true,
     },
     {
       field: 'personName',
@@ -81,6 +84,7 @@ export function getUpdataInformationForm() {
         span: 12,
       },
       rules: [{ required: true, whitespace: true }],
+      dynamicDisabled: true,
     },
     {
       field: 'signaturePath',
@@ -157,6 +161,8 @@ export function getUpdataInformationForm() {
       colProps: {
         span: 12,
       },
+      required: true,
+      dynamicDisabled: true,
     },
     {
       field: 'nowDivision',
