@@ -6,6 +6,7 @@ import { updateTemplate } from '/@/api/flow/workFlow';
 const flowGroupMap = {
   1: '用车申请单',
   2: '接处警登记',
+  3: '物资申领',
 };
 export function flowTable(): BasicColumn[] {
   return [
