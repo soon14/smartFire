@@ -44,18 +44,20 @@
 </template>
 <script setup>
   // import { Input, Space } from 'ant-design-vue';
-  import { onMounted, ref, nextTick } from 'vue';
+  // import { onMounted, ref, nextTick } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getBaseTableColumns } from './modules/department.tsx';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
-  import { deptList, deleteDept } from '/@/api/sys/department';
+  import { deptList, deleteDept, getDeptList2 } from '/@/api/sys/department';
   import { useModal } from '/@/components/Modal';
   import Modal from './departmentModel.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { cloneDeep } from 'lodash';
   import { usePermission } from '/@/hooks/web/usePermission';
-  import { initString } from '/@/utils/initValue';
+  // import { initString } from '/@/utils/initValue';
+  // import { async } from '@antv/x6/lib/registry/marker/async';
   const { hasPermission } = usePermission();
   const { createConfirm, createMessage } = useMessage();
   const tableList = ref([]);
@@ -65,6 +67,7 @@
     const searchForm = {
       pageNum: 1,
       pageSize: 10,
+      parentId: 0,
     };
     const apiRes = await deptList(searchForm);
     sourceList = apiRes;
@@ -91,7 +94,8 @@
       },
     ];
   };
-  const [registerTable, { expandAll }] = useTable({
+  // const [registerTable, { expandAll }] = useTable({
+  const [registerTable] = useTable({
     isTreeTable: true,
     columns: getBaseTableColumns(),
     dataSource: tableList,
@@ -132,92 +136,117 @@
     );
     openModal(true, tempData);
   };
-  const handleSearch = (val) => {
-    const tempData = cloneDeep(sourceList);
-    const processData = matchTreeData(tempData, val);
+  const handleSearch = async (val) => {
+    console.log('val=>', val);
+    // const tempData = cloneDeep(sourceList);
+    // const processData = matchTreeData(tempData, val);
+    // console.log(' processData==>', processData);
+
+    const processData = await deptList({ deptName: val });
+    console.log('processData=11111', processData);
     tableList.value = processData;
-    nextTick(() => {
-      expandAll();
-    });
+
+    // console.log(' tableList.value==>', tableList.value);
+    // nextTick(() => {
+    //   expandAll();
+    // });
     // getTableList();
   };
-  const handleMoreSearch = (val) => {
+  const handleMoreSearch = async (val) => {
     console.log('🚀 ~ file: department.vue ~ line 143 ~ handleMoreSearch ~ val', val);
     const tempData = cloneDeep(sourceList);
     if (!val.stat) {
       tableList.value = tempData;
     } else {
-      const processData = matchTreeDataByStat(tempData, val.stat);
-      console.log(
-        '🚀 ~ file: department.vue ~ line 146 ~ handleMoreSearch ~ processData',
-        processData,
-      );
+      const processData = await getDeptList2({ stat: val.stat });
+      console.log('processData==>', processData);
+      // const processData = matchTreeDataByStat(tempData, val.stat);
+      // console.log(
+      //   '🚀 ~ file: department.vue ~ line 146 ~ handleMoreSearch ~ processData',
+      //   processData,
+      // );
       tableList.value = processData;
     }
 
-    nextTick(() => {
-      expandAll();
-    });
+    // nextTick(() => {
+    //   expandAll();
+    // });
   };
-  const matchTreeData = (arr, searchCon) => {
-    let newArr = [];
-    let searchNameList = ['deptName'];
-    arr.forEach((item) => {
-      for (let i = 0, len = searchNameList.length; i < len; i++) {
-        let nameKey = searchNameList[i];
-        if (item.hasOwnProperty(nameKey)) {
-          if (item[nameKey] && item[nameKey].indexOf(searchCon) !== -1) {
-            newArr.push(item);
-            break;
-          } else {
-            if (item.deptVos && item.deptVos.length > 0) {
-              let resultArr = matchTreeData(item.deptVos, searchCon);
-              if (resultArr && resultArr.length > 0) {
-                newArr.push({
-                  ...item,
-                  deptVos: resultArr,
-                });
-                break;
-              }
-            }
-          }
-        } else {
-          continue;
-        }
-      }
-    });
-    return newArr;
-  };
-  const matchTreeDataByStat = (arr, searchCon) => {
-    let newArr = [];
-    let searchNameList = ['stat'];
-    arr.forEach((item) => {
-      for (let i = 0, len = searchNameList.length; i < len; i++) {
-        let nameKey = searchNameList[i];
-        initString(item, 'stat');
-        if (item.hasOwnProperty(nameKey)) {
-          if (item[nameKey] && item[nameKey] == searchCon) {
-            newArr.push(item);
-            break;
-          } else {
-            if (item.deptVos && item.deptVos.length > 0) {
-              let resultArr = matchTreeData(item.deptVos, searchCon);
-              if (resultArr && resultArr.length > 0) {
-                newArr.push({
-                  ...item,
-                  deptVos: resultArr,
-                });
-                break;
-              }
-            }
-          }
-        } else {
-          continue;
-        }
-      }
-    });
-    return newArr;
-  };
+  // const matchTreeData = (arr, searchCon) => {
+  //   console.log('状态数据', arr, searchCon);
+  //   let newArr = [];
+  //   let searchNameList = ['deptName'];
+  //   arr.forEach((item) => {
+  //     for (let i = 0, len = searchNameList.length; i < len; i++) {
+  //       let nameKey = searchNameList[i];
+  //       console.log('item.hasOwnProperty(nameKey)', item.hasOwnProperty(nameKey));
+  //       if (item.hasOwnProperty(nameKey)) {
+  //         console.log('item.hasOwnProperty(nameKey)', item.hasOwnProperty(nameKey));
+  //         if (item[nameKey] && item[nameKey].indexOf(searchCon) !== -1) {
+  //           newArr.push(item);
+  //           break;
+  //         } else {
+  //           console.log('item', item);
+  //           if (item.deptVos && item.deptVos.length > 0) {
+  //             let resultArr = matchTreeData(item.deptVos, searchCon);
+  //             if (resultArr && resultArr.length > 0) {
+  //               newArr.push({
+  //                 ...item,
+  //                 deptVos: resultArr,
+  //               });
+  //               break;
+  //             }
+  //           }
+  //         }
+  //       } else {
+  //         continue;
+  //       }
+  //     }
+  //   });
+  //   return newArr;
+  // };
+  // const matchTreeDataByStat = (arr, searchCon) => {
+  //   console.log('传递数据', arr, searchCon);
+  //   let newArr = [];
+  //   let searchNameList = ['stat'];
+  //   arr.forEach((item) => {
+  //     for (let i = 0, len = searchNameList.length; i < len; i++) {
+  //       let nameKey = searchNameList[i];
+  //       console.log('nameKey1212==>', nameKey);
+  //       initString(item, 'stat');
+  //       console.log('nameKey==>', item.hasOwnProperty(nameKey));
+  //       //判断stat属性是否存在
+  //       if (item.hasOwnProperty(nameKey)) {
+  //         console.log('1==>', searchCon);
+  //         console.log('nameKeyTrue121aaaa==>', item[nameKey]);
+  //         // console.log('状态比较', item[nameKey]);
+  //         if (item[nameKey] && item[nameKey] == searchCon) {
+  //           console.log('itemsaaaa==>', item);
+  //           newArr.push(item);
+  //           break;
+  //         } else {
+  //           console.log('item');
+  //           if (item.deptVos && item.deptVos.length > 0) {
+  //             console.log('数据', item.deptVos, searchCon);
+  //             let resultArr = matchTreeData(item.deptVos, searchCon);
+  //             console.log('resultArr==>', resultArr);
+  //             if (resultArr && resultArr.length > 0) {
+  //               newArr.push({
+  //                 ...item,
+  //                 deptVos: resultArr,
+  //               });
+  //               break;
+  //             }
+  //           }
+  //         }
+  //       } else {
+  //         continue;
+  //       }
+  //     }
+  //   });
+  //   console.log('newArr=++。', newArr);
+  //   return newArr;
+  // };
   const handleRefresh = () => {
     getTableList();
     // collapseAll();

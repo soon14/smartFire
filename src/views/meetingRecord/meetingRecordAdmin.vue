@@ -36,13 +36,13 @@
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { meetingRecordTable, defaultSchemas } from './modules/alarmReceivingRecordDate';
-  import { callPoliceRecordList } from '/@/api/alarmReceivingRecord/alarmReceivingRecord';
+  // import { callPoliceRecordList } from '/@/api/alarmReceivingRecord/alarmReceivingRecord';
   import MeetingRecordModal from './components/meetingRecordModal.vue';
   import { useModal } from '/@/components/Modal';
   const fieldTimeMap = [['time', ['timeBegin', 'timeEnd'], 'YYYY-MM-DD']];
   const [MeetingModel, { openModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
-    api: callPoliceRecordList,
+    // api: callPoliceRecordList,
     showIndexColumn: false,
     columns: meetingRecordTable(),
     actionColumn: {

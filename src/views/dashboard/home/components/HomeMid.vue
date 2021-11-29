@@ -1,5 +1,6 @@
 <template>
   <div style="padding: 48px 16px 0 16px; position: absolute; width: 100%">
+    <!-- 营区宣传 -->
     <a-card style="box-shadow: 0 4px 26px #1f58ec" :bordered="false">
       <div>
         <NwowHeader title="营区宣传" />
@@ -22,11 +23,36 @@
         </div>
       </div>
     </a-card>
+    <!-- 人员在岗在位 -->
+    <!-- <a-card style="box-shadow: 0 4px 26px #1f58ec" :bordered="false">
+      <a-row>
+        <div
+          ><span><UserOutlined/></span>人员在岗在位</div
+        >
+        <div>
+        <a-col :span="5">
+         <p>sdsdsagd</p>
+          <p>sdsdsagd</p>
+        </a-col >
+       <a-col :span="19">
+        sssss
+        </a-col>
+              
+        </div>
+      </a-row>
+    </a-card> -->
+
+    <!-- 行政车辆 -->
+    <!-- <a-card style="box-shadow: 0 4px 26px #1f58ec" :bordered="false">
+      <div>
+        <NwowHeader title="行政车辆" />
+      </div>
+    </a-card> -->
   </div>
 </template>
 <script>
   import { defineComponent, onMounted, ref } from 'vue';
-  import { Card } from 'ant-design-vue';
+  import { Card, Row, Col } from 'ant-design-vue';
   import { getPictureList } from '/@/api/sys/propaganda';
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   // import Swiper core and required modules
@@ -34,11 +60,12 @@
   // Import Swiper Vue.js components
   import { Swiper, SwiperSlide } from 'swiper/vue';
   // Import Swiper styles
+  // import { UserOutlined } from '@ant-design/icons-vue';
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
   import 'swiper/css/autoplay';
-
+  import { Tabs } from 'ant-design-vue';
   export default defineComponent({
     name: 'HomeMid',
     components: {
@@ -46,6 +73,11 @@
       NwowHeader,
       Swiper,
       SwiperSlide,
+      // UserOutlined,
+      [Tabs.name]: Tabs,
+      [Tabs.TabPane.name]: Tabs.TabPane,
+      [Row.name]: Row,
+      [Col.name]: Col,
     },
     setup() {
       const onSwiper = (swiper) => {

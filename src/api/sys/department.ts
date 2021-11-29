@@ -17,6 +17,9 @@ import { defHttp } from '/@/utils/http/axios';
 
 // POST /dept/updateDept
 // 修改部门
+
+//部门列表分级展示2 可以条件查询
+//GET /dept/deptList2
 enum Api {
   ABBDEPT = '/dept/addDept',
   DELETE_DEPT = '/dept/deleteDept',
@@ -24,6 +27,8 @@ enum Api {
   DEPT_LIST2 = '/dept/deptList2',
   DEPT_LIST3 = '/dept/deptList3',
   UPDATE_DEPT = '/dept/updateDept',
+  //部门列表分级展示2 可以条件查询
+  GET_DEPT_LIST2 = '/dept/deptList2',
 }
 export const addDept = (data, uuid) => {
   const params = new URLSearchParams();
@@ -55,4 +60,8 @@ export const deptList3 = (data) => {
 };
 export const updateDept = (data) => {
   return defHttp.post({ url: Api.UPDATE_DEPT, params: data });
+};
+//部门列表分级展示2 可以条件查询
+export const getDeptList2 = (data) => {
+  return defHttp.get({ url: Api.GET_DEPT_LIST2, params: data });
 };

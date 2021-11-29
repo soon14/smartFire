@@ -82,7 +82,9 @@
           // initString(data, 'stat');
           // data.parentId = data.parentId || '';
           // initString(data, 'parentId');
+
           if (data.id) {
+            data.type = String(data.type);
             formId = data.id;
             setModalProps({
               title: '修改车辆',

@@ -22,7 +22,7 @@
   import NwowHeader from '/@/components/NwowHeader/index.vue';
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { getreceivingRecordTable, receivingSchemas } from './modules/receivingRecord';
-  import { carList } from '/@/api/vehicle/vehicle';
+  // import { carList } from '/@/api/vehicle/vehicle';
   // import { useModal } from '/@/components/Modal';
   // import { useMessage } from '/@/hooks/web/useMessage';
   const fieldTimeMap = [
@@ -34,7 +34,7 @@
   // const [scrapReasonModal, { openModal: scrapModal }] = useModal();
   // const [lookUpModal, { openModal: lookModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
-    api: carList,
+    // api: carList,
     showIndexColumn: false,
     columns: getreceivingRecordTable(),
     searchInfo: {

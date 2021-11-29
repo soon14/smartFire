@@ -106,6 +106,7 @@
           // initString(data, 'stat');
           // data.parentId = data.parentId || '';
           // initString(data, 'parentId');
+          data.type = String(data.type);
           const carDataList = await carDetails({ carId: data.id });
           carData.carDetailsData = carDataList.carRecordVoList;
           console.log('数据==》', carData.carDetailsData);

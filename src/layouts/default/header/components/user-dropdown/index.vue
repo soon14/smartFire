@@ -24,8 +24,8 @@
           :text="t('layout.header.tooltipLock')"
           icon="ion:lock-closed-outline"
         /> -->
-        <MenuItem key="personInfo" text="个人资料" icon="icon-park-outline:address-book" />
-        <MenuItem key="editPassword" text="修改密码" icon="icon-park-outline:personal-privacy" />
+        <!-- <MenuItem key="personInfo" text="个人资料" icon="icon-park-outline:address-book" />
+        <MenuItem key="editPassword" text="修改密码" icon="icon-park-outline:personal-privacy" /> -->
         <MenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
@@ -55,7 +55,7 @@
   import { openWindow } from '/@/utils';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-
+  import { nodeStore } from '/@/store/modules/pictureList';
   type MenuEvent = 'logout' | 'doc' | 'lock' | 'editPassword';
 
   export default defineComponent({
@@ -75,10 +75,17 @@
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
-
+      const nodeData = nodeStore();
+      const token = userStore.getToken;
+      let headPathImg = '';
       const getUserInfo = computed(() => {
-        const { personName = '', headPath, desc } = userStore.getUserInfo.user || {};
-        return { personName, avatar: headPath || headerImg, desc };
+        const { personName = '', desc, id } = userStore.getUserInfo.user || {};
+        if (token) {
+          nodeData.getNodeList(id);
+          console.log('nodeData=>', nodeData);
+          headPathImg = nodeData.headPath;
+        }
+        return { personName, avatar: headPathImg || headerImg, desc };
       });
 
       const [register, { openModal }] = useModal();

@@ -84,11 +84,12 @@ export function getFireEngineForm() {
             if (isUnDef(value) || isEmpty(value)) {
               return Promise.resolve();
             }
-            const phoneReg = /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/;
-            if (!phoneReg.test(value)) {
+            console.log('value==>', value.length);
+            if (value.length == 7 || value.length == 8) {
+              return Promise.resolve();
+            } else {
               return Promise.reject('请输入正确格式车牌号');
             }
-            return Promise.resolve();
           },
           trigger: ['change', 'blur'],
           required: true,
@@ -125,6 +126,7 @@ export function getFireEngineForm() {
         span: 12,
       },
       rules: [{ required: true }],
+      dynamicDisabled: true,
     },
     {
       field: 'buyDate',

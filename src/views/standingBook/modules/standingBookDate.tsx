@@ -11,7 +11,7 @@ export function standingBookTable(): BasicColumn[] {
     },
     {
       title: '发起人',
-      dataIndex: 'nowAction',
+      dataIndex: 'createPersonName',
     },
     {
       title: '创建时间',
@@ -34,7 +34,7 @@ export function standingBookTable(): BasicColumn[] {
       title: '状态',
       dataIndex: 'stat',
       customRender: ({ record }) => {
-        return statMap[record.type];
+        return statMap[record.stat];
       },
     },
   ];
@@ -42,15 +42,15 @@ export function standingBookTable(): BasicColumn[] {
 export function standingBookSchemas() {
   return [
     {
-      field: 'callType41',
+      field: 'flowNumber',
       component: 'Input',
-      label: '标题',
+      label: '流程编号',
       colProps: {
         span: 12,
       },
     },
     {
-      field: 'callType41',
+      field: 'createPersonName',
       component: 'Input',
       label: '创建人',
       colProps: {
@@ -58,15 +58,18 @@ export function standingBookSchemas() {
       },
     },
     {
-      field: 'callType4',
+      field: 'createDate',
       component: 'DatePicker',
       label: '创建时间',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+      },
       colProps: {
         span: 12,
       },
     },
     {
-      field: 'callType3',
+      field: 'flowName',
       component: 'Input',
       label: '所属流程',
       colProps: {
@@ -75,7 +78,7 @@ export function standingBookSchemas() {
     },
 
     {
-      field: 'callType2',
+      field: 'evacuateNum',
       component: 'Input',
       label: '办理人',
       colProps: {
@@ -83,22 +86,29 @@ export function standingBookSchemas() {
       },
     },
     {
-      field: 'callType1',
-      component: 'RadioGroup',
+      field: 'stat',
+      component: 'Select',
       label: '状态',
       colProps: {
-        span: 24,
+        span: 12,
       },
       componentProps: {
-        defaultValue: '1',
         options: [
           {
-            label: '启动',
+            label: '全部',
+            value: '',
+          },
+          {
+            label: '草稿',
+            value: '0',
+          },
+          {
+            label: '审批中',
             value: '1',
           },
           {
-            label: '禁用',
-            value: '0',
+            label: '办理完成',
+            value: '2',
           },
         ],
       },

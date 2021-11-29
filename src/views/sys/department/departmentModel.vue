@@ -48,7 +48,7 @@
           if (formId) {
             transData.id = formId;
             await updateDept(transData);
-            console.log('result==>', result);
+            // console.log('result==>', result);
             closeModal();
             success('修改成功');
           } else {
@@ -59,6 +59,7 @@
           }
           emit('requestFinish');
         } catch (error) {
+          console.log('error==>', error);
           changeOkLoading(false);
         }
       };
