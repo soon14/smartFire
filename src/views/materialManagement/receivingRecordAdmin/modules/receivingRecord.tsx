@@ -1,106 +1,89 @@
 import { BasicColumn } from '/@/components/Table/src/types/table';
+import { getDeptListAll } from '/@/api/sys/dept';
 export function getreceivingRecordTable(): BasicColumn[] {
   return [
     {
       title: '申请时间',
-      dataIndex: 'carName',
+      dataIndex: 'date',
     },
     {
       title: '申请人',
-      dataIndex: 'registrationNumber',
+      dataIndex: 'applyPersonName',
     },
     {
       title: '部门',
-      dataIndex: 'license3',
+      dataIndex: 'deptName',
     },
     {
       title: '品名',
-      dataIndex: 'license2',
+      dataIndex: 'goodsName',
     },
     {
       title: '规格型号',
-      dataIndex: 'licenseq',
+      dataIndex: 'model',
     },
     {
       title: '申请数量',
-      dataIndex: 'license1sa',
+      dataIndex: 'number',
     },
     {
       title: '确认人',
-      dataIndex: 'license1aa',
+      dataIndex: 'confirmPersonName',
     },
     {
       title: '确认时间',
-      dataIndex: 'licenseg1',
+      dataIndex: 'confirmDate',
     },
     {
       title: '用途',
-      dataIndex: 'licdense1',
+      dataIndex: 'purpose',
     },
   ];
 }
 export function receivingSchemas() {
   return [
     {
-      field: 'reasona',
+      field: 'applyPersonName',
+      component: 'Input',
+      label: '申请人',
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      field: 'deptId',
+      component: 'ApiTreeSelect',
+      label: '部门',
+      colProps: {
+        span: 12,
+      },
+      componentProps: {
+        // xxxx props
+        api: getDeptListAll,
+        replaceFields: {
+          label: 'deptName',
+          value: 'id',
+          children: 'deptVos',
+        },
+      },
+    },
+    {
+      field: 'goodsName',
       component: 'Input',
       label: '品名',
       colProps: {
         span: 12,
       },
-      dynamicDisabled: true,
-      rules: [{ required: true }],
     },
     {
-      field: 'reasonc',
+      field: 'confirmPerson',
       component: 'Input',
-      label: '型号规格',
+      label: '确认人',
       colProps: {
         span: 12,
       },
-      dynamicDisabled: true,
-      rules: [{ required: true }],
     },
-    {
-      field: 'reasonq',
-      component: 'Select',
-      label: '计量单位',
-      colProps: {
-        span: 12,
-      },
-      dynamicDisabled: true,
-      componentProps: {
-        options: [
-          {
-            label: '个',
-            value: '1',
-          },
-          {
-            label: '套',
-            value: '2',
-          },
-          {
-            label: '台',
-            value: '2',
-          },
-          {
-            label: '件',
-            value: '2',
-          },
-        ],
-      },
-      rules: [{ required: true }],
-    },
-    {
-      field: 'reasonw',
-      component: 'Input',
-      label: '数量',
-      colProps: {
-        span: 12,
-      },
-      dynamicDisabled: true,
-      rules: [{ required: true }],
-    },
+
     {
       field: 'time',
       component: 'RangePicker',

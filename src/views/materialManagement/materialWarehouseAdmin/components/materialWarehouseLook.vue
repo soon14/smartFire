@@ -10,9 +10,9 @@
     <BasicForm @register="registerForm" layout="vertical" :model="model">
       <template #table>
         <BasicTable
-          title="使用记录"
+          title="领取记录"
           :columns="columns"
-          :dataSource="carData.carDetailsData"
+          :dataSource="goodsData.goodsDetailData"
           :showIndexColumn="false"
         />
         <!-- <BasicTable @register="registerTable"></BasicTable> -->
@@ -31,18 +31,19 @@
   // import { addDept, updateDept } from '/@/api/sys/department';
   // import { useMessage } from '/@/hooks/web/useMessage';
   // import { initString } from '/@/utils/initValue';
-  import { carDetails } from '/@/api/vehicle/vehicle';
+  // import { carDetails } from '/@/api/vehicle/vehicle';
   // import { dateUtil } from '/@/utils/dateUtil';
   import { BasicTable } from '/@/components/Table';
   const modelRef = ref({});
   let formId = null;
+  import { goodsDetail } from '/@/api/materialManagement/materialManagement';
 
   export default defineComponent({
     components: { BasicModal, BasicForm, BasicTable },
     emits: ['requestFinish', 'register'],
     setup() {
-      const carData = reactive({
-        carDetailsData: [],
+      const goodsData = reactive({
+        goodsDetailData: [],
       });
       const [registerForm, { resetFields, clearValidate }] = useForm({
         labelWidth: 120,
@@ -52,46 +53,7 @@
           span: 24,
         },
       });
-      // const [registerTable] = useTable({
-      //   title: '使用记录',
-      //   api: carDetails,
-      //   columns: carDetailsTable(),
-      //   searchInfo: {
-      //     carId: 1,
-      //   },
-      //   // useSearchForm: true,
-      // });
-      // const { createMessage } = useMessage();
-      // const { success } = createMessage;
-
       const handleSubmit = async () => {
-        // try {
-        //   changeOkLoading(true);
-        //   const [values] = await Promise.all([validate()]);
-        //   const fireEngineData = Object.assign({}, values);
-        //   fireEngineData.buyDate = dateUtil(fireEngineData.buyDate).toDate().toString();
-        //    console.log('fireEngineData=>>111',fireEngineData)
-        //   fireEngineData.path = fireEngineData.path[0]
-        //    console.log('fireEngineData=>>asas',fireEngineData)
-        //    console.log("1")
-        //   if (formId) {
-        //    console.log("2")
-        //     fireEngineData.id = formId;
-        //     await updateCar(fireEngineData);
-        //     success('修改成功');
-        //   } else {
-        //     console.log("3")
-        //     await addCar(fireEngineData);
-        //     success('创建成功');
-        //   }
-        //   closeModal();
-        //   emit('requestFinish');
-        //   resetFields();
-        //   clearValidate();
-        //   changeOkLoading(false);
-        // } catch (error) {
-        //   changeOkLoading(false);
-        // }
         resetFields();
         clearValidate();
         changeOkLoading(false);
@@ -109,9 +71,19 @@
           // initString(data, 'stat');
           // data.parentId = data.parentId || '';
           // initString(data, 'parentId');
-          const carDataList = await carDetails({ carId: data.id });
-          carData.carDetailsData = carDataList.carRecordVoList;
-          console.log('数据==》', carData.carDetailsData);
+
+          //物资详情信息
+          // const carDataList = await carDetails({ carId: data.id });
+          // carData.carDetailsData = carDataList.carRecordVoList;
+          // console.log('数据==》', carData.carDetailsData);
+
+          const goodsDetailList = await goodsDetail({ goodsId: data.id });
+          goodsData.goodsDetailData;
+          const goodsList = goodsDetailList.goodsApplyListVo;
+          console.log(' goodsList=>', goodsList);
+          goodsData.goodsDetailData.push(goodsList);
+          console.log('goodsDetailData==>', goodsData.goodsDetailData);
+
           if (data.id) {
             formId = data.id;
             setModalProps({
@@ -132,7 +104,7 @@
         formId,
         columns: MaterialWarehouseTable(),
         // carDetailsDataList:carDetailsData
-        carData,
+        goodsData,
       };
     },
   });

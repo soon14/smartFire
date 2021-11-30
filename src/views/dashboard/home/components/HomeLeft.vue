@@ -13,7 +13,12 @@
     <div style="padding-top: 96px">
       <ScrollContainer ref="scrollRef" :style="{ height: height }">
         <div class="flex flex-wrap content-center justify-between" style="padding: 0 16px">
-          <div v-for="item in growCardList" :key="item.value" style="padding: 16px 0">
+          <div
+            v-for="item in growCardList"
+            :key="item.value"
+            style="padding: 16px 0"
+            @click="entrance(item.value)"
+          >
             <div
               style="padding: 18px 0"
               class="
@@ -54,6 +59,7 @@
   import { ScrollContainer } from '/@/components/Container/index';
   import { getViewportOffset } from '/@/utils/domUtils';
   import { useWindowSizeFn } from '/@/hooks/event/useWindowSizeFn';
+  import { useGo } from '/@/hooks/web/usePage';
   export default defineComponent({
     name: 'HomeLeft',
     components: {
@@ -66,6 +72,7 @@
     setup() {
       const scrollRef = ref(null);
       const height = ref(0);
+      const go = useGo();
       async function getScrollHeight() {
         await nextTick();
         const { bottomIncludeBody } = getViewportOffset(scrollRef.value.$el);
@@ -79,10 +86,25 @@
         50,
         { immediate: true },
       );
+      function entrance(data) {
+        console.log('data==>', data);
+        if (data === 1) {
+          //  /sentry/visitorsRecord
+          go('/sentry/vehicleRecord');
+        }
+        if (data === 2) {
+          go('/alarmReceivingRecord/alarmReceivingRecord');
+        }
+        if (data === 3) {
+          go('/sentry/visitorsRecord');
+        }
+      }
+
       return {
         growCardList,
         scrollRef,
         height,
+        entrance,
       };
     },
   });

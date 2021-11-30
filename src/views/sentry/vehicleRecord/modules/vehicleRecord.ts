@@ -2,10 +2,10 @@ import { BasicColumn } from '/@/components/Table/src/types/table';
 import { getJobList } from '/@/api/sys/job';
 import { carList } from '/@/api/vehicle/vehicle';
 // import moment from 'moment';
-const carUseType = {
-  1: '公差',
-  2: '维修',
-};
+// const carUseType = {
+//   1: '公差',
+//   2: '维修',
+// };
 export function getVehicleRecordColumns(): BasicColumn[] {
   return [
     {
@@ -18,7 +18,7 @@ export function getVehicleRecordColumns(): BasicColumn[] {
     },
     {
       title: '电话',
-      dataIndex: 'contactPhone',
+      dataIndex: 'phone',
     },
     {
       title: '用车单位',
@@ -31,16 +31,16 @@ export function getVehicleRecordColumns(): BasicColumn[] {
     {
       title: '用车类型',
       dataIndex: 'useType',
-      customRender: ({ record }) => {
-        return carUseType[record.useType];
-      },
+      // customRender: ({ record }) => {
+      //   return carUseType[record.useType];
+      // },
     },
     {
-      title: '出发时间',
+      title: '实际出发时间',
       dataIndex: 'outTime',
     },
     {
-      title: '归来时间',
+      title: '实际归来时间',
       dataIndex: 'inTime',
     },
     {
@@ -51,10 +51,10 @@ export function getVehicleRecordColumns(): BasicColumn[] {
       title: '用车事由',
       dataIndex: 'goal',
     },
-    {
-      title: '审批人',
-      dataIndex: 'approverName',
-    },
+    // {
+    //   title: '审批人',
+    //   dataIndex: 'approverName',
+    // },
   ];
 }
 export function vehicleRecordFrom() {

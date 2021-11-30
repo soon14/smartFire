@@ -241,13 +241,14 @@ export const systemLogHttp = createAxios({
   requestOptions: {
     // apiUrl: 'http://192.168.1.85:1234/nwowLog', // 日志服务器
     apiUrl: 'http://192.168.1.89:1234/nwowLog',
-    //apiUrl: 'http://153.3.252.58:1234/nwowLog',
+    //  apiUrl: 'http://153.3.252.58:1234/nwowLog', //日志服务器（线上）
   },
 });
 export const workFlowHttp = createAxios({
   requestOptions: {
     // apiUrl: 'http://192.168.1.25:6612/workFlow', //流程服务器
     apiUrl: 'http://192.168.1.89:6612/workFlow',
+    //  apiUrl:'http://153.3.252.58:6612/workFlow' //流程服务器（线上）
   },
 });
 // other api url

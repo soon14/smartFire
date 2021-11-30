@@ -1,298 +1,365 @@
 <template>
-  <div class="propaganda">
-    <div style="padding: 0 6px">
-      <Row :gutter="16">
-        <Col
-          :span="4"
-          style="
-            background: #0d183b;
-            width: 50%;
-            height: 200px;
-            text-align: center;
-            line-height: 200px;
-            border-radius: 10px;
-            font-size: 30px;
-            margin: 0 10px;
-          "
-        >
-          早
-        </Col>
-        <Col
-          :span="4"
-          style="
-            background: #0d183b;
-            width: 90%;
-            height: 200px;
-            text-align: center;
-            line-height: 200px;
-            border-radius: 10px;
-            font-size: 18px;
-            margin: 0 10px;
-          "
-        >
-          <div>
-            <loading-outlined v-if="loading" />
-            <plusCircle-outlined v-else />
-            <span class="ant-upload-text">添加菜谱</span>
-          </div>
-        </Col>
-        <Col :span="4" v-for="item in imageList" :key="item.id">
-          <div
-            style="height: 200px; width: 90%; border-radius: 8px; margin: 10px"
-            :style="getBgPic(item.path)"
-            class="flex items-center justify-center picItem"
-          >
-            <span class="actionSheet" style="z-index: 3">
-              <Icon
-                class="cursor-pointer"
-                icon="icon-park-outline:delete"
-                :size="38"
-                @click="handleDelete(item)"
-              />
-            </span>
-          </div>
-        </Col>
-      </Row>
+  <!-- 菜单库 -->
 
-      <Row :gutter="16">
-        <Col
-          :span="4"
-          style="
-            background: #0d183b;
-            width: 50%;
-            height: 200px;
-            text-align: center;
-            line-height: 200px;
-            border-radius: 10px;
-            font-size: 30px;
-            margin: 0 10px;
-          "
-        >
-          中
-        </Col>
-        <Col
-          :span="4"
-          style="
-            background: #0d183b;
-            width: 90%;
-            height: 200px;
-            text-align: center;
-            line-height: 200px;
-            border-radius: 10px;
-            font-size: 18px;
-            margin: 0 10px;
-          "
-        >
-          <div>
-            <loading-outlined v-if="loading" />
-            <plusCircle-outlined v-else />
-            <span class="ant-upload-text">添加菜谱</span>
-          </div>
-        </Col>
-        <Col :span="4" v-for="item in imageList" :key="item.id">
-          <div
-            style="height: 200px; width: 90%; border-radius: 8px; margin: 10px"
-            :style="getBgPic(item.path)"
-            class="flex items-center justify-center picItem"
-          >
-            <span class="actionSheet" style="z-index: 3">
+  <div class="box">
+    <!-- <a-week-picker  @change="onChange"  placeholder="Select week" /> -->
+    <div>
+      <ul>
+        <li class="morning">早</li>
+        <li class="add_recipe" @click="addMenu"> <PlusCircleOutlined />添加菜谱</li>
+        <li v-for="item in breakfast" :key="item.id" class="fastFood">
+          <div class="breakfastFoodMenu">
+            <img style="width: 100%; height: 70%" :src="item.path" class="img" />
+            <h3> {{ item.foodName }}</h3>
+            <h5> 备注:{{ item.desc }}</h5>
+            <div class="actionSheet" style="z-index: 3">
               <Icon
                 class="cursor-pointer"
                 icon="icon-park-outline:delete"
                 :size="38"
                 @click="handleDelete(item)"
               />
-            </span>
-          </div>
-        </Col>
-      </Row>
-
-      <Row :gutter="16">
-        <Col
-          :span="4"
-          style="
-            background: #0d183b;
-            width: 50%;
-            height: 200px;
-            text-align: center;
-            line-height: 200px;
-            border-radius: 10px;
-            font-size: 30px;
-            margin: 0 10px;
-          "
-        >
-          晚
-        </Col>
-        <Col
-          :span="4"
-          style="
-            background: #0d183b;
-            width: 90%;
-            height: 200px;
-            text-align: center;
-            line-height: 200px;
-            border-radius: 10px;
-            font-size: 18px;
-            margin: 0 10px;
-          "
-        >
-          <div>
-            <loading-outlined v-if="loading" />
-            <plusCircle-outlined v-else />
-            <span class="ant-upload-text">添加菜谱</span>
-          </div>
-        </Col>
-        <Col :span="4" v-for="item in imageList" :key="item.id">
-          <div
-            style="height: 200px; width: 90%; border-radius: 8px; margin: 10px"
-            :style="getBgPic(item.path)"
-            class="flex items-center justify-center picItem"
-          >
-            <span class="actionSheet" style="z-index: 3">
               <Icon
                 class="cursor-pointer"
-                icon="icon-park-outline:delete"
+                icon="clarity:note-edit-line"
                 :size="38"
-                @click="handleDelete(item)"
+                @click="updata(item)"
               />
-            </span>
+            </div>
           </div>
-        </Col>
-      </Row>
+        </li>
+      </ul>
     </div>
+    <div>
+      <ul>
+        <li class="Medium_late">中</li>
+        <li class="add_recipe2" @click="LunchAdd"><PlusCircleOutlined />添加菜谱</li>
+        <li v-for="item in lunch" :key="item.id" class="fastFood">
+          <div class="breakfastFoodMenu">
+            <img style="width: 100%; height: 70%" :src="item.path" />
+            <h3> {{ item.foodName }}</h3>
+            <h5> 备注:{{ item.desc }}</h5>
+            <span class="actionSheet" style="z-index: 3">
+              <Icon
+                class="cursor-pointer"
+                icon="icon-park-outline:delete"
+                :size="38"
+                @click="handleDelete(item)"
+              />
+              <Icon
+                class="cursor-pointer"
+                icon="clarity:note-edit-line"
+                :size="38"
+                @click="LunchUpdata(item)"
+              />
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div style="margin-top: 1%">
+      <ul>
+        <li class="Medium_late">晚</li>
+        <li class="add_recipe2" @click="DinnerAdd"><PlusCircleOutlined />添加菜谱</li>
+        <li v-for="item in dinner" :key="item.id" class="fastFood">
+          <div class="breakfastFoodMenu">
+            <img style="width: 100%; height: 70%" :src="item.path" />
+            <h3> {{ item.foodName }}</h3>
+            <h5> 备注:{{ item.desc }}</h5>
+            <span class="actionSheet" style="z-index: 3">
+              <Icon
+                class="cursor-pointer"
+                icon="icon-park-outline:delete"
+                :size="38"
+                @click="handleDelete(item)"
+              />
+              <Icon
+                class="cursor-pointer"
+                icon="clarity:note-edit-line"
+                :size="38"
+                @click="DinnerUpdata(item)"
+              />
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <SetRecipeModal @register="updateRecipeModal" @requestRecipe="init" />
+    <SetAddRecipeModal @register="addRecipeModal" @requestRecipe="init" />
   </div>
 </template>
-<script setup>
-  import { Row, Col } from 'ant-design-vue';
-  // import { useGlobSetting } from '/@/hooks/setting';
-  import { onMounted, ref } from 'vue';
-  import { PlusCircleOutlined, LoadingOutlined } from '@ant-design/icons-vue';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  // import { getToken } from '/@/utils/auth';
-  import { deletePicture, getPictureList } from '/@/api/sys/propaganda';
+<script lang="ts">
+  import { defineComponent, onMounted, ref } from 'vue';
+  import { foodList, deleteFood } from '/@/api/menuLibrary/menuLibrary';
   import { Icon } from '/@/components/Icon';
-  // import { usePermission } from '/@/hooks/web/usePermission';
-  const imageList = ref([]);
-  // const setting = useGlobSetting();
-  // const { uploadUrl } = setting;
-  // const fileList = ref([]);
-  const loading = ref(false);
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { PlusCircleOutlined } from '@ant-design/icons-vue';
+  import SetRecipeModal from './setRecipeModal.vue';
+  import SetAddRecipeModal from './setAddRecipeModal.vue';
+  import { useModal } from '/@/components/Modal';
+  // import { WeekPicker } from 'ant-design-vue';
   const { createMessage, createConfirm } = useMessage();
-  // const token = getToken();
-  // const headers = {
-  //   token: token,
-  // };
-  // const transExtraData = {
-  //   type: 2,
-  // };
-  // const getBase64 = (img, callback) => {
-  //   const reader = new FileReader();
-  //   reader.addEventListener('load', () => callback(reader.result));
-  //   reader.readAsDataURL(img);
-  // };
-  // const beforeUpload = (file) => {
-  //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  //   if (!isJpgOrPng) {
-  //     createMessage.error('请上传正确格式的图片！');
-  //   }
-  //   const isLt2M = file.size / 1024 / 1024 < 2;
-  //   if (!isLt2M) {
-  //     createMessage.error('图片大小必须小于2M!');
-  //   }
-  //   const imageNum = imageList.value.length === 4;
-  //   if (imageNum) {
-  //     createMessage.error('最多只能上传4张图片！');
-  //   }
-  //   return isJpgOrPng && isLt2M && !imageNum;
-  // };
-  // const handleChange = async (info) => {
-  //   if (info.file.status === 'uploading') {
-  //     loading.value = true;
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     console.log('info.file====');
-  //     const path = toRaw(info.file.response).data.content.picPath[0];
-  //     const transData = {
-  //       path,
-  //     };
-  //     await addPicture(transData);
-  //     // Get this url from response in real world.
-  //     getBase64(info.file.originFileObj, (base64Url) => {
-  //       const data = { path: base64Url, id: Math.random() };
+  const [updateRecipeModal, { openModal }] = useModal();
+  const [addRecipeModal, { openModal: addRecipeOpenModal }] = useModal();
+  import noPicture from '/@/assets/images/noPicture.png';
+  export default defineComponent({
+    components: {
+      Icon,
+      PlusCircleOutlined,
+      SetRecipeModal,
+      SetAddRecipeModal,
+      // 'a-week-picker': WeekPicker,
+    },
+    setup() {
+      const breakfast = ref({});
+      const lunch = ref({});
+      const dinner = ref({});
+      onMounted(() => {
+        init();
+        getWeekTime();
+      });
+      //菜单列表
+      async function init() {
+        console.log('刷新数据');
+        const foodListData = await foodList({});
+        const allFoodListData = foodListData.list;
 
-  //       imageList.value.push(data);
-  //       loading.value = false;
-  //     });
-  //     createMessage.success('添加图片成功');
-  //   }
-  //   if (info.file.status === 'error') {
-  //     loading.value = false;
-  //     createMessage.error('upload error');
-  //   }
-  // };
-  const getBgPic = (path) => {
-    const data = {
-      background: `url(${path})`,
-      // background: 'url(https://cdn.uviewui.com/uview/swiper/2.jpg)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    };
-    return data;
-  };
-  const handleDelete = (item) => {
-    createConfirm({
-      iconType: 'warning',
-      title: '提示',
-      content: '是否确认删除？',
-      onOk: async () => {
-        await deletePicture({
-          pictureId: item.id,
+        //早餐
+        breakfast.value = allFoodListData.filter((allFoodListData) => {
+          console.log('allFoodListData==>', allFoodListData);
+          if (allFoodListData.path == null) {
+            allFoodListData.path = noPicture;
+          }
+          return allFoodListData.type == 1;
         });
-        createMessage.success('删除成功');
-        getList();
-      },
-    });
-  };
-  const getList = async () => {
-    const apiResult = await getPictureList();
-    imageList.value = apiResult;
-  };
-  onMounted(async () => {
-    await getList();
+        //中餐
+        lunch.value = allFoodListData.filter((allFoodListData) => {
+          if (allFoodListData.path == null) {
+            allFoodListData.path = noPicture;
+          }
+          return allFoodListData.type == 2;
+        });
+        //晚餐
+        dinner.value = allFoodListData.filter((allFoodListData) => {
+          if (allFoodListData.path == null) {
+            allFoodListData.path = noPicture;
+          }
+          return allFoodListData.type == 3;
+        });
+      }
+
+      function getWeekTime() {
+        let nowData = new Date();
+        //获取今天的是周几
+        let currentDay = nowData.getDay();
+        //把currentDay == 0赋值给周日
+        if (currentDay == 0) {
+          currentDay = 7;
+        }
+        // 获取周一的时间戳
+        let monDayTime = nowData.getTime() - (currentDay - 1) * 24 * 60 * 60 * 1000;
+        console.log('周一是' + new Date(monDayTime).getDate() + '号');
+        // 获取周日的时间戳
+        let sunDayTime = nowData.getTime() + (7 - currentDay) * 24 * 60 * 60 * 1000;
+        console.log('周日是' + new Date(sunDayTime).getDate() + '号');
+        // 获取本周周一的具体时间
+        console.log('周一 ' + new Date(monDayTime).toLocaleDateString());
+        // 获取本周周日的具体时间
+        console.log('周末' + new Date(sunDayTime).toLocaleDateString());
+        // 获取当前时间的具体时间
+        console.log('当前时间' + new Date(monDayTime).toLocaleTimeString());
+      }
+
+      function handleDelete(data) {
+        console.log('data==>', data);
+        createConfirm({
+          iconType: 'warning',
+          title: '提示',
+          content: '是否确认删除？',
+          onOk: async () => {
+            await deleteFood({
+              foodMenuId: data.id,
+            });
+            createMessage.success('删除成功');
+            init();
+          },
+        });
+      }
+      //添加早菜谱
+      function addMenu() {
+        addRecipeOpenModal(true, { type: 1 });
+      }
+      //修改早菜谱
+      function updata(data) {
+        console.log(data);
+        data.type = 1;
+        openModal(true, data);
+      }
+
+      //添加中菜谱
+      function LunchAdd() {
+        addRecipeOpenModal(true, { type: 2 });
+      }
+      //添加晚菜谱
+      function DinnerAdd() {
+        addRecipeOpenModal(true, { type: 3 });
+      }
+
+      //修改 中菜谱
+      function LunchUpdata(data) {
+        data.type = 2;
+        openModal(true, data);
+      }
+      //修改 晚菜谱
+      function DinnerUpdata(data) {
+        data.type = 3;
+        openModal(true, data);
+      }
+
+      function onChange(date: Moment, dateString: string[]) {
+        console.log(date, dateString);
+      }
+
+      // 删除  晚/中菜谱
+      // function MediumLateDelete(data) {
+      //   createConfirm({
+      //     iconType: 'warning',
+      //     title: '提示',
+      //     content: '是否确认删除？',
+      //     onOk: async () => {
+      //       await deleteFoodMenu({
+      //         foodMenuId: data.id,
+      //       });
+      //       createMessage.success('删除成功');
+      //       init();
+      //     },
+      //   });
+      // }
+      return {
+        breakfast,
+        lunch,
+        dinner,
+        handleDelete,
+        addMenu,
+        updata,
+        updateRecipeModal,
+        addRecipeModal,
+        init,
+        LunchUpdata,
+        DinnerUpdata,
+        LunchAdd,
+        DinnerAdd,
+        onChange,
+      };
+    },
   });
 </script>
-<style lang="less">
-  .propaganda {
-    .ant-upload.ant-upload-select-picture-card {
-      background: #0d183b;
-      width: 90%;
-      height: 200px;
-      border-radius: 10px;
-    }
+<style scoped lang="less">
+  * {
+    padding: 0;
+    margin-bottom: 0;
+    border: 0;
+  }
 
-    .picItem::before {
-      position: absolute;
-      width: 90%;
-      height: 200px;
-      border-radius: 8px;
-      content: '';
-      background-color: #00000080;
-      opacity: 0;
-      transition: all 0.3s;
-      z-index: 1;
-    }
+  .box {
+    width: 101%;
+    height: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding-top: 5%;
+  }
 
-    .picItem:hover::before {
-      opacity: 1;
-    }
+  ul {
+    display: inline;
+    white-space: nowrap;
+  }
 
-    .actionSheet {
-      display: none;
-    }
+  ul li {
+    padding: 10px 20px;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: top;
+  }
 
-    .picItem:hover .actionSheet {
-      display: inline;
-    }
+  .morning {
+    width: 100px;
+    height: 200px;
+    background-color: #111a69;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .Medium_late {
+    width: 100px;
+    height: 200px;
+    background-color: #111a69;
+    margin-top: 4% 3%;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .add_recipe {
+    width: 300px;
+    height: 200px;
+    background-color: #111a69;
+    margin-left: 1%;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .add_recipe2 {
+    width: 300px;
+    height: 200px;
+    background-color: #111a69;
+    margin-left: 1%;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .fastFood {
+    padding-top: 0%;
+  }
+
+  .breakfastFoodMenu {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background-color: #111a69;
+  }
+
+  .LunchMenu {
+    width: 300px;
+    height: 200px;
+    background-color: #111a69;
+  }
+
+  .DinnerMenu {
+    width: 300px;
+    height: 200px;
+    background-color: #111a69;
+  }
+
+  .breakfastFoodMenu:hover {
+    width: 300px;
+    height: 200px;
+    border-radius: 8px;
+    content: '';
+    background-color: #00000080;
+
+    /* opacity: 0; */
+    transition: all 0.3s;
+    z-index: 1;
+    opacity: 1;
+  }
+
+  .actionSheet {
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    display: none;
+  }
+
+  .breakfastFoodMenu:hover .actionSheet {
+    display: inline;
   }
 </style>

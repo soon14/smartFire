@@ -39,10 +39,11 @@
   // import { callPoliceRecordList } from '/@/api/alarmReceivingRecord/alarmReceivingRecord';
   import MeetingRecordModal from './components/meetingRecordModal.vue';
   import { useModal } from '/@/components/Modal';
-  const fieldTimeMap = [['time', ['timeBegin', 'timeEnd'], 'YYYY-MM-DD']];
+  import { mettingList } from '/@/api/meetingRecord/meetingRecord';
+  const fieldTimeMap = [['time', ['mettingDateBegin', 'mettingDateEnd'], 'YYYY-MM-DD']];
   const [MeetingModel, { openModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
-    // api: callPoliceRecordList,
+    api: mettingList,
     showIndexColumn: false,
     columns: meetingRecordTable(),
     actionColumn: {
@@ -52,21 +53,23 @@
       slots: { customRender: 'action' },
     },
   });
+  const handleSearch = (val) => {
+    console.log('val', val);
+    setProps({
+      searchInfo: {
+        mettingTheme: val,
+      },
+    });
+    reload();
+  };
   const handleSuccess = (val) => {
-    console.log('val==>', val);
     setProps({
       searchInfo: val,
     });
     reload();
   };
   const lookUp = (record) => {
-    const tempData = Object.assign(
-      {},
-      {
-        record,
-      },
-    );
-    openModal(true, tempData);
+    openModal(true, record);
   };
 </script>
 <style lang="less"></style>

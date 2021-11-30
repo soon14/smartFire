@@ -14,7 +14,6 @@
   import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  // import { carDetails } from '/@/api/vehicle/vehicle';
   import { getMeetingRecordForm } from '../modules/alarmReceivingRecordDate';
   const modelRef = ref({});
   let formId = null;
@@ -42,8 +41,6 @@
         }
       };
       const [registerModalInner, { closeModal, changeOkLoading }] = useModalInner(async (data) => {
-        console.log('🚀 ~ file: departmentModel.vue ~ line 66 ~ setup ~ data', data);
-        formId = data.id;
         modelRef.value = data;
       });
       return {

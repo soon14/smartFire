@@ -84,12 +84,12 @@ export function getAdministrativeVehicleForm() {
             if (isUnDef(value) || isEmpty(value)) {
               return Promise.resolve();
             }
-            const phoneReg =
-              /^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/;
-            if (!phoneReg.test(value)) {
+            console.log('value==>', value.length);
+            if (value.length == 7 || value.length == 8) {
+              return Promise.resolve();
+            } else {
               return Promise.reject('请输入正确格式车牌号');
             }
-            return Promise.resolve();
           },
           trigger: ['change', 'blur'],
           required: true,

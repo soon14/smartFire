@@ -4,30 +4,30 @@ export function meetingRecordTable(): BasicColumn[] {
   return [
     {
       title: '会议主题',
-      dataIndex: 'time',
+      dataIndex: 'mettingTheme',
     },
     {
       title: '参会人数',
-      dataIndex: 'callType',
+      dataIndex: 'personNumber',
     },
     {
       title: '会议时间',
-      dataIndex: 'fireType',
+      dataIndex: 'createDate',
     },
     {
       title: '记录人',
-      dataIndex: 'outCar',
+      dataIndex: 'recordPersonName',
     },
     {
       title: '会议内容',
-      dataIndex: 'outPersonsName',
+      dataIndex: 'content',
     },
   ];
 }
 export function defaultSchemas() {
   return [
     {
-      field: 'callType',
+      field: 'mettingTheme',
       component: 'Input',
       label: '会议主题',
       colProps: {
@@ -35,7 +35,7 @@ export function defaultSchemas() {
       },
     },
     {
-      field: 'callType',
+      field: 'recordPersonName',
       component: 'Input',
       label: '记录人',
       colProps: {
@@ -60,7 +60,7 @@ export function defaultSchemas() {
 export function getMeetingRecordForm() {
   return [
     {
-      field: 'callType',
+      field: 'mettingTheme',
       component: 'Input',
       label: '会议主题',
       colProps: {
@@ -69,7 +69,7 @@ export function getMeetingRecordForm() {
       dynamicDisabled: true,
     },
     {
-      field: 'callType',
+      field: 'personNumber',
       component: 'Input',
       label: '参会人数',
       colProps: {
@@ -78,7 +78,7 @@ export function getMeetingRecordForm() {
       dynamicDisabled: true,
     },
     {
-      field: 'callType',
+      field: 'recordPersonName',
       component: 'Input',
       label: '记录人',
       colProps: {
@@ -87,7 +87,7 @@ export function getMeetingRecordForm() {
       dynamicDisabled: true,
     },
     {
-      field: 'callType',
+      field: 'createDate',
       component: 'DatePicker',
       label: '参会时间',
       colProps: {
@@ -96,7 +96,7 @@ export function getMeetingRecordForm() {
       dynamicDisabled: true,
     },
     {
-      field: 'callType',
+      field: 'content',
       component: 'Input',
       label: '会议内容',
       colProps: {

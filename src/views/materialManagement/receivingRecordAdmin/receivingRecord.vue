@@ -1,6 +1,7 @@
 <template>
   <div>
     <div style="padding: 6px 6px 24px" class="flex items-center justify-between">
+      <!-- 领取记录 -->
       <!-- 头部标题 -->
       <NwowHeader title="物资管理" />
       <!-- 右侧搜索栏目   -->
@@ -23,18 +24,13 @@
   import NwowSearch from '/@/components/NwowSearch/index.vue';
   import { getreceivingRecordTable, receivingSchemas } from './modules/receivingRecord';
   // import { carList } from '/@/api/vehicle/vehicle';
-  // import { useModal } from '/@/components/Modal';
-  // import { useMessage } from '/@/hooks/web/useMessage';
   const fieldTimeMap = [
-    ['time', ['timeBegin', 'timeEnd'], 'YYYY-MM-DD'],
-    ['time1', ['timeBegina', 'timeEnda'], 'YYYY-MM-DD'],
+    ['time', ['applyDateBegin', 'applyDateEnd'], 'YYYY-MM-DD'],
+    ['time1', ['confirmDateBegin', 'confirmDateEnd'], 'YYYY-MM-DD'],
   ];
-  // const { createConfirm, createMessage } = useMessage();
-  // const [materialModal, { openModal }] = useModal();
-  // const [scrapReasonModal, { openModal: scrapModal }] = useModal();
-  // const [lookUpModal, { openModal: lookModal }] = useModal();
+  import { goodsApplyList2 } from '/@/api/materialManagement/materialManagement';
   const [registerTable, { reload, setProps }] = useTable({
-    // api: carList,
+    api: goodsApplyList2,
     showIndexColumn: false,
     columns: getreceivingRecordTable(),
     searchInfo: {
@@ -46,21 +42,17 @@
     setProps({
       //按申领人
       searchInfo: {
-        condition: val,
+        applyPersonName: val,
       },
     });
     reload();
   };
   const handleSuccess = (val) => {
-    console.log('val==>', val);
+    // console.log('val==>', typeof(val.applyDateBegin));
     setProps({
       searchInfo: val,
     });
     reload();
   };
-
-  // const handleRefresh = () => {
-  //   reload();
-  // };
 </script>
 <style lang="less"></style>

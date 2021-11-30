@@ -1,10 +1,11 @@
 <template>
   <BasicModal
     v-bind="$attrs"
-    title="新增物资"
+    title="菜品"
     @ok="handleSubmit"
     @visible-change="handleResetForm"
     @register="registerModalInner"
+    width="1024px"
   >
     <BasicForm @register="registerForm" layout="vertical" :model="model" />
   </BasicModal>
@@ -12,49 +13,53 @@
 <script>
   import { defineComponent, ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { getMaterialWarehouseForm } from '../modules/materialWarehouse';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  import { addGoods, updateGoods } from '/@/api/materialManagement/materialManagement';
-  import { buildUUID } from '/@/utils/uuid';
+  import { addFoodMenu, updateFoodMenu } from '/@/api/menuLibrary/menuLibrary';
+  import { getRecipeForm } from '../modules/getRecipeFormDate';
   const modelRef = ref({});
+  import { buildUUID } from '/@/utils/uuid';
+  let formId = null;
+  import { useMessage } from '/@/hooks/web/useMessage';
   export default defineComponent({
     components: { BasicModal, BasicForm },
-    emits: ['requestFinish', 'register'],
+    emits: ['requestRecipe'],
     setup(_, { emit }) {
-      let formId = null;
-      const [registerForm, { resetFields, clearValidate, validate }] = useForm({
+      let uuid = buildUUID();
+      const { createMessage } = useMessage();
+      const { success } = createMessage;
+      const recipeType = ref();
+      const [registerForm, { validate, resetFields, clearValidate }] = useForm({
         labelWidth: 120,
-        schemas: getMaterialWarehouseForm(),
+        schemas: getRecipeForm(),
         showActionButtonGroup: false,
         actionColOptions: {
           span: 24,
         },
       });
-      const { createMessage } = useMessage();
-      const { success } = createMessage;
-      let uuid = buildUUID();
       const handleSubmit = async () => {
         try {
           changeOkLoading(true);
-          const values = await validate();
-          const materialWareHouseData = values;
+          const [values] = await Promise.all([validate()]);
+          const recipeData = Object.assign({}, values);
           if (formId) {
-            console.log('2');
-            materialWareHouseData.id = formId;
-            await updateGoods(materialWareHouseData);
+            recipeData.id = formId;
+            recipeData.type = recipeType.value;
+            console.log('recipeData', recipeData);
+            await updateFoodMenu(recipeData);
             success('修改成功');
           } else {
-            await addGoods(materialWareHouseData, uuid);
+            recipeData.type = recipeType.value;
+            console.log('recipeData', recipeData);
+            await addFoodMenu(recipeData, uuid);
             uuid = buildUUID();
             success('创建成功');
           }
-          closeModal();
-          emit('requestFinish');
+          emit('requestRecipe');
           resetFields();
           clearValidate();
-          changeOkLoading(false);
+          closeModal();
         } catch (error) {
+          console.log(error);
           changeOkLoading(false);
         }
       };
@@ -62,20 +67,24 @@
         if (!visible) {
           resetFields();
           clearValidate();
+          closeModal();
           changeOkLoading(false);
         }
       };
       const [registerModalInner, { closeModal, changeOkLoading, setModalProps }] = useModalInner(
         async (data) => {
+          console.log('🚀 ~ file: departmentModel.vue ~ line 66 ~ setup ~ data', data);
+          recipeType.value = data.type;
           if (data.id) {
+            data.type = String(data.type);
             formId = data.id;
             setModalProps({
-              title: '修改物资',
+              title: '修改菜品',
             });
           } else {
             formId = null;
             setModalProps({
-              title: '新增物资',
+              title: '新增菜品',
             });
           }
           modelRef.value = data;
@@ -87,6 +96,8 @@
         handleResetForm,
         registerModalInner,
         model: modelRef,
+        formId,
+        recipeType,
       };
     },
   });

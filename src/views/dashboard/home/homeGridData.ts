@@ -6,42 +6,42 @@ export interface HomeGridItem {
 
 export const growCardList: HomeGridItem[] = [
   {
-    title: '请假申请',
+    title: '车辆进出记录',
     icon: 'carbon:user-role',
     value: 1,
   },
   {
-    title: '外出申请',
+    title: '接处警记录',
     icon: 'total-sales|svg',
     value: 2,
   },
   {
-    title: '车辆管理',
+    title: '访客记录',
     icon: 'download-count|svg',
     value: 3,
   },
   {
-    title: '器材管理',
+    title: '装备汇总',
     icon: 'transaction|svg',
     value: 4,
   },
   {
-    title: '重点单位',
+    title: '物资领取记录',
     icon: 'transaction|svg',
     value: 5,
   },
   {
-    title: '物资申请',
+    title: '重点单位',
     icon: 'transaction|svg',
     value: 6,
   },
   {
-    title: '会议预约',
+    title: '装备出入库记录',
     icon: 'transaction|svg',
     value: 7,
   },
   {
-    title: '工作布置',
+    title: '排班管理',
     icon: 'transaction|svg',
     value: 8,
   },

@@ -7,19 +7,19 @@ export function getmaterialWarehouseTable(): BasicColumn[] {
     },
     {
       title: '品名',
-      dataIndex: 'registrationNumber',
+      dataIndex: 'goodsName',
     },
     {
       title: '规格型号',
-      dataIndex: 'license3',
+      dataIndex: 'model',
     },
     {
       title: '计量单位',
-      dataIndex: 'license2',
+      dataIndex: 'unit',
     },
     {
       title: '库存数量',
-      dataIndex: 'license1',
+      dataIndex: 'quantity',
     },
   ];
 }
@@ -27,7 +27,7 @@ export function getmaterialWarehouseTable(): BasicColumn[] {
 export function getMaterialWarehouseForm() {
   return [
     {
-      field: 'reasona',
+      field: 'goodsName',
       component: 'Input',
       label: '品名',
       colProps: {
@@ -36,7 +36,7 @@ export function getMaterialWarehouseForm() {
       rules: [{ required: true }],
     },
     {
-      field: 'reasonc',
+      field: 'model',
       component: 'Input',
       label: '型号规格',
       colProps: {
@@ -45,7 +45,7 @@ export function getMaterialWarehouseForm() {
       rules: [{ required: true }],
     },
     {
-      field: 'reasonq',
+      field: 'unit',
       component: 'Select',
       label: '计量单位',
       colProps: {
@@ -55,26 +55,26 @@ export function getMaterialWarehouseForm() {
         options: [
           {
             label: '个',
-            value: '1',
+            value: '个',
           },
           {
             label: '套',
-            value: '2',
+            value: '套',
           },
           {
             label: '台',
-            value: '2',
+            value: '台',
           },
           {
             label: '件',
-            value: '2',
+            value: '件',
           },
         ],
       },
       rules: [{ required: true }],
     },
     {
-      field: 'reasonw',
+      field: 'quantity',
       component: 'Input',
       label: '数量',
       colProps: {
@@ -89,23 +89,23 @@ export function MaterialWarehouseTable(): BasicColumn[] {
   return [
     {
       title: '领取人',
-      dataIndex: 'personName',
+      dataIndex: 'applyPersonName',
     },
     {
       title: '领取时间',
-      dataIndex: 'personName',
+      dataIndex: 'date',
     },
     {
       title: '领取数量',
-      dataIndex: 'personName',
+      dataIndex: 'number',
     },
     {
       title: '确认人',
-      dataIndex: 'personName',
+      dataIndex: 'confirmPersonName',
     },
     {
       title: '确认时间',
-      dataIndex: 'personName',
+      dataIndex: 'confirmDate',
     },
   ];
 }
@@ -113,61 +113,61 @@ export function MaterialWarehouseTable(): BasicColumn[] {
 export function getMaterialWarehouseLookForm() {
   return [
     {
-      field: 'reasona',
+      field: 'goodsName',
       component: 'Input',
       label: '品名',
       colProps: {
-        span: 24,
+        span: 12,
       },
       dynamicDisabled: true,
       rules: [{ required: true }],
     },
     {
-      field: 'reasonc',
+      field: 'model',
       component: 'Input',
       label: '型号规格',
       colProps: {
-        span: 24,
+        span: 12,
       },
       dynamicDisabled: true,
       rules: [{ required: true }],
     },
     {
-      field: 'reasonq',
+      field: 'unit',
       component: 'Select',
       label: '计量单位',
       colProps: {
-        span: 24,
+        span: 12,
       },
       dynamicDisabled: true,
       componentProps: {
         options: [
           {
             label: '个',
-            value: '1',
+            value: '个',
           },
           {
             label: '套',
-            value: '2',
+            value: '套',
           },
           {
             label: '台',
-            value: '2',
+            value: '台',
           },
           {
             label: '件',
-            value: '2',
+            value: '件',
           },
         ],
       },
       rules: [{ required: true }],
     },
     {
-      field: 'reasonw',
+      field: 'quantity',
       component: 'Input',
       label: '数量',
       colProps: {
-        span: 24,
+        span: 12,
       },
       dynamicDisabled: true,
       rules: [{ required: true }],
@@ -183,7 +183,7 @@ export function getMaterialWarehouseLookForm() {
 export function materialSchemas() {
   return [
     {
-      field: 'reasona',
+      field: 'goodsName',
       component: 'Input',
       label: '品名',
       colProps: {
@@ -203,7 +203,7 @@ export function materialSchemas() {
       rules: [{ required: true }],
     },
     {
-      field: 'reasonq',
+      field: 'unit',
       component: 'Select',
       label: '计量单位',
       colProps: {
@@ -214,28 +214,28 @@ export function materialSchemas() {
         options: [
           {
             label: '个',
-            value: '1',
+            value: '个',
           },
           {
             label: '套',
-            value: '2',
+            value: '套',
           },
           {
             label: '台',
-            value: '2',
+            value: '台',
           },
           {
             label: '件',
-            value: '2',
+            value: '件',
           },
         ],
       },
       rules: [{ required: true }],
     },
     {
-      field: 'reasonw',
+      field: 'quantity',
       component: 'Input',
-      label: '数量',
+      label: '库存数量',
       colProps: {
         span: 12,
       },
@@ -245,7 +245,7 @@ export function materialSchemas() {
     {
       field: 'time',
       component: 'RangePicker',
-      label: '领取时间',
+      label: '操作时间',
       colProps: {
         span: 24,
       },
@@ -254,17 +254,17 @@ export function materialSchemas() {
         placeholder: ['起始时间', '结束时间'],
       },
     },
-    {
-      field: 'time1',
-      component: 'RangePicker',
-      label: '确认时间',
-      colProps: {
-        span: 24,
-      },
-      componentProps: {
-        style: { width: '100%' },
-        placeholder: ['起始时间', '结束时间'],
-      },
-    },
+    // {
+    //   field: 'time1',
+    //   component: 'RangePicker',
+    //   label: '确认时间',
+    //   colProps: {
+    //     span: 24,
+    //   },
+    //   componentProps: {
+    //     style: { width: '100%' },
+    //     placeholder: ['起始时间', '结束时间'],
+    //   },
+    // },
   ];
 }

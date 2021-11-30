@@ -1,6 +1,7 @@
 <template>
   <div>
     <div style="padding: 6px 6px 24px" class="flex items-center justify-between">
+      <!--物资管理 -->
       <!-- 头部标题 -->
       <NwowHeader title="物资管理" />
       <!-- 右侧搜索栏目   -->
@@ -58,21 +59,18 @@
   // import { carList } from '/@/api/vehicle/vehicle';
   import Material from './components/materialWarehouseFrom.vue';
   import { useModal } from '/@/components/Modal';
-  // import { usePermission } from '/@/hooks/web/usePermission';
   import { useMessage } from '/@/hooks/web/useMessage';
-  // import ScrapReasonModal from './components/scrapReasonModal.vue';
   import LookMateria from './components/materialWarehouseLook.vue';
-  // const { hasPermission } = usePermission();
+  import { goodsList, deleteGoods } from '/@/api/materialManagement/materialManagement';
   const fieldTimeMap = [
     ['time', ['timeBegin', 'timeEnd'], 'YYYY-MM-DD'],
     ['time1', ['timeBegina', 'timeEnda'], 'YYYY-MM-DD'],
   ];
   const { createConfirm, createMessage } = useMessage();
   const [materialModal, { openModal }] = useModal();
-  // const [scrapReasonModal, { openModal: scrapModal }] = useModal();
   const [lookUpModal, { openModal: lookModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
-    // api: carList,
+    api: goodsList,
     showIndexColumn: false,
     columns: getmaterialWarehouseTable(),
     actionColumn: {
@@ -90,7 +88,7 @@
     setProps({
       //按照物资名称
       searchInfo: {
-        condition: val,
+        goodsName: val,
       },
     });
     reload();
@@ -107,9 +105,9 @@
       iconType: 'error',
       title: '是否确定删除该物资?',
       onOk: async () => {
-        // await deleteCar({
-        //   carId: record.id,
-        // });
+        await deleteGoods({
+          goodsId: record.id,
+        });
         createMessage.success('删除成功');
         handleRefresh();
       },
@@ -124,7 +122,6 @@
   };
   //查看
   const lookUp = (record) => {
-    console.log('查看车辆');
     const tempData = Object.assign({}, record);
     lookModal(true, tempData);
   };

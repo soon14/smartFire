@@ -84,7 +84,6 @@ export function getFireEngineForm() {
             if (isUnDef(value) || isEmpty(value)) {
               return Promise.resolve();
             }
-            console.log('value==>', value.length);
             if (value.length == 7 || value.length == 8) {
               return Promise.resolve();
             } else {
