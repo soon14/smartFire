@@ -47,8 +47,8 @@ const flowChary: AppRouteModule = {
       name: 'FlowDesign',
       component: IFrame,
       meta: {
-        // frameSrc: 'http://192.168.1.89:9090/approvalflow/',
-        frameSrc: 'http://192.168.1.170:8088/approvalflow/',
+        frameSrc: 'http://192.168.1.89:9090/approvalflow/',
+        // frameSrc: 'http://192.168.1.170:8088/approvalflow/',
         title: '流程设计',
         hideMenu: true,
         currentActiveMenu: '/flow/flowDraw',

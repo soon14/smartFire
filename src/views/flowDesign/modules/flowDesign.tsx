@@ -7,6 +7,8 @@ const flowGroupMap = {
   1: '用车申请单',
   2: '接处警登记',
   3: '物资申领',
+  4: '会议管理',
+  5: '请假管理',
 };
 export function flowTable(): BasicColumn[] {
   return [
